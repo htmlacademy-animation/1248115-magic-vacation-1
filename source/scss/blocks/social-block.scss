@@ -3,8 +3,23 @@
 
   &:hover {
     .social-block__list {
-      opacity: 1;
       pointer-events: auto;
+    }
+
+    .social-block__link {
+      opacity: 1;
+    }
+
+    .social-block__link--fb {
+      transition-delay: 100ms;
+    }
+
+    .social-block__link--insta {
+      transition-delay: 200ms;
+    }
+
+    .social-block__link--vk {
+      transition-delay: 300ms;
     }
   }
 }
@@ -17,6 +32,7 @@
   height: 4rem;
   color: $c-dark;
   border-radius: 50%;
+  transition: color 0.3s;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     display: none;
@@ -35,6 +51,7 @@
     background-color: $c-light;
     border: 2px solid $c-light;
     z-index: -1;
+    transition: width 0.4s, height 0.4s, border-color 0.35s, background-color 0.35s;
   }
 
   svg {
@@ -63,8 +80,11 @@
     }
 
     & + .social-block__list {
-      opacity: 1;
       pointer-events: auto;
+
+      .social-block__link {
+        opacity: 1;
+      }
     }
   }
 
@@ -87,7 +107,6 @@
   top: 100%;
   right: 0;
   margin-top: 1.5rem;
-  opacity: 0;
   pointer-events: none;
 
   @media (min-width: $stop-scaling) {
@@ -128,13 +147,19 @@
   }
 
   &:hover {
-    opacity: 1;
     pointer-events: auto;
+
+    .social-block__link {
+      opacity: 1;
+    }
   }
 
   &:focus-within {
-    opacity: 1;
     pointer-events: auto;
+
+    .social-block__link {
+      opacity: 1;
+    }
   }
 
   .social-block--active & {
@@ -168,6 +193,8 @@
   color: $c-light;
   border: 2px solid transparent;
   border-radius: 50%;
+  opacity: 0;
+  transition: opacity 700ms, color 350ms;
 
   @media (min-width: $stop-scaling) {
     width: 40px;
@@ -177,11 +204,15 @@
   @media (max-width: $tablet) and (orientation: portrait) {
     color: $c-light;
     background-color: $c-dark;
+    opacity: 1;
+    transition: color 300ms;
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
     color: $c-light;
     background-color: $c-dark;
+    opacity: 1;
+    transition: color 300ms;
   }
 
   &:hover {
