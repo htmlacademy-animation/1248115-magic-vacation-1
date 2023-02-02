@@ -107,6 +107,7 @@
     max-width: 100%;
     font-size: 1.6rem;
     line-height: 1.2;
+    transform: translateY(22px);
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
@@ -114,6 +115,7 @@
     max-width: 100%;
     font-size: 1.6rem;
     line-height: 1.2;
+    transform: translateY(22px);
   }
 
   p {
