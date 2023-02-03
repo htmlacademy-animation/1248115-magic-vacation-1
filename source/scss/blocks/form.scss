@@ -34,7 +34,6 @@
   margin-right: 3rem;
   padding: 0 5.6rem;
   height: 6rem;
-  width: calc(100% - 21rem);
   text-transform: uppercase;
   font: inherit;
   font-size: 2.4rem;
@@ -43,6 +42,10 @@
   border: 0;
   border-radius: 3rem;
   outline: none;
+  transition: width 0.5s steps(10, end);
+  width: 0;
+  margin-left: auto;
+  opacity: 0;
 
   &:focus {
     border: 1px solid $c-purple;
@@ -78,8 +81,28 @@
   }
 }
 
+.screen--game.active {
+  .form__field {
+    opacity: 1;
+    width: calc(100% - 21rem);
+
+    @media (orientation: portrait) {
+      width: calc(100% - 5rem);
+    }
+
+    @media (max-width: $tablet) and (orientation: landscape) {
+      width: calc(100% - 9rem);
+    }
+
+    @media (max-width: $mobile) and (orientation: landscape) {
+      width: calc(100% - 5rem);
+    }
+  }
+}
+
 .form__button {
   flex-grow: 1;
+  max-width: 18rem;
 
   @media (orientation: portrait) {
     position: relative;
@@ -88,6 +111,8 @@
     width: 4rem;
     height: 4rem;
     font-size: 0;
+
+    max-width: none;
   }
 
   @media (max-width: $tablet) and (orientation: landscape) {
@@ -97,11 +122,15 @@
     width: 6rem;
     height: 6rem;
     font-size: 0;
+
+    max-width: none;
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
     width: 4rem;
     height: 4rem;
+
+    max-width: none;
   }
 
   svg {
