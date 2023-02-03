@@ -42,10 +42,10 @@
   border: 0;
   border-radius: 3rem;
   outline: none;
-  transition: width 0.5s steps(10, end);
-  width: 0;
-  margin-left: auto;
-  opacity: 0;
+  width: calc(100% - 21rem);
+  transform: scale(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.5s;
 
   &:focus {
     border: 1px solid $c-purple;
@@ -83,20 +83,7 @@
 
 .screen--game.active {
   .form__field {
-    opacity: 1;
-    width: calc(100% - 21rem);
-
-    @media (orientation: portrait) {
-      width: calc(100% - 5rem);
-    }
-
-    @media (max-width: $tablet) and (orientation: landscape) {
-      width: calc(100% - 9rem);
-    }
-
-    @media (max-width: $mobile) and (orientation: landscape) {
-      width: calc(100% - 5rem);
-    }
+    transform: scale(1);
   }
 }
 
