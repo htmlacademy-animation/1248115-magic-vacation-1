@@ -51,7 +51,7 @@
     background-color: $c-light;
     border: 2px solid $c-light;
     z-index: -1;
-    transition: width 0.4s, height 0.4s, border-color 0.35s, background-color 0.35s;
+    transition: transform 0.4s, border-color 0.35s, background-color 0.35s;
   }
 
   svg {
@@ -66,8 +66,7 @@
     color: $c-purple;
 
     &::before {
-      width: 112.5%;
-      height: 112.5%;
+      transform: translate(-50%, -50%) scale(1.125);
     }
   }
 
