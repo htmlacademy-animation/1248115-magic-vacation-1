@@ -52,7 +52,7 @@
     border: 2px solid $c-light;
     z-index: -1;
     transform: translate(-50%, -50%) scale(0);
-    transition: transform 0.4s, border-color 0.35s, background-color 0.35s;
+    transition: transform 0.35s, border-color 0.35s, background-color 0.35s;
   }
 
   svg {
@@ -278,7 +278,11 @@
   .social-block__toggler {
     &::before {
       transform: translate(-50%, -50%) scale(1);
-      transition: transform 0.3s ease 0.3s;
+      transition: transform 0.3s cubic-bezier(.37,.29,.17,1.52) 0.4s;
+    }
+
+    &:hover::before {
+      transform: translate(-50%, -50%) scale(1.125);
     }
   }
 }
