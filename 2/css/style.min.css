@@ -1450,7 +1450,6 @@ img {
 .form__field {
   flex: none;
   margin-right: 3rem;
-  padding: 0 5.6rem;
   height: 6rem;
   text-transform: uppercase;
   font: inherit;
@@ -1460,10 +1459,10 @@ img {
   border: 0;
   border-radius: 3rem;
   outline: none;
-  width: calc(100% - 21rem);
-  transform: scale(0);
-  transform-origin: 100% 50%;
-  transition: transform 0.5s;
+  width: 0;
+  padding: 0;
+  transition: width 0.5s, padding 0.5s;
+  margin-left: auto;
 }
 .form__field:focus {
   border: 1px solid #a67ee5;
@@ -1471,9 +1470,7 @@ img {
 @media (min-width: 2000px) {
   .form__field {
     margin-right: 30px;
-    padding: 0 56px;
     height: 60px;
-    width: calc(100% - 210px);
     font-size: 24px;
     border-radius: 30px;
   }
@@ -1481,34 +1478,54 @@ img {
 @media (orientation: portrait) {
   .form__field {
     margin-right: 1rem;
-    padding: 0 2.5rem;
-    width: calc(100% - 5rem);
     height: 4rem;
     font-size: 1.6rem;
-  }
-}
-@media (max-width: 1024px) and (orientation: landscape) {
-  .form__field {
-    width: calc(100% - 9rem);
   }
 }
 @media (max-width: 768px) and (orientation: landscape) {
   .form__field {
     margin-right: 1rem;
-    padding: 0 2.5rem;
-    width: calc(100% - 5rem);
     height: 4rem;
     font-size: 1.6rem;
   }
 }
 
 .screen--game.active .form__field {
-  transform: scale(1);
+  width: calc(100% - 21rem);
+  padding: 0 5.6rem;
+}
+@media (min-width: 2000px) {
+  .screen--game.active .form__field {
+    padding: 0 56px;
+    width: calc(100% - 210px);
+  }
+}
+@media (orientation: portrait) {
+  .screen--game.active .form__field {
+    padding: 0 2.5rem;
+    width: calc(100% - 5rem);
+  }
+}
+@media (max-width: 1024px) and (orientation: landscape) {
+  .screen--game.active .form__field {
+    width: calc(100% - 9rem);
+  }
+}
+@media (max-width: 768px) and (orientation: landscape) {
+  .screen--game.active .form__field {
+    padding: 0 2.5rem;
+    width: calc(100% - 5rem);
+  }
 }
 
 .form__button {
   flex-grow: 1;
   max-width: 18rem;
+}
+@media (min-width: 2000px) {
+  .form__button {
+    max-width: 180px;
+  }
 }
 @media (orientation: portrait) {
   .form__button {
@@ -2047,17 +2064,15 @@ img {
 @media (max-width: 1024px) and (orientation: portrait) {
   .page-header__toggler {
     display: block;
-    transform: translateX(1rem);
     opacity: 0;
-    transition: transform 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s, opacity 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s;
+    transition: opacity 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s;
   }
 }
 @media (max-width: 768px) and (orientation: landscape) {
   .page-header__toggler {
     display: block;
-    transform: translateX(1rem);
     opacity: 0;
-    transition: transform 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s, opacity 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s;
+    transition: opacity 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s;
   }
 }
 .page-header__toggler::before, .page-header__toggler::after {
@@ -2094,9 +2109,8 @@ img {
 }
 @media (min-width: 769px) and (orientation: landscape) {
   .page-header__nav {
-    transform: translateX(4rem);
     opacity: 0;
-    transition: transform 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s, opacity 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s;
+    transition: opacity 0.3s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.25s;
   }
 }
 @media (max-width: 1024px) and (orientation: portrait) {
@@ -2226,7 +2240,7 @@ img {
   width: 100%;
   right: 0;
   transition: transform 0.4s ease, color 0.5s ease;
-  transform: scale(0);
+  transform: scale(0, 1);
   transform-origin: 100% 50%;
 }
 @media (max-width: 1024px) and (orientation: portrait) {
@@ -2249,7 +2263,7 @@ img {
 .page-header__menu a:hover:not(.active)::after, .page-header__menu a:focus:not(.active)::after {
   opacity: 1;
   background-color: #a67ee5;
-  transform: scale(1);
+  transform: scale(1, 1);
   transform-origin: 0 50%;
   right: auto;
   left: 0;
@@ -2282,24 +2296,21 @@ img {
 }
 @media (min-width: 769px) and (orientation: landscape) {
   .loaded .page-header__nav {
-    transform: translate(0);
     opacity: 1;
   }
 }
 @media (max-width: 1024px) and (orientation: portrait) {
   .loaded .page-header__toggler {
-    transform: translateX(0);
     opacity: 1;
   }
 }
 @media (max-width: 768px) and (orientation: landscape) {
   .loaded .page-header__toggler {
     opacity: 1;
-    transform: translateX(0);
   }
 }
 .loaded .page-header__menu a.active::after {
-  transform: scale(1);
+  transform: scale(1, 1);
   transition: transform 0.5s cubic-bezier(0.29, 0.48, 0.31, 0.98) 0.2s;
   transform-origin: 0 50%;
 }
@@ -4041,7 +4052,7 @@ img {
   border: 2px solid #ffffff;
   z-index: -1;
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.4s, border-color 0.35s, background-color 0.35s;
+  transition: transform 0.35s, border-color 0.35s, background-color 0.35s;
 }
 .social-block__toggler svg {
   position: absolute;
@@ -4253,7 +4264,10 @@ img {
 
 .loaded .social-block__toggler::before {
   transform: translate(-50%, -50%) scale(1);
-  transition: transform 0.3s ease 0.3s;
+  transition: transform 0.3s cubic-bezier(0.37, 0.29, 0.17, 1.52) 0.4s;
+}
+.loaded .social-block__toggler:hover::before {
+  transform: translate(-50%, -50%) scale(1.125);
 }
 
 /*# sourceMappingURL=style.min.css.map*/
