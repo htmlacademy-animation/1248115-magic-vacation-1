@@ -51,7 +51,8 @@
     background-color: $c-light;
     border: 2px solid $c-light;
     z-index: -1;
-    transition: width 0.4s, height 0.4s, border-color 0.35s, background-color 0.35s;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.35s, border-color 0.35s, background-color 0.35s;
   }
 
   svg {
@@ -66,8 +67,7 @@
     color: $c-purple;
 
     &::before {
-      width: 112.5%;
-      height: 112.5%;
+      transform: translate(-50%, -50%) scale(1.125);
     }
   }
 
@@ -270,6 +270,19 @@
         width: 10px;
         height: 10px;
       }
+    }
+  }
+}
+
+.loaded {
+  .social-block__toggler {
+    &::before {
+      transform: translate(-50%, -50%) scale(1);
+      transition: transform 0.3s cubic-bezier(.37,.29,.17,1.52) 0.4s;
+    }
+
+    &:hover::before {
+      transform: translate(-50%, -50%) scale(1.125);
     }
   }
 }

@@ -14,7 +14,7 @@
     min-height: calc(var(--vh, 1vh) * 100);
   }
 
-  @media (max-width: $tablet - 1) and (orientation: landscape) {
+  @media (max-width: ($tablet - 1)) and (orientation: landscape) {
     height: 100vh;
   }
 }
@@ -46,11 +46,15 @@
   color: $c-dark;
   background-color: $c-light;
   z-index: 1;
+  transform: translateY(calc(2 * 0.8rem + 1em * 1.2));
+  opacity: 0;
+  transition: transform 0.3s $cb-header-footer, opacity 0.3s $cb-header-footer;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 0 3.6rem 0 0;
+    transform: translateY(3.5rem);
 
     &.screen__footer--full {
       width: 100%;
@@ -62,6 +66,7 @@
     width: 3.5rem;
     height: 3.5rem;
     border-radius: 0 3.6rem 0 0;
+    transform: translateY(3.5rem);
 
     &.screen__footer--full {
       width: 100%;
@@ -353,4 +358,11 @@
 
 .screen--rules {
   background-color: $c-dark;
+}
+
+.loaded {
+  .screen__footer {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
