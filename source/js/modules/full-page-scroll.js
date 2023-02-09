@@ -10,6 +10,7 @@ export default class FullPageScroll {
     this.menuElements = document.querySelectorAll(`.page-header__menu .js-menu-link`);
 
     this.activeScreen = 0;
+    this.previousActiveScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
   }
@@ -45,6 +46,18 @@ export default class FullPageScroll {
     this.changePageDisplay();
   }
 
+  _animationHandler(screenScene) {
+    const animateInnerHandler = (evt) => {
+      if (evt.animationName === `transition-end-${screenScene.id}`) {
+        screenScene.classList.remove(`transition-end`);
+        this.screenElements[this.activeScreen].classList.remove('transition-start');
+        screenScene.classList.add(`screen--hidden`);
+        screenScene.removeEventListener(`animationend`, animateInnerHandler);
+      }
+    }
+    return animateInnerHandler;
+  }
+
   changePageDisplay() {
     this.changeVisibilityDisplay();
     this.changeActiveMenuItem();
@@ -52,14 +65,21 @@ export default class FullPageScroll {
   }
 
   changeVisibilityDisplay() {
-    this.screenElements.forEach((screen) => {
-      screen.classList.add(`screen--hidden`);
+    this.screenElements.forEach((screen, index) => {
       screen.classList.remove(`active`);
+      if (index === this.previousActiveScreen && screen.hasAttribute('data-transition-end') && this.previousActiveScreen < this.activeScreen) {
+        screen.classList.add('transition-end');
+        this.screenElements[this.activeScreen].classList.add('transition-start');
+        screen.addEventListener(`animationend`, this._animationHandler(screen));
+      } else {
+        screen.classList.add(`screen--hidden`);
+      }
     });
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(`active`);
     }, 100);
+    this.previousActiveScreen = this.activeScreen;
   }
 
   changeActiveMenuItem() {
