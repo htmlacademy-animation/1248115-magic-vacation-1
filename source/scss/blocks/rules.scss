@@ -123,6 +123,9 @@
   padding-top: 0.6rem;
   padding-left: 6.5rem;
   break-inside: avoid;
+  animation-name: rules-item-fade-in;
+  animation-duration: 0s;
+  animation-fill-mode: backwards;
 
   @media (min-width: $stop-scaling) {
     margin: 0 0 62px;
@@ -159,6 +162,10 @@
     border-radius: 50%;
     line-height: 5rem;
     text-align: center;
+    animation-name: rules-bullet-sizes-fade-in, rules-bullet-color-fade-in;
+    animation-duration: 0.35s, 0.17s;
+    animation-timing-function: cubic-bezier(.11,.4,.38,1.5), linear;
+    animation-fill-mode: backwards;
 
     @media (max-width: $tablet) and (orientation: portrait) {
       top: 1rem;
@@ -179,9 +186,27 @@
 
   p {
     margin: 0;
+    animation-name: rules-text-fade-in;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: backwards;
 
     @media (max-width: $tablet) and (orientation: portrait) {
       min-height: calc(1.4rem * 2.2);
+    }
+  }
+}
+
+@for $i from 1 through $number-rules-item {
+  .rules__item:nth-child(#{$i}) {
+    animation-delay: -0.2 + $i * 0.2s;
+
+    &::before {
+      animation-delay: (-0.2 + $i * 0.2s), (-0.2 + $i * 0.2s) + 0.1;
+    }
+
+    p {
+      animation-delay: (-0.2 + $i * 0.2s) + 0.1;
     }
   }
 }
