@@ -123,7 +123,7 @@
   padding-top: 0.6rem;
   padding-left: 6.5rem;
   break-inside: avoid;
-  animation-name: rules-item-fade-in;
+  animation-name: fade-in;
   animation-duration: 0s;
   animation-fill-mode: backwards;
 
@@ -158,14 +158,14 @@
     font-family: $font-alt;
     font-weight: 400;
     font-size: 2.4rem;
-    background-color: $c-purple;
     border-radius: 50%;
     line-height: 5rem;
     text-align: center;
-    animation-name: rules-bullet-sizes-fade-in, rules-bullet-color-fade-in;
-    animation-duration: 0.35s, 0.17s;
-    animation-timing-function: cubic-bezier(.11,.4,.38,1.5), linear;
+    animation-name: color-to-light;
+    animation-duration: 0.17s;
+    animation-timing-function: linear;
     animation-fill-mode: backwards;
+    z-index: 1;
 
     @media (max-width: $tablet) and (orientation: portrait) {
       top: 1rem;
@@ -181,6 +181,44 @@
       height: 2.5rem;
       line-height: 3rem;
       font-size: 1.4rem;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4.5rem;
+    height: 4.5rem;
+    background-color: $c-purple;
+    border-radius: 50%;
+    animation-name: zoom-in;
+    animation-duration: 0.35s;
+    animation-timing-function: cubic-bezier(.11,.4,.38,1.5);
+    animation-fill-mode: backwards;
+
+    @media (max-width: $tablet) and (orientation: portrait) {
+      top: 1rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    @media (max-width: $mobile) and (orientation: landscape) {
+      top: 0.6rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+
+  @keyframes rules-text-fade-in {
+    0% {
+      transform: translateX(1.1em);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(0);
+      opacity: 1;
     }
   }
 
@@ -202,7 +240,11 @@
     animation-delay: -0.2 + $i * 0.2s;
 
     &::before {
-      animation-delay: (-0.2 + $i * 0.2s), (-0.2 + $i * 0.2s) + 0.1;
+      animation-delay: (-0.2 + $i * 0.2s) + 0.1;
+    }
+
+    &::after {
+      animation-delay: (-0.2 + $i * 0.2s);
     }
 
     p {

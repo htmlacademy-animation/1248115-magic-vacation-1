@@ -1,43 +1,22 @@
-@keyframes transition-end-story {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes rules-bullet-sizes-fade-in {
+@keyframes zoom-in {
   0% {
     transform: scale(0);
   }
   100% {
-    transform: translateY(1);
+    transform: scale(1);
   }
 }
 
-@keyframes rules-bullet-color-fade-in {
+@keyframes color-to-light {
   0% {
     color: $c-transparent;
   }
-
   100% {
     color: $c-light;
   }
 }
 
-@keyframes rules-text-fade-in {
-  0% {
-    transform: translateX(1.1em);
-    opacity: 0;
-  }
-  100% {
-    transform: translate(0);
-    opacity: 1;
-  }
-}
-
-@keyframes rules-item-fade-in {
+@keyframes fade-in {
   0% {
     opacity: 0;
   }
