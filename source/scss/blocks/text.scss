@@ -1,0 +1,47 @@
+.text {
+  * {
+    display: inline-block;
+  }
+
+  .text__word {
+    overflow: hidden;
+    line-height: 1;
+  }
+
+  .text__word:not(:last-child) {
+    margin-right: 8px;
+  }
+
+  .text__word > span {
+    transform: translate3d(0, 1em, 0);
+  }
+}
+
+.intro__date {
+  .text__word {
+    letter-spacing: -0.02em;
+  }
+}
+
+.intro__title {
+  .text__word:not(:last-child) {
+    margin-right: 0px;
+  }
+
+  .text__word {
+    display: flex;
+    align-items: end;
+    min-height: 1.07em;
+    margin-top: -0.18em;
+    line-height: 0.906;
+    letter-spacing: -0.04em;
+  }
+
+  .text__word > span {
+    transform: translate3d(0, 1.07em, 0);
+  }
+}
+
+.active .text__word > span {
+  transform: translate3d(0, 0, 0);
+}
