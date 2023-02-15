@@ -3,14 +3,12 @@ class AccentTypographyBuild {
     totalDelay,
     elementSelector,
     timer,
-    classForActivate,
     property,
     wordsDelays
   ) {
     this._totalDelay = totalDelay;
     this._elementSelector = elementSelector;
     this._timer = timer;
-    this._classForActivate = classForActivate;
     this._property = property;
     this._element = document.querySelector(this._elementSelector);
     this._wordsDelays = wordsDelays;

@@ -13,7 +13,6 @@ const loadPage = ()  => {
     item.totalDelayAnimation,
     item.elementAnimation,
     item.timeAnimation,
-    item.activationClass,
     item.propertyAnimation,
     item.letterDelays)
   )
