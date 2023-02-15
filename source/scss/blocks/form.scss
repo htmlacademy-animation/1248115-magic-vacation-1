@@ -42,8 +42,7 @@
   border-radius: 3rem;
   outline: none;
   width: 0;
-  padding: 0;
-  transition: width 0.5s, padding 0.5s;
+  padding: 0 5.6rem;
   margin-left: auto;
 
   &:focus {
@@ -68,6 +67,11 @@
     height: 4rem;
     font-size: 1.6rem;
   }
+}
+
+.screen--game .form__field {
+  padding: 0;
+  transition: width 0.5s, padding 0.5s;
 }
 
 .screen--game.active {
@@ -98,7 +102,6 @@
 
 .form__button {
   flex-grow: 1;
-  max-width: 18rem;
 
   @media (min-width: $stop-scaling) {
     max-width: 180px;
@@ -111,8 +114,6 @@
     width: 4rem;
     height: 4rem;
     font-size: 0;
-
-    max-width: none;
   }
 
   @media (max-width: $tablet) and (orientation: landscape) {
@@ -122,15 +123,11 @@
     width: 6rem;
     height: 6rem;
     font-size: 0;
-
-    max-width: none;
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
     width: 4rem;
     height: 4rem;
-
-    max-width: none;
   }
 
   svg {
@@ -152,6 +149,10 @@
       display: block;
     }
   }
+}
+
+.screen--game .form__button {
+  max-width: 18rem;
 }
 
 .form--result {
