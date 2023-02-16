@@ -16,6 +16,15 @@
   }
 }
 
+@keyframes color-to-dark {
+  0% {
+    color: $c-transparent;
+  }
+  100% {
+    color: $c-dark;
+  }
+}
+
 @keyframes fade-in {
   0% {
     opacity: 0;

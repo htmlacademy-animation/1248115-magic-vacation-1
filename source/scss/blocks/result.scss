@@ -231,7 +231,7 @@
     }
   }
 
-  @keyframes flamingo-1 {
+  @keyframes flamingo-fade-in-up {
     0% {
       opacity: 0;
       transform: translate3d(-42%, 110%, 0) rotate(-17deg);
@@ -242,7 +242,7 @@
     }
   }
 
-  @keyframes flamingo-2 {
+  @keyframes flamingo-up-down-rotate {
     0% {
       transform: translate3d(-38%, 47%, 0) rotate(0);
     }
@@ -259,7 +259,7 @@
     z-index: 3;
     height: 33.55%;
     aspect-ratio: 1 / 1;
-    animation-name: flamingo-1, flamingo-2;
+    animation-name: flamingo-fade-in-up, flamingo-up-down-rotate;
     animation-delay: 1300ms, 1833ms;
     animation-duration: 300ms, 2000ms;
     animation-fill-mode: both, forwards;
@@ -428,8 +428,120 @@
   }
 }
 
+@keyframes fild-result-fade-in-left {
+  0% {
+    width: 6rem;
+    padding: 0;
+    opacity: 1;
+    color: $c-transparent;
+  }
+  92% {
+    color: $c-transparent;
+  }
+  100% {
+    opacity: 1;
+    width: calc(100% - 31rem);
+    padding: 0 5.6rem;
+    color: $c-dark;
+  }
+}
+
+@keyframes fild-result-fade-in-left-stop-scaling {
+  0% {
+    width: 6rem;
+    padding: 0;
+    opacity: 1;
+    color: $c-transparent;
+  }
+  92% {
+    color: $c-transparent;
+  }
+  100% {
+    opacity: 1;
+    padding: 0 56px;
+    width: calc(100% - 210px);
+    color: $c-dark;
+  }
+}
+
+@keyframes fild-result-fade-in-left-mobile {
+  0% {
+    width: 4rem;
+    padding: 0;
+    opacity: 1;
+    color: $c-transparent;
+  }
+  92% {
+    color: $c-transparent;
+  }
+  100% {
+    opacity: 1;
+    padding: 0 2.5rem;
+    width: calc(100% - 5rem);
+    color: $c-dark;
+  }
+}
+
+@keyframes fild-result-fade-in-left-tablet {
+  0% {
+    width: 6rem;
+    padding: 0;
+    opacity: 1;
+    color: $c-transparent;
+  }
+  92% {
+    color: $c-transparent;
+  }
+  100% {
+    opacity: 1;
+    padding: 0 5.6rem;
+    width: calc(100% - 9rem);
+    color: $c-dark;
+  }
+}
+
 .result__form {
   margin-top: auto;
+
+  .form__button {
+    max-width: 28rem;
+    animation-name: color-to-dark;
+    animation-delay: 1766ms;
+    animation-duration: 266ms;
+    animation-fill-mode: both;
+
+    &::before {
+      animation-name: fade-in;
+      animation-delay: 1600ms;
+      animation-duration: 166ms;
+      animation-fill-mode: both;
+    }
+  }
+
+  .form__field {
+    opacity: 0;
+    animation-name: fild-result-fade-in-left;
+    animation-delay: 1766ms;
+    animation-duration: 533ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+
+    @media (min-width: $stop-scaling) {
+      animation-name: fild-result-fade-in-left-stop-scaling;
+    }
+
+    @media (orientation: portrait) {
+      animation-name: fild-result-fade-in-left-mobile;
+    }
+
+    @media (max-width: $tablet) and (orientation: landscape) {
+      animation-name: fild-result-fade-in-left-tablet;
+    }
+
+    @media (max-width: $mobile) and (orientation: landscape) {
+      animation-name: fild-result-fade-in-left-mobile;
+    }
+  }
 }
 
 .result--trip,
