@@ -52,6 +52,225 @@
     object-fit: cover;
     object-position: center;
   }
+
+  @keyframes leaf-fade-in-rotate-1 {
+    0% {
+      opacity: 0;
+      transform: translate3d(51.5%, 16%, 0) rotate(-20deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(51.5%, 16%, 0) rotate(13deg);
+    }
+  }
+
+  @keyframes leaf-up-down-rotate-1 {
+    0%,
+    1% {
+      transform: translate3d(51.5%, 16%, 0) rotate(13deg);
+    }
+    19%,
+    21% {
+      transform: translate3d(51.5%, 16%, 0) rotate(-12deg);
+    }
+    48%,
+    50% {
+      transform: translate3d(51.5%, 16%, 0) rotate(10deg);
+    }
+    73%,
+    75% {
+      transform: translate3d(51.5%, 16%, 0) rotate(-9deg);
+    }
+    100% {
+      transform: translate3d(51.5%, 16%, 0) rotate(7deg);
+    }
+  }
+
+  .result__image-leaf-1 {
+    position: absolute;
+    aspect-ratio: 279 / 261;
+    height: 33.5%;
+    transform: translate3d(51.5%, 16%, 0);
+    transform-origin: 0% 50%;
+    animation-name: leaf-fade-in-rotate-1, leaf-up-down-rotate-1;
+    animation-delay: 1467ms, 1800ms;
+    animation-duration: 333ms, 1300ms;
+    animation-fill-mode: both, forwards;
+
+    @media (orientation: portrait) {
+      width: 38.99%;
+      height: auto;
+    }
+  }
+
+  @keyframes leaf-fade-in-rotate-2 {
+    0% {
+      opacity: 0;
+      transform: translate3d(-74.5%, 54%, 0) rotate(40deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(-74.5%, 54%, 0) rotate(-17deg);
+    }
+  }
+
+  @keyframes leaf-up-down-rotate-2 {
+    0%,
+    1% {
+      transform: translate3d(-74.5%, 54%, 0) rotate(-17deg);
+    }
+    25%,
+    27% {
+      transform: translate3d(-74.5%, 54%, 0) rotate(9deg);
+    }
+    54%,
+    56% {
+      transform: translate3d(-74.5%, 54%, 0) rotate(-14deg);
+    }
+    80% ,
+    82% {
+      transform: translate3d(-74.5%, 54%, 0) rotate(6deg);
+    }
+    100% {
+      transform: translate3d(-74.5%, 54%, 0) rotate(-11deg);
+    }
+  }
+
+  .result__image-leaf-2 {
+    position: absolute;
+    aspect-ratio: 279 / 241;
+    height: 31.5%;
+    transform-origin: 100% 50%;
+    animation-name: leaf-fade-in-rotate-2, leaf-up-down-rotate-2;
+    animation-delay: 1467ms, 1800ms;
+    animation-duration: 333ms, 1398ms;
+    animation-fill-mode: both, forwards;
+
+    @media (orientation: portrait) {
+      width: 36.47%;
+      height: auto;
+    }
+  }
+
+  @keyframes leaf-green-fade-in-rotate {
+    0% {
+      opacity: 0;
+      transform: translate3d(52%, 78%, 0) rotate(-18deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(52%, 78%, 0) rotate(15deg);
+    }
+  }
+
+  @keyframes leaf-green-up-down-rotate {
+    0%,
+    1% {
+      transform: translate3d(52%, 78%, 0) rotate(15deg);
+    }
+    25%,
+    27% {
+      transform: translate3d(52%, 78%, 0) rotate(-13deg);
+    }
+    54%,
+    56% {
+      transform: translate3d(52%, 78%, 0) rotate(13deg);
+    }
+    80%,
+    82% {
+      transform: translate3d(52%, 78%, 0) rotate(-9deg);
+    }
+    100% {
+      transform: translate3d(52%, 78%, 0) rotate(10deg);
+    }
+  }
+
+  .result__image-leaf-green {
+    position: absolute;
+    aspect-ratio: 332 / 159;
+    height: 21%;
+    transform-origin: 0% 50%;
+    animation-name: leaf-green-fade-in-rotate, leaf-green-up-down-rotate;
+    animation-delay: 1567ms, 1833ms;
+    animation-duration: 266ms, 1398ms;
+    animation-fill-mode: both, forwards;
+
+    @media (orientation: portrait) {
+      width: 43.85%;
+      height: auto;
+    }
+  }
+
+  @keyframes suitcase-scale-up {
+    0% {
+      transform: translate3d(-7%, 90%, 0) rotate(-6deg) scale(0);
+    }
+    61% {
+      transform: translate3d(-7%, 16.5%, 0) rotate(-6deg) scale(1);
+    }
+    63% {
+      transform: translate3d(-7%, 16.5%, 0) rotate(-6deg) scale(1);
+    }
+    100% {
+      transform: translate3d(-7%, 26%, 0)  rotate(-6deg) scale(1);
+    }
+  }
+
+  .result__image-suitcase {
+    position: absolute;
+    height: 44.73%;
+    aspect-ratio: 1 / 1;
+    animation-name: suitcase-scale-up;
+    animation-delay: 1234ms;
+    animation-duration: 433ms;
+    animation-fill-mode: both;
+
+    @media (orientation: portrait) {
+      width: 44.73%;
+      height: auto;
+    }
+  }
+
+  @keyframes flamingo-1 {
+    0% {
+      opacity: 0;
+      transform: translate3d(-42%, 110%, 0) rotate(-17deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(-38%, 47%, 0) rotate(0);
+    }
+  }
+
+  @keyframes flamingo-2 {
+    0% {
+      transform: translate3d(-38%, 47%, 0) rotate(0);
+    }
+    50% {
+      transform: translate3d(-38%, 55%, 0) rotate(-5deg);
+    }
+    100% {
+      transform: translate3d(-38%, 47%, 0) rotate(0);
+    }
+  }
+
+  .result__image-flamingo {
+    position: absolute;
+    z-index: 3;
+    height: 33.55%;
+    aspect-ratio: 1 / 1;
+    animation-name: flamingo-1, flamingo-2;
+    animation-delay: 1300ms, 1833ms;
+    animation-duration: 300ms, 2000ms;
+    animation-fill-mode: both, forwards;
+    animation-timing-function: ease, ease-in-out;
+    animation-iteration-count: 1, infinite;
+
+    @media (orientation: portrait) {
+      width: 33.55%;
+      height: auto;
+    }
+  }
 }
 
 .result__title {
