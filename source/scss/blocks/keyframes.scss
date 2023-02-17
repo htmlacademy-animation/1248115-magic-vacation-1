@@ -25,6 +25,15 @@
   }
 }
 
+@keyframes color-to-red {
+  0% {
+    color: yellow;
+  }
+  100% {
+    color: red;
+  }
+}
+
 @keyframes fade-in {
   0% {
     opacity: 0;
