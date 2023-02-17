@@ -293,6 +293,15 @@
   }
 }
 
+@keyframes transition-end-story {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 .screen--story {
   background-color: $c-dark;
   background-image: url("../img/slide1.jpg"), url("../img/slide2.jpg"), url("../img/slide3.jpg"), url("../img/slide4.jpg");
