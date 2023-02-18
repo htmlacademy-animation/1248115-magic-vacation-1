@@ -332,6 +332,11 @@
   font-size: 2.4rem;
   line-height: 1.2;
   color: $c-light;
+  animation-name: color-to-light;
+  animation-duration: 277ms;
+  animation-delay: 1166ms;
+  animation-timing-function: ease;
+  animation-fill-mode: backwards;
 
   @media (min-width: $stop-scaling) {
     margin: auto auto 10px;
@@ -358,12 +363,28 @@
     font-size: 1.6rem;
   }
 
+  @keyframes result-button-span-fade-in-rolling-left {
+    0% {
+      opacity: 0;
+      transform: translate3d(250%, 0, 0) rotate(360deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) rotate(0);
+    }
+  }
+
   span {
     position: relative;
     margin-left: 1.5rem;
     width: 4rem;
     height: 4rem;
     color: $c-dark;
+    animation-name: result-button-span-fade-in-rolling-left;
+    animation-duration: 400ms;
+    animation-delay: 1166ms;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-out;
 
     @media (min-width: $stop-scaling) {
       margin-left: 15px;
