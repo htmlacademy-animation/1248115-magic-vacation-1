@@ -342,8 +342,33 @@
   }
 }
 
+@keyframes transition-end-prizes {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .screen--prizes {
   background-color: $c-dark;
+
+  &.transition-end {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    .screen__footer-note {
+      opacity: 0;
+      transition: opacity 266ms;
+    }
+
+    .prizes::after {
+      animation: transition-end-prizes 1233ms ease 966ms;
+    }
+  }
 }
 
 .screen--game {

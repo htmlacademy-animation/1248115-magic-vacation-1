@@ -53,12 +53,28 @@
   }
 }
 
+@keyframes rules-lead-fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(1em * 1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .rules__lead {
   margin-left: 5.8rem;
   max-width: 96rem;
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.2;
+  animation: rules-lead-fade-in-up;
+  animation-duration: 500ms;
+  animation-delay: 1566ms;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
 
   @media (min-width: $stop-scaling) {
     margin-left: 58px;
@@ -237,18 +253,18 @@
 
 @for $i from 1 through $number-rules-item {
   .rules__item:nth-child(#{$i}) {
-    animation-delay: -0.2 + $i * 0.2s;
+    animation-delay: -0.2 + $i * 0.2s + 2s;
 
     &::before {
-      animation-delay: (-0.2 + $i * 0.2s) + 0.1;
+      animation-delay: (-0.2 + $i * 0.2s) + 0.1 + 2s;
     }
 
     &::after {
-      animation-delay: (-0.2 + $i * 0.2s);
+      animation-delay: (-0.2 + $i * 0.2s) + 2s;
     }
 
     p {
-      animation-delay: (-0.2 + $i * 0.2s) + 0.1;
+      animation-delay: (-0.2 + $i * 0.2s) + 0.1 + 2s
     }
   }
 }
@@ -284,7 +300,7 @@
   animation-duration: 0.4s;
   animation-fill-mode: backwards;
   animation-timing-function: linear;
-  animation-delay: 0.84s;
+  animation-delay: 2900ms;
 
   &::before {
     opacity: 0;
@@ -292,7 +308,7 @@
     animation-duration: 0.4s;
     animation-fill-mode: forwards;
     animation-timing-function: cubic-bezier(.43,.13,.16,1);
-    animation-delay: 0.84s;
+    animation-delay: 2900ms;
     left: auto;
     right: 0;
     transform: translate(0, -50%);
