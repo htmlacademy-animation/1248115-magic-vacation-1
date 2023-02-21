@@ -57,6 +57,7 @@
     0% {
       opacity: 0;
       transform: translate3d(51.5%, 16%, 0) rotate(-20deg);
+      animation-timing-function: ease-out;
     }
     100% {
       opacity: 1;
@@ -65,21 +66,21 @@
   }
 
   @keyframes leaf-up-down-rotate-1 {
-    0%,
-    1% {
+    0% {
       transform: translate3d(51.5%, 16%, 0) rotate(13deg);
+      animation-timing-function: ease-in-out;
     }
-    19%,
-    21% {
+    20% {
       transform: translate3d(51.5%, 16%, 0) rotate(-12deg);
+      animation-timing-function: ease-in-out;
     }
-    48%,
-    50% {
+    49% {
       transform: translate3d(51.5%, 16%, 0) rotate(10deg);
+      animation-timing-function: ease-in-out;
     }
-    73%,
-    75% {
+    74% {
       transform: translate3d(51.5%, 16%, 0) rotate(-9deg);
+      animation-timing-function: ease-in-out;
     }
     100% {
       transform: translate3d(51.5%, 16%, 0) rotate(7deg);
@@ -107,6 +108,7 @@
     0% {
       opacity: 0;
       transform: translate3d(-74.5%, 54%, 0) rotate(40deg);
+      animation-timing-function: ease-out;
     }
     100% {
       opacity: 1;
@@ -115,21 +117,21 @@
   }
 
   @keyframes leaf-up-down-rotate-2 {
-    0%,
-    1% {
+    0% {
       transform: translate3d(-74.5%, 54%, 0) rotate(-17deg);
+      animation-timing-function: ease-in-out;
     }
-    25%,
-    27% {
+    26% {
       transform: translate3d(-74.5%, 54%, 0) rotate(9deg);
+      animation-timing-function: ease-in-out;
     }
-    54%,
-    56% {
+    55% {
       transform: translate3d(-74.5%, 54%, 0) rotate(-14deg);
+      animation-timing-function: ease-in-out;
     }
-    80% ,
-    82% {
+    81% {
       transform: translate3d(-74.5%, 54%, 0) rotate(6deg);
+      animation-timing-function: ease-in-out;
     }
     100% {
       transform: translate3d(-74.5%, 54%, 0) rotate(-11deg);
@@ -156,6 +158,7 @@
     0% {
       opacity: 0;
       transform: translate3d(52%, 78%, 0) rotate(-18deg);
+      animation-timing-function: ease-out;
     }
     100% {
       opacity: 1;
@@ -164,21 +167,21 @@
   }
 
   @keyframes leaf-green-up-down-rotate {
-    0%,
-    1% {
+    0% {
       transform: translate3d(52%, 78%, 0) rotate(15deg);
+      animation-timing-function: ease-in-out;
     }
-    25%,
-    27% {
+    26% {
       transform: translate3d(52%, 78%, 0) rotate(-13deg);
+      animation-timing-function: ease-in-out;
     }
-    54%,
-    56% {
+    55% {
       transform: translate3d(52%, 78%, 0) rotate(13deg);
+      animation-timing-function: ease-in-out;
     }
-    80%,
-    82% {
+    81% {
       transform: translate3d(52%, 78%, 0) rotate(-9deg);
+      animation-timing-function: ease-in-out;
     }
     100% {
       transform: translate3d(52%, 78%, 0) rotate(10deg);
@@ -205,14 +208,8 @@
     0% {
       transform: translate3d(-7%, 90%, 0) rotate(-6deg) scale(0);
     }
-    61% {
-      transform: translate3d(-7%, 16.5%, 0) rotate(-6deg) scale(1);
-    }
-    63% {
-      transform: translate3d(-7%, 16.5%, 0) rotate(-6deg) scale(1);
-    }
     100% {
-      transform: translate3d(-7%, 26%, 0)  rotate(-6deg) scale(1);
+      transform: translate3d(-7%, 26%, 0) rotate(-6deg) scale(1);
     }
   }
 
@@ -224,6 +221,7 @@
     animation-delay: 1234ms;
     animation-duration: 433ms;
     animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(.17,.67,.36,1.34);
 
     @media (orientation: portrait) {
       width: 44.73%;
@@ -334,6 +332,11 @@
   font-size: 2.4rem;
   line-height: 1.2;
   color: $c-light;
+  animation-name: color-to-light;
+  animation-duration: 277ms;
+  animation-delay: 1166ms;
+  animation-timing-function: ease;
+  animation-fill-mode: backwards;
 
   @media (min-width: $stop-scaling) {
     margin: auto auto 10px;
@@ -360,12 +363,28 @@
     font-size: 1.6rem;
   }
 
+  @keyframes result-button-span-fade-in-rolling-left {
+    0% {
+      opacity: 0;
+      transform: translate3d(250%, 0, 0) rotate(360deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) rotate(0);
+    }
+  }
+
   span {
     position: relative;
     margin-left: 1.5rem;
     width: 4rem;
     height: 4rem;
     color: $c-dark;
+    animation-name: result-button-span-fade-in-rolling-left;
+    animation-duration: 400ms;
+    animation-delay: 1166ms;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-out;
 
     @media (min-width: $stop-scaling) {
       margin-left: 15px;
@@ -428,75 +447,87 @@
   }
 }
 
-@keyframes fild-result-fade-in-left {
+@keyframes field-result-fade-in-left {
   0% {
     width: 6rem;
     padding: 0;
     opacity: 1;
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   92% {
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   100% {
     opacity: 1;
     width: calc(100% - 31rem);
     padding: 0 5.6rem;
     color: $c-dark;
+    -webkit-text-fill-color: $c-dark;
   }
 }
 
-@keyframes fild-result-fade-in-left-stop-scaling {
+@keyframes field-result-fade-in-left-stop-scaling {
   0% {
     width: 6rem;
     padding: 0;
     opacity: 1;
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   92% {
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   100% {
     opacity: 1;
     padding: 0 56px;
     width: calc(100% - 210px);
     color: $c-dark;
+    -webkit-text-fill-color: $c-dark;
   }
 }
 
-@keyframes fild-result-fade-in-left-mobile {
+@keyframes field-result-fade-in-left-mobile {
   0% {
     width: 4rem;
     padding: 0;
     opacity: 1;
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   92% {
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   100% {
     opacity: 1;
     padding: 0 2.5rem;
     width: calc(100% - 5rem);
     color: $c-dark;
+    -webkit-text-fill-color: $c-dark;
   }
 }
 
-@keyframes fild-result-fade-in-left-tablet {
+@keyframes field-result-fade-in-left-tablet {
   0% {
     width: 6rem;
     padding: 0;
     opacity: 1;
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   92% {
     color: $c-transparent;
+    -webkit-text-fill-color: $c-transparent;
   }
   100% {
     opacity: 1;
     padding: 0 5.6rem;
     width: calc(100% - 9rem);
     color: $c-dark;
+    -webkit-text-fill-color: $c-dark;
   }
 }
 
@@ -520,27 +551,35 @@
 
   .form__field {
     opacity: 0;
-    animation-name: fild-result-fade-in-left;
+    animation-name: field-result-fade-in-left;
     animation-delay: 1766ms;
     animation-duration: 533ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
 
     @media (min-width: $stop-scaling) {
-      animation-name: fild-result-fade-in-left-stop-scaling;
+      animation-name: field-result-fade-in-left-stop-scaling;
     }
 
     @media (orientation: portrait) {
-      animation-name: fild-result-fade-in-left-mobile;
+      animation-name: field-result-fade-in-left-mobile;
     }
 
     @media (max-width: $tablet) and (orientation: landscape) {
-      animation-name: fild-result-fade-in-left-tablet;
+      animation-name: field-result-fade-in-left-tablet;
     }
 
     @media (max-width: $mobile) and (orientation: landscape) {
-      animation-name: fild-result-fade-in-left-mobile;
+      animation-name: field-result-fade-in-left-mobile;
     }
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.8;
+  }
+
+  ::-moz-placeholder {
+    opacity: 0.8;
   }
 }
 

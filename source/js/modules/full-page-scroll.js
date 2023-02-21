@@ -78,6 +78,7 @@ export default class FullPageScroll {
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(`active`);
+      document.body.setAttribute('data-screen', this.screenElements[this.activeScreen].id);
     }, 100);
     this.previousActiveScreen = this.activeScreen;
   }

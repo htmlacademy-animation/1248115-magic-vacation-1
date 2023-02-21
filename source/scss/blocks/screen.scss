@@ -55,10 +55,12 @@
     height: 3.5rem;
     border-radius: 0 3.6rem 0 0;
     transform: translateY(3.5rem);
+    transition: transform 0.3s $cb-header-footer, opacity 0.3s $cb-header-footer, width 0.35s ease 0.35s, height 0.35s ease 0.35s;
 
     &.screen__footer--full {
       width: 100%;
       height: 18rem;
+      transition: width 0.35s ease, height 0.35s ease;
     }
   }
 
@@ -67,10 +69,12 @@
     height: 3.5rem;
     border-radius: 0 3.6rem 0 0;
     transform: translateY(3.5rem);
+    transition: transform 0.3s $cb-header-footer, opacity 0.3s $cb-header-footer, width 0.35s ease 0.35s, height 0.35s ease 0.35s;
 
     &.screen__footer--full {
       width: 100%;
       height: 16rem;
+      transition: width 0.35s ease, height 0.35s ease;
     }
   }
 }
@@ -79,18 +83,26 @@
   @include container;
 
   @media (max-width: $tablet) and (orientation: portrait) {
-    opacity: 0;
+    opacity: 1;
+    color: $c-transparent;
+    transition: color 0.35s;
 
     .screen__footer--full & {
       opacity: 1;
+      color: $c-dark;
+      transition: color 0.35s ease 0.35s;
     }
   }
 
   @media (max-width: $mobile) and (orientation: landscape) {
-    opacity: 0;
+    opacity: 1;
+    color: $c-transparent;
+    transition: color 0.35s;
 
     .screen__footer--full & {
       opacity: 1;
+      color: $c-dark;
+      transition: color 0.35s ease 0.35s;
     }
   }
 }
@@ -342,8 +354,45 @@
   }
 }
 
+@keyframes transition-end-prizes {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .screen--prizes {
   background-color: $c-dark;
+
+  &.transition-end {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    .screen__footer {
+      @media (max-width: $tablet) and (orientation: portrait) {
+        opacity: 0;
+        transition: opacity 266ms;
+      }
+
+      @media (max-width: $mobile) and (orientation: landscape) {
+        opacity: 0;
+        transition: opacity 266ms;
+      }
+    }
+
+    .screen__footer-note {
+      opacity: 0;
+      transition: opacity 266ms;
+    }
+
+    .prizes::after {
+      animation: transition-end-prizes 1233ms ease 966ms;
+    }
+  }
 }
 
 .screen--game {

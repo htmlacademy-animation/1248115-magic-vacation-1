@@ -1,6 +1,7 @@
 .disclaimer {
   color: $c-dark;
   background-color: $c-light;
+  opacity: 0;//
 
   @media (max-width: $tablet) and (orientation: portrait) {
     font-weight: 400;
@@ -88,5 +89,12 @@
     @media (max-width: $mobile) and (orientation: landscape) {
       padding: 0.9rem 0;
     }
+  }
+}
+
+.screen--rules.active {
+  .disclaimer {
+    opacity: 1;
+    transition: opacity 333ms ease 400ms;
   }
 }
