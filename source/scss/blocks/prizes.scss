@@ -347,3 +347,31 @@
     }
   }
 }
+/*
+#dirigible-flight {
+  @media (max-width: $tablet) and (orientation: portrait) {
+    display: none;
+  }
+
+  @media (max-width: $mobile) and (orientation: landscape) {
+    display: none;
+  }
+}
+*/
+.prizes__icon {
+  & > svg {
+    @media (max-width: $tablet) and (orientation: portrait) {
+      display: none;
+    }
+
+    @media (max-width: $mobile) and (orientation: landscape) {
+      display: none;
+    }
+  }
+
+  &-mobil img {
+    @media (min-width: ($tablet +1)) and (orientation: landscape) {
+      display: none;
+    }
+  }
+}
