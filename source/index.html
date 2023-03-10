@@ -1150,7 +1150,7 @@
                       begin="caseMoveRight.end + 133ms"
                     />
                   </g>
-                  <g id="closedCase" opacity="0" transform="translate(350 0)">
+                  <g id="closedCase">
                     <g id="topCase">
                       <path d="M225.88,258.06H82.68a11.62,11.62,0,0,0-11.57,11.61v19.75H237.44V269.66a11.62,11.62,0,0,0-11.56-11.61" fill="#a67ee5"/>
                       <path d="M225.88,258.06H82.68a11.62,11.62,0,0,0-11.57,11.61v19.75H237.44V269.66A11.62,11.62,0,0,0,225.88,258.06Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
@@ -1168,7 +1168,7 @@
                         begin="caseMoveRight.end + 133ms"
                       />
                     </g>
-                    <g id="bottomCase">
+                    <g id="bottomCase" opacity="1">
                       <path d="M280.29,318.62a5.72,5.72,0,1,0-5.12-5.69,5.43,5.43,0,0,0,5.12,5.69" fill="#a67ee5"/>
                       <ellipse cx="280.29" cy="312.93" rx="5.12" ry="5.69" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
                       <path d="M230.22,328.86h-148a11.85,11.85,0,0,1-11.95-11.67V289H242.16v28.17a11.84,11.84,0,0,1-11.94,11.67" fill="#a67ee5"/>
@@ -1186,13 +1186,13 @@
                       <path d="M100,301.54H79.22a1,1,0,0,1-1-1V298a1,1,0,0,1,1-1H100a1,1,0,0,1,1,1v2.58a1,1,0,0,1-1,1" fill="#a67ee5"/>
                       <path d="M100,301.54H79.22a1,1,0,0,1-1-1V298a1,1,0,0,1,1-1H100a1,1,0,0,1,1,1v2.58A1,1,0,0,1,100,301.54Z" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
                     </g>
-                    <g id="lineCase">
+                    <g id="lineCase" opacity="1">
                       <line x1="46.24" y1="329" x2="303.76" y2="329" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
                     </g>
                     <animate
                       attributeType="CSS"
                       attributeName="opacity"
-                      to="1"
+                      values="0; 1"
                       dur="367ms"
                       keyTimes="0; 1"
                       keySplines="0.36 0.55 0.7 0.99"
@@ -1203,7 +1203,7 @@
                       id="caseMoveRight"
                       attributeName="transform"
                       type="translate"
-                      to="0, 0"
+                      values="350, 0; 0, 0"
                       dur="367ms"
                       keyTimes="0; 1"
                       keySplines="0.36 0.55 0.7 0.99"
