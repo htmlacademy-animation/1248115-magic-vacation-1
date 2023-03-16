@@ -45,4 +45,20 @@ const accentTypographyData = [
   }
 ];
 
-export {sectionHasTransitionEnd, accentTypographyData};
+const animatedResultTitleData = [
+  {
+    tag: '#result .result__title svg',
+    numberPath: 3
+  },
+  {
+    tag: '#result2 .result__title svg',
+    numberPath: 3
+  },
+  {
+    tag: '#result3 .result__title svg',
+    numberPath: 2,
+    delay: [33, 66]
+  }
+]
+
+export {sectionHasTransitionEnd, accentTypographyData, animatedResultTitleData};
