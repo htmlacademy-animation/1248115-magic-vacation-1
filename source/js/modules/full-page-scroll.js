@@ -1,4 +1,5 @@
 import throttle from 'lodash/throttle';
+import {startTimer, done} from './show-remaining-time';
 
 export default class FullPageScroll {
   constructor() {
@@ -80,6 +81,11 @@ export default class FullPageScroll {
       this.screenElements[this.activeScreen].classList.add(`active`);
       document.body.setAttribute('data-screen', this.screenElements[this.activeScreen].id);
     }, 100);
+    if (this.screenElements[this.activeScreen].id === "game") {
+      if (!done) {
+        setTimeout(startTimer, 200);
+      }
+    }
     this.previousActiveScreen = this.activeScreen;
   }
 
