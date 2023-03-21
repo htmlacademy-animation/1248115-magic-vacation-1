@@ -3,6 +3,7 @@ const duration = 300;
 const counterTime = document.querySelector(`.game__counter`);
 const counterMinutes = counterTime.querySelector(`span:first-child`);
 const counterSeconds = counterTime.querySelector(`span:last-child`);
+const gameScreen = document.querySelector('.screen--game');
 
 const showRemainingTimeCallback = () => {
   stopTimer();
@@ -23,7 +24,6 @@ const startTimer = (endTime = duration) => {
     const seconds = new Date(endTime * 1000).getSeconds();
     counterMinutes.textContent = String(minutes).padStart(2, 0);
     counterSeconds.textContent = String(seconds).padStart(2, 0);
-    endTime -= 1;
   }
 
   function tick() {
@@ -41,7 +41,10 @@ const startTimer = (endTime = duration) => {
     if (elapsed > fpsInterval) {
       then = now - (elapsed % fpsInterval);
 
-      draw();
+      if (gameScreen.classList.contains('active')) {
+        draw();
+      }
+      endTime -= 1;
     }
   }
 
