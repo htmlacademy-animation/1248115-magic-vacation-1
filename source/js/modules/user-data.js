@@ -59,6 +59,17 @@ const animatedResultTitleData = [
     numberPath: 2,
     delay: [33, 66]
   }
-]
+];
 
-export {sectionHasTransitionEnd, accentTypographyData, animatedResultTitleData};
+const prizesData = [
+  {
+    element: '.prizes__item--cases b',
+    values: [1, 2, 3, 4, 5, 6, 7]
+  },
+  {
+    element: '.prizes__item--codes b',
+    values: [11, 185, 371, 514, 821, 849, 900]
+  }
+];
+
+export {sectionHasTransitionEnd, accentTypographyData, animatedResultTitleData, prizesData};
