@@ -79,6 +79,11 @@
   line-height: 0.906;
   letter-spacing: 0;
 
+  span {
+    display: inline-block;
+    width: 48px;
+  }
+
   @media (min-width: $stop-scaling) {
     font-size: 48px;
   }
