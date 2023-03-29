@@ -337,9 +337,7 @@
 #result2 {
   .result__title svg {
     --delay: 200ms;
-  }
 
-  svg {
     animation-name: result-title-scale;
     animation-duration: 366ms;
     animation-fill-mode: both;
