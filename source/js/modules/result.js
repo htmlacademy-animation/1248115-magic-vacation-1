@@ -1,4 +1,5 @@
 import {startTimer, stopTimer} from './show-remaining-time';
+import Scene2DSeaCalf from './scene-2d-sea-calf.js';
 
 export default () => {
   let showResultEls = document.querySelectorAll(`.js-show-result`);
@@ -17,6 +18,9 @@ export default () => {
         });
         targetEl[0].classList.add(`screen--show`);
         targetEl[0].classList.remove(`screen--hidden`);
+        if (target === 'result') {
+          new Scene2DSeaCalf();
+        }
       });
     }
 
