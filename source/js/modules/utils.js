@@ -58,7 +58,7 @@ const _ = Object.freeze({
   easeInExpo,
   easeOutExpo,
   easeInElastic,
-  easeOutElastic
+  easeOutElastic,
 });
 
 export default _;
