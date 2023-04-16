@@ -72,4 +72,123 @@ const prizesData = [
   }
 ];
 
-export {sectionHasTransitionEnd, accentTypographyData, animatedResultTitleData, prizesData};
+const scene3DData = [
+  {
+    canvasId: 'canvas-intro',
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 0x5f458c,
+    alpha: 1,
+    cameraOptions: {
+      fov: 45,
+      near: 0.1,
+      far: 1200,
+      positionZ: 1200
+    },
+    textures: [
+      {
+        url: './img/module-5/scenes-textures/scene-0.png',
+        scaleX: 2048,
+        scaleY: 1024,
+        positionX: 0,
+        positionY: 0,
+      },
+    ],
+  },
+  {
+    canvasId: 'canvas-story',
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 0x5f458c,
+    alpha: 1,
+    cameraOptions: {
+      fov: 45,
+      near: 0.1,
+      far: 1200,
+      positionZ: 1200
+    },
+    textures: [
+      {
+        url: './img/module-5/scenes-textures/scene-1.png',
+        scaleX: 2048,
+        scaleY: 1024,
+        positionX: 0,
+        positionY: 0,
+      },
+    ],
+  },
+  {
+    canvasId: 'canvas-story',
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 0x5f458c,
+    alpha: 1,
+    cameraOptions: {
+      fov: 45,
+      near: 0.1,
+      far: 1200,
+      positionZ: 1200
+    },
+    textures: [
+      {
+        url: './img/module-5/scenes-textures/scene-2.png',
+        scaleX: 2048,
+        scaleY: 1024,
+        positionX: 0,
+        positionY: 0,
+      },
+    ],
+  },
+  {
+    canvasId: 'canvas-story',
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 0x5f458c,
+    alpha: 1,
+    cameraOptions: {
+      fov: 45,
+      near: 0.1,
+      far: 1200,
+      positionZ: 1200
+    },
+    textures: [
+      {
+        url: './img/module-5/scenes-textures/scene-3.png',
+        scaleX: 2048,
+        scaleY: 1024,
+        positionX: 0,
+        positionY: 0,
+      },
+    ],
+  },
+  {
+    canvasId: 'canvas-story',
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 0x5f458c,
+    alpha: 1,
+    cameraOptions: {
+      fov: 45,
+      near: 0.1,
+      far: 1200,
+      positionZ: 1200
+    },
+    textures: [
+      {
+        url: './img/module-5/scenes-textures/scene-4.png',
+        scaleX: 2048,
+        scaleY: 1024,
+        positionX: 0,
+        positionY: 0,
+      },
+    ],
+  }
+]
+
+export {
+  sectionHasTransitionEnd,
+  accentTypographyData,
+  animatedResultTitleData,
+  prizesData,
+  scene3DData
+};
