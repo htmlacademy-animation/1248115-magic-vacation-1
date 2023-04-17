@@ -1,6 +1,7 @@
 import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
+import slider from './slider.js';////
 
 export default class FullPageScroll {
   constructor() {
@@ -90,6 +91,9 @@ export default class FullPageScroll {
     if (this.screenElements[this.activeScreen].id === "prizes") {
       showAnimatePrizes();
     }
+    if (this.screenElements[this.activeScreen].id === "story") {//
+      slider();//
+    }//
     this.previousActiveScreen = this.activeScreen;
   }
 
