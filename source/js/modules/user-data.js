@@ -85,6 +85,7 @@ const scene3DData = [
       far: 1200,
       positionZ: 1200
     },
+    stepScene: 2048,
     textures: [
       {
         url: './img/module-5/scenes-textures/scene-0.png',
@@ -107,6 +108,7 @@ const scene3DData = [
       far: 1200,
       positionZ: 1200
     },
+    stepScene: 2048,
     textures: [
       {
         url: './img/module-5/scenes-textures/scene-1.png',
@@ -115,21 +117,6 @@ const scene3DData = [
         positionX: 0,
         positionY: 0,
       },
-    ],
-  },
-  {
-    canvasId: 'canvas-story',
-    width: window.innerWidth,
-    height: window.innerHeight,
-    backgroundColor: 0x5f458c,
-    alpha: 1,
-    cameraOptions: {
-      fov: 45,
-      near: 0.1,
-      far: 1200,
-      positionZ: 1200
-    },
-    textures: [
       {
         url: './img/module-5/scenes-textures/scene-2.png',
         scaleX: 2048,
@@ -137,21 +124,6 @@ const scene3DData = [
         positionX: 0,
         positionY: 0,
       },
-    ],
-  },
-  {
-    canvasId: 'canvas-story',
-    width: window.innerWidth,
-    height: window.innerHeight,
-    backgroundColor: 0x5f458c,
-    alpha: 1,
-    cameraOptions: {
-      fov: 45,
-      near: 0.1,
-      far: 1200,
-      positionZ: 1200
-    },
-    textures: [
       {
         url: './img/module-5/scenes-textures/scene-3.png',
         scaleX: 2048,
@@ -159,21 +131,6 @@ const scene3DData = [
         positionX: 0,
         positionY: 0,
       },
-    ],
-  },
-  {
-    canvasId: 'canvas-story',
-    width: window.innerWidth,
-    height: window.innerHeight,
-    backgroundColor: 0x5f458c,
-    alpha: 1,
-    cameraOptions: {
-      fov: 45,
-      near: 0.1,
-      far: 1200,
-      positionZ: 1200
-    },
-    textures: [
       {
         url: './img/module-5/scenes-textures/scene-4.png',
         scaleX: 2048,
@@ -182,7 +139,7 @@ const scene3DData = [
         positionY: 0,
       },
     ],
-  }
+  },
 ]
 
 export {

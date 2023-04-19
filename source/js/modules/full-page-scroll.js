@@ -91,9 +91,9 @@ export default class FullPageScroll {
     if (this.screenElements[this.activeScreen].id === "prizes") {
       showAnimatePrizes();
     }
-    if (this.screenElements[this.activeScreen].id === "story") {//
-      slider();//
-    }//
+    if (this.screenElements[this.activeScreen].id === "story") {
+      slider();
+    }
     this.previousActiveScreen = this.activeScreen;
   }
 

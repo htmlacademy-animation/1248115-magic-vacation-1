@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import {getRawShaderMaterial} from './get-raw-shader-material.js';
 
 export default class Scene3D {
   constructor(options) {
@@ -13,6 +14,7 @@ export default class Scene3D {
     this.far = options.cameraOptions.far;
     this.positionZ = options.cameraOptions.positionZ;
     this.textures = options.textures;
+    this.stepScene = options.stepScene;
     this.render = this.render.bind(this);
   }
 
@@ -41,13 +43,11 @@ export default class Scene3D {
 
     loadManager.onLoad = () => {
       loadedTextures.forEach((texture, i) => {
-        const material = new THREE.MeshBasicMaterial({
-          map: texture
-        });
+        const material = new THREE.RawShaderMaterial(getRawShaderMaterial(texture));
         const image = new THREE.Mesh(geometry, material);
         image.scale.x = this.textures[i].scaleX;
         image.scale.y = this.textures[i].scaleY;
-        image.position.x = this.textures[i].positionX;
+        image.position.x = this.stepScene * i + this.textures[i].positionX;
         image.position.y = this.textures[i].positionY;
         this.scene.add(image);
       });
@@ -57,5 +57,10 @@ export default class Scene3D {
 
   render() {
     this.renderer.render(this.scene, this.camera);
+  }
+
+  setViewScene(i) {
+    this.camera.position.x = this.stepScene * i;
+    this.render();
   }
 }

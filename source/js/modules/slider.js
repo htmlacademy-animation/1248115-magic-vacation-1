@@ -6,11 +6,8 @@ export default () => {
   let storySlider;
   document.body.setAttribute('data-slide', 1);
 
-  const story1 = new Scene3D(scene3DData[1]);
-  story1.init();////
-  const story2 = new Scene3D(scene3DData[2]);
-  const story3 = new Scene3D(scene3DData[3]);
-  const story4 = new Scene3D(scene3DData[4]);
+  const story = new Scene3D(scene3DData[1]);
+  story.init();
 
   const setSlider = function () {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
@@ -25,13 +22,13 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
-              story1.init();
+              story.setViewScene(0);
             } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
-              story2.init();
+              story.setViewScene(1);
             } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
-              story3.init();
+              story.setViewScene(2);
             } else if (storySlider.activeIndex === 6 || storySlider.activeIndex === 7) {
-              story4.init();
+              story.setViewScene(3);
             }
           },
           resize: () => {
@@ -59,16 +56,16 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
-              story1.init();
+              story.setViewScene(0);
               document.body.setAttribute('data-slide', 1);
             } else if (storySlider.activeIndex === 2) {
-              story2.init();
+              story.setViewScene(1);
               document.body.setAttribute('data-slide', 2);
             } else if (storySlider.activeIndex === 4) {
-              story3.init();
+              story.setViewScene(2);
               document.body.setAttribute('data-slide', 3);
             } else if (storySlider.activeIndex === 6) {
-              story4.init();
+              story.setViewScene(3);
               document.body.setAttribute('data-slide', 4);
             }
           },
