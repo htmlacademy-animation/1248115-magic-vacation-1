@@ -89,6 +89,7 @@ const scene3DData = [
     textures: [
       {
         url: './img/module-5/scenes-textures/scene-0.png',
+        hue: 0.0,
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -112,6 +113,7 @@ const scene3DData = [
     textures: [
       {
         url: './img/module-5/scenes-textures/scene-1.png',
+        hue: 0.0,
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -119,6 +121,7 @@ const scene3DData = [
       },
       {
         url: './img/module-5/scenes-textures/scene-2.png',
+        hue: -15.0, //угол в градусах по цветовому кругу
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -126,6 +129,7 @@ const scene3DData = [
       },
       {
         url: './img/module-5/scenes-textures/scene-3.png',
+        hue: 0.0,
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -133,6 +137,7 @@ const scene3DData = [
       },
       {
         url: './img/module-5/scenes-textures/scene-4.png',
+        hue: 0.0,
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
