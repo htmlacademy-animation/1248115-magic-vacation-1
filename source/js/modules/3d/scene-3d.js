@@ -43,7 +43,7 @@ export default class Scene3D {
 
     loadManager.onLoad = () => {
       loadedTextures.forEach((texture, i) => {
-        const material = new THREE.RawShaderMaterial(getRawShaderMaterial(texture));
+        const material = new THREE.RawShaderMaterial(getRawShaderMaterial(texture, this.textures[i].hue));
         const image = new THREE.Mesh(geometry, material);
         image.scale.x = this.textures[i].scaleX;
         image.scale.y = this.textures[i].scaleY;
