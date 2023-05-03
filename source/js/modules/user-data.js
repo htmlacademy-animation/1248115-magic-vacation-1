@@ -90,6 +90,12 @@ const scene3DData = [
       {
         url: './img/module-5/scenes-textures/scene-0.png',
         hue: 0.0,
+        isCircles: false,
+        paramCircles: [
+          {},
+          {},
+          {}
+        ],
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -114,6 +120,12 @@ const scene3DData = [
       {
         url: './img/module-5/scenes-textures/scene-1.png',
         hue: 0.0,
+        isCircles: false,
+        paramCircles: [
+          {},
+          {},
+          {}
+        ],
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -122,6 +134,24 @@ const scene3DData = [
       {
         url: './img/module-5/scenes-textures/scene-2.png',
         hue: -15.0, //угол в градусах по цветовому кругу
+        isCircles: true,
+        paramCircles: [
+          {
+            sphere: 66.0,
+            centerX: 0.4,
+            centerY: 0.5
+          },
+          {
+            sphere: 250.0,
+            centerX: 0.5,
+            centerY: 0.7
+          },
+          {
+            sphere: 150.0,
+            centerX: 0.3,
+            centerY: 0.3
+          }
+        ],
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -130,6 +160,12 @@ const scene3DData = [
       {
         url: './img/module-5/scenes-textures/scene-3.png',
         hue: 0.0,
+        isCircles: false,
+        paramCircles: [
+          {},
+          {},
+          {}
+        ],
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -138,6 +174,12 @@ const scene3DData = [
       {
         url: './img/module-5/scenes-textures/scene-4.png',
         hue: 0.0,
+        isCircles: false,
+        paramCircles: [
+          {},
+          {},
+          {}
+        ],
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,

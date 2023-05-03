@@ -1,5 +1,6 @@
 import * as THREE from 'three';
-import {getRawShaderMaterial} from './get-raw-shader-material.js';
+import {vertexShader} from './vertex-shader.js';
+import {fragmentShader} from './fragment-shader.js';
 
 export default class Scene3D {
   constructor(options) {
@@ -43,7 +44,41 @@ export default class Scene3D {
 
     loadManager.onLoad = () => {
       loadedTextures.forEach((texture, i) => {
-        const material = new THREE.RawShaderMaterial(getRawShaderMaterial(texture, this.textures[i].hue));
+        const material = new THREE.RawShaderMaterial({
+          uniforms: {
+            map: {
+              value: texture
+            },
+            hueShift: {
+              value: this.textures[i].hue
+            },
+            circles: {
+              value: this.textures[i].isCircles
+            },
+            paramArrayCircles: {
+              value: [
+                {
+                  sphere: this.textures[i].paramCircles[0].sphere,
+                  centerX: this.textures[i].paramCircles[0].centerX,
+                  centerY: this.textures[i].paramCircles[0].centerY
+                },
+                {
+                  sphere: this.textures[i].paramCircles[1].sphere,
+                  centerX: this.textures[i].paramCircles[1].centerX,
+                  centerY: this.textures[i].paramCircles[1].centerY
+                },
+                {
+                  sphere: this.textures[i].paramCircles[2].sphere,
+                  centerX: this.textures[i].paramCircles[2].centerX,
+                  centerY: this.textures[i].paramCircles[2].centerY
+                },
+              ]
+            }
+					},
+          vertexShader: vertexShader,
+					fragmentShader: fragmentShader
+        });
+
         const image = new THREE.Mesh(geometry, material);
         image.scale.x = this.textures[i].scaleX;
         image.scale.y = this.textures[i].scaleY;
