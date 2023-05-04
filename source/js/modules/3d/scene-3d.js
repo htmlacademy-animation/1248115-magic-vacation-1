@@ -55,6 +55,9 @@ export default class Scene3D {
             circles: {
               value: this.textures[i].isCircles
             },
+            ration: {
+              value: this.textures[i].scaleX / this.textures[i].scaleY
+            },
             paramArrayCircles: {
               value: [
                 {
