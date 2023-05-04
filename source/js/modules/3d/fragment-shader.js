@@ -8,37 +8,37 @@ const fragmentShader = `
   uniform bool circles;
 
   struct circleStruct {
-    float sphere;
-    vec2 center;
-  };
-
-  struct paramCircles {
-    float sphere;
+    float radius;
     float centerX;
     float centerY;
   };
 
-  uniform paramCircles paramArrayCircles[3];
+  uniform  circleStruct paramArrayCircles[3];
 
-  const float radius = 1.0;
-  float depth = radius * 0.6;
   vec4 outlineColor = vec4(1, 1, 1, 1);
-  float outlineWidth = 0.015;
+  float outlineWidth = 0.02;
+  const float factorDistortion = 33.;
 
+  circleStruct currentCircle;
+  float radius;
+  float depth;
+  vec2 center;
   vec2 ma;
   vec2 dc;
   float ax;
-  circleStruct currentCircle;
 
   void drawCircle() {
-    dc = vUv - currentCircle.center;
-    ax = dc.x*dc.x*4.*currentCircle.sphere + dc.y*dc.y*currentCircle.sphere;
+    radius = currentCircle.radius;
+    depth = radius * 0.6;
+    center = vec2(currentCircle.centerX, currentCircle.centerY);
+    dc = vUv - center;
+    ax = dc.x * dc.x * 4. * factorDistortion + dc.y * dc.y * factorDistortion;
     if (ax < radius) {
       if (ax >= radius - outlineWidth) {
         gl_FragColor = outlineColor;
       } else {
-        float dx = ax*depth/radius * (ax/radius - 1.);
-        ma = currentCircle.center + (vUv - currentCircle.center) * (ax + dx) / ax;
+        float dx = ax * depth / radius * (ax / radius - 1.);
+        ma = center + (vUv - center) * (ax + dx) / ax;
         gl_FragColor = vec4(texture2D(map, ma).rgb, 1.);
       }
     }
@@ -83,7 +83,7 @@ const fragmentShader = `
 
     if (circles == true) {
       for (int index = 0; index < 3; index++) {
-        currentCircle = circleStruct(paramArrayCircles[index].sphere, vec2(paramArrayCircles[index].centerX, paramArrayCircles[index].centerY));
+        currentCircle = paramArrayCircles[index];
         drawCircle();
       }
     }
