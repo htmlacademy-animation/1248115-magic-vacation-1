@@ -55,20 +55,23 @@ export default class Scene3D {
             circles: {
               value: this.textures[i].isCircles
             },
+            ration: {
+              value: this.textures[i].scaleX / this.textures[i].scaleY
+            },
             paramArrayCircles: {
               value: [
                 {
-                  sphere: this.textures[i].paramCircles[0].sphere,
+                  radius: this.textures[i].paramCircles[0].radius,
                   centerX: this.textures[i].paramCircles[0].centerX,
                   centerY: this.textures[i].paramCircles[0].centerY
                 },
                 {
-                  sphere: this.textures[i].paramCircles[1].sphere,
+                  radius: this.textures[i].paramCircles[1].radius,
                   centerX: this.textures[i].paramCircles[1].centerX,
                   centerY: this.textures[i].paramCircles[1].centerY
                 },
                 {
-                  sphere: this.textures[i].paramCircles[2].sphere,
+                  radius: this.textures[i].paramCircles[2].radius,
                   centerX: this.textures[i].paramCircles[2].centerX,
                   centerY: this.textures[i].paramCircles[2].centerY
                 },

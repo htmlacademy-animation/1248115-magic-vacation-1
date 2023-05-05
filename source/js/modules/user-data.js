@@ -137,17 +137,17 @@ const scene3DData = [
         isCircles: true,
         paramCircles: [
           {
-            sphere: 66.0,
+            radius: 0.6,
             centerX: 0.4,
             centerY: 0.5
           },
           {
-            sphere: 250.0,
+            radius: 0.2,
             centerX: 0.5,
             centerY: 0.7
           },
           {
-            sphere: 150.0,
+            radius: 0.4,
             centerX: 0.3,
             centerY: 0.3
           }
