@@ -1,12 +1,10 @@
 import Swiper from "swiper";
-import Scene3D from './3d/scene-3d.js';
-import {scene3DData} from './user-data.js';
+import {story} from './init-scene-3d.js';
 
 export default () => {
   let storySlider;
   document.body.setAttribute('data-slide', 1);
 
-  const story = new Scene3D(scene3DData[1]);
   story.init();
 
   const setSlider = function () {
