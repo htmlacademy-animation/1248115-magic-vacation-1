@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {vertexShader} from './vertex-shader.js';
 import {fragmentShader} from './fragment-shader.js';
+import {getRandomInteger} from './../helpers.js';
 
 export default class Scene3D {
   constructor(options) {
@@ -17,6 +18,14 @@ export default class Scene3D {
     this.textures = options.textures;
     this.stepScene = options.stepScene;
     this.render = this.render.bind(this);
+    this.renderAnimation = this.renderAnimation.bind(this);
+    this.currentSlide = 0;
+    this.isAnimateScene = false;
+    this.startTime = null;
+    this.materials = [];
+    this.animateTotalDuration = 2000;
+    this.animateHueDuration = 395;
+    this.currentAnimationCount = 1;
   }
 
   init() {
@@ -41,10 +50,11 @@ export default class Scene3D {
     const textureLoader = new THREE.TextureLoader(loadManager);
     const loadedTextures = this.textures.map((texture) => textureLoader.load(texture.url));
     const geometry = new THREE.PlaneGeometry(1, 1);
+    let material;
 
     loadManager.onLoad = () => {
       loadedTextures.forEach((texture, i) => {
-        const material = new THREE.RawShaderMaterial({
+        material = new THREE.RawShaderMaterial({
           uniforms: {
             map: {
               value: texture
@@ -55,7 +65,7 @@ export default class Scene3D {
             circles: {
               value: this.textures[i].isCircles
             },
-            ration: {
+            ratio: {
               value: this.textures[i].scaleX / this.textures[i].scaleY
             },
             paramArrayCircles: {
@@ -82,6 +92,7 @@ export default class Scene3D {
 					fragmentShader: fragmentShader
         });
 
+        this.materials.push(material);
         const image = new THREE.Mesh(geometry, material);
         image.scale.x = this.textures[i].scaleX;
         image.scale.y = this.textures[i].scaleY;
@@ -89,16 +100,48 @@ export default class Scene3D {
         image.position.y = this.textures[i].positionY;
         this.scene.add(image);
       });
-      this.render();
+      this.render()
     };
+  }
+
+  setViewScene(i) {
+    this.camera.position.x = this.stepScene * i;
+    this.currentSlide = i;
+    if (this.currentSlide === 1) {
+      this.isAnimateScene = true;
+      this.startTime = Date.now();
+      requestAnimationFrame(this.renderAnimation);
+    } else {
+      this.isAnimateScene = false;
+      this.startTime = null;
+      this.render();
+    }
   }
 
   render() {
     this.renderer.render(this.scene, this.camera);
   }
 
-  setViewScene(i) {
-    this.camera.position.x = this.stepScene * i;
-    this.render();
+  animateHue() {
+    let nowTime = Date.now();
+    if ((nowTime - this.startTime) / this.currentAnimationCount > this.animateHueDuration) {
+      const hue = parseFloat(getRandomInteger(this.textures[1].hueRange[0], this.textures[1].hueRange[1]));
+      this.materials[1].uniforms.hueShift.value = hue;
+      this.materials[1].needsUpdate = true;
+      this.currentAnimationCount++;
+    }
+  }
+
+  renderAnimation() {
+    if (this.currentSlide === 1 && this.isAnimateScene) {
+      this.animateHue();
+      this.renderer.render(this.scene, this.camera);
+      let endTime = Date.now();
+      if (endTime - this.startTime < this.animateTotalDuration) {
+        requestAnimationFrame(this.renderAnimation);
+      } else {
+        this.currentAnimationCount = 1;
+      }
+    }
   }
 }
