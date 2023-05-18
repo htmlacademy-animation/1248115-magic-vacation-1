@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {vertexShader} from './vertex-shader.js';
 import {fragmentShader} from './fragment-shader.js';
 import {getRandomInteger} from './../helpers.js';
+import _ from './../utils.js';
 
 export default class Scene3D {
   constructor(options) {
@@ -24,8 +25,9 @@ export default class Scene3D {
     this.startTime = null;
     this.materials = [];
     this.animateTotalDuration = 2000;
-    this.animateHueDuration = 395;
-    this.currentAnimationCount = 1;
+    this.animateHueDuration = 660;
+    this.currentAnimateColorCount = 0;
+    this.hue = 0.0;
   }
 
   init() {
@@ -108,8 +110,12 @@ export default class Scene3D {
     this.camera.position.x = this.stepScene * i;
     this.currentSlide = i;
     if (this.currentSlide === 1) {
+      this.currentAnimateColorCount = 0;
+      this.hue = parseFloat(getRandomInteger(this.textures[1].hueRange[0], this.textures[1].hueRange[1]));
+      this.materials[1].uniforms.hueShift.value = 0.0;
+      this.materials[1].needsUpdate = true;
       this.isAnimateScene = true;
-      this.startTime = Date.now();
+      this.startTime = performance.now();
       requestAnimationFrame(this.renderAnimation);
     } else {
       this.isAnimateScene = false;
@@ -122,25 +128,38 @@ export default class Scene3D {
     this.renderer.render(this.scene, this.camera);
   }
 
-  animateHue() {
-    let nowTime = Date.now();
-    if ((nowTime - this.startTime) / this.currentAnimationCount > this.animateHueDuration) {
-      const hue = parseFloat(getRandomInteger(this.textures[1].hueRange[0], this.textures[1].hueRange[1]));
-      this.materials[1].uniforms.hueShift.value = hue;
-      this.materials[1].needsUpdate = true;
-      this.currentAnimationCount++;
-    }
+  animateColor(progress) {
+    this.materials[1].uniforms.hueShift.value = this.hue * progress;
+    this.materials[1].needsUpdate = true;
   }
 
-  renderAnimation() {
+  animateCircles(progressX, progressY) {
+    this.materials[1].uniforms.paramArrayCircles.value.map((item, index) => {
+      item.centerX = this.textures[1].paramCircles[index].centerX + 1.8 * progressX;
+      item.centerY = this.textures[1].paramCircles[index].centerY + (1.45 + index / 4) * progressY;
+    })
+    this.materials[1].needsUpdate = true;
+  }
+
+  renderAnimation(time) {
     if (this.currentSlide === 1 && this.isAnimateScene) {
-      this.animateHue();
+      let timeFractionColor = (time - this.startTime - this.animateHueDuration * this.currentAnimateColorCount) / this.animateHueDuration;
+      if (timeFractionColor > 1) {
+        this.currentAnimateColorCount++;
+        this.hue = parseFloat(getRandomInteger(this.textures[1].hueRange[0], this.textures[1].hueRange[1]));
+      }
+      let timeFractionCircle = (time - this.startTime) / this.animateTotalDuration;
+      if (timeFractionCircle > 1) {
+        timeFractionCircle = 1;
+      }
+      let progressColor = _.easeInOutLinear(timeFractionColor);
+      let progressCirclesX = _.easeDampedWave(timeFractionCircle);
+      let progressCirclesY = _.easeLinear(timeFractionCircle);
+      this.animateColor(progressColor);
+      this.animateCircles(progressCirclesX, progressCirclesY);
       this.renderer.render(this.scene, this.camera);
-      let endTime = Date.now();
-      if (endTime - this.startTime < this.animateTotalDuration) {
+      if (timeFractionCircle < 1) {
         requestAnimationFrame(this.renderAnimation);
-      } else {
-        this.currentAnimationCount = 1;
       }
     }
   }
