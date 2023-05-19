@@ -51,6 +51,17 @@ function easeOutElastic(x) {
   }
 }
 
+function easeInOutLinear(x) {
+  return 4 * x * (1 - x);
+}
+
+function easeDampedWave(x) {
+  const a = 0.015;
+  const lambda = 0.1;
+  const omega = 15;
+  return a * Math.exp(-lambda * x) * Math.cos(omega * x);
+}
+
 const _ = Object.freeze({
   easeLinear,
   easeInCubic,
@@ -59,6 +70,8 @@ const _ = Object.freeze({
   easeOutExpo,
   easeInElastic,
   easeOutElastic,
+  easeInOutLinear,
+  easeDampedWave,
 });
 
 export default _;

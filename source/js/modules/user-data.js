@@ -140,20 +140,20 @@ const scene3DData = [
         isCircles: true,
         paramCircles: [
           {
-            radius: 0.6,
+            radius: 0.35,
             centerX: 0.4,
-            centerY: 0.5
+            centerY: -0.15
           },
           {
-            radius: 0.2,
-            centerX: 0.5,
-            centerY: 0.7
-          },
-          {
-            radius: 0.4,
+            radius: 0.25,
             centerX: 0.3,
-            centerY: 0.3
-          }
+            centerY: -0.45
+          },
+          {
+            radius: 0.12,
+            centerX: 0.5,
+            centerY: -0.9
+          },
         ],
         scaleX: 2048,
         scaleY: 1024,
