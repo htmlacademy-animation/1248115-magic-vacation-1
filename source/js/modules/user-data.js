@@ -80,10 +80,10 @@ const scene3DData = [
     backgroundColor: 0x5f458c,
     alpha: 1,
     cameraOptions: {
-      fov: 45,
+      fov: 35,
       near: 0.1,
-      far: 1200,
-      positionZ: 1200
+      far: 1500,
+      positionZ: 2 * 750
     },
     stepScene: 2048,
     textures: [
@@ -111,10 +111,10 @@ const scene3DData = [
     backgroundColor: 0x5f458c,
     alpha: 1,
     cameraOptions: {
-      fov: 45,
+      fov: 35,
       near: 0.1,
-      far: 1200,
-      positionZ: 1200
+      far: 1500,
+      positionZ: 2 * 750
     },
     stepScene: 2048,
     textures: [

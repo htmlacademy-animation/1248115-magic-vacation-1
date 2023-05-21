@@ -101,10 +101,47 @@ export default class Scene3D {
         image.position.x = this.stepScene * i + this.textures[i].positionX;
         image.position.y = this.textures[i].positionY;
         this.scene.add(image);
+        this.getSphere();
+        this.getLight();
       });
       this.render()
     };
-  }
+  };
+
+  getSphere() {
+    const geometry = new THREE.SphereGeometry(200, 80, 80);
+
+    const material = new THREE.MeshStandardMaterial({
+      color: 0x333333,
+      metalness: 0.05,
+      emissive: 0x0,
+      roughness: 0.5
+    });
+
+    const sphere = new THREE.Mesh(geometry, material);
+    this.scene.add(sphere);
+  };
+
+  getLight() {
+    const light = new THREE.Group();
+
+    let lightUnit = new THREE.DirectionalLight(new THREE.Color('rgb(255,255,255)'), 0.84);
+    lightUnit.position.set(0, 0, 0);
+    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.camera.position.z, 0);
+    light.add(lightUnit);
+    light.add(lightUnit.target);
+
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 2 * 975, 2.0);
+    lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
+    light.add(lightUnit);
+
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 2 * 975, 2.0);
+    lightUnit.position.set(2 * 730, 2 * 800, 2 * -985);
+    light.add(lightUnit);
+
+    light.position.z = this.camera.position.z;
+    this.scene.add(light);
+  };
 
   setViewScene(i) {
     this.camera.position.x = this.stepScene * i;
