@@ -3,6 +3,7 @@ import {vertexShader} from './vertex-shader.js';
 import {fragmentShader} from './fragment-shader.js';
 import {getRandomInteger} from './../helpers.js';
 import _ from './../utils.js';
+//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 
 export default class Scene3D {
   constructor(options) {
@@ -40,6 +41,12 @@ export default class Scene3D {
 
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
     this.camera.position.z = this.positionZ;
+
+    //this.controls = new OrbitControls(this.camera, this.canvas);
+    //this.controls.enableDamping = true;
+    //console.log(this.controls);
+    //this.controls.target.set(0, 5, 0);
+    //this.controls.update();
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas
@@ -101,18 +108,18 @@ export default class Scene3D {
         image.position.x = this.stepScene * i + this.textures[i].positionX;
         image.position.y = this.textures[i].positionY;
         this.scene.add(image);
-        this.getSphere();
-        this.getLight();
       });
+      this.getSphere();
+      this.getLight();
       this.render()
     };
   };
 
   getSphere() {
-    const geometry = new THREE.SphereGeometry(200, 80, 80);
+    const geometry = new THREE.SphereGeometry(2 * 100, 80, 80);
 
     const material = new THREE.MeshStandardMaterial({
-      color: 0x333333,
+      color: 0xff3333,
       metalness: 0.05,
       emissive: 0x0,
       roughness: 0.5
@@ -127,20 +134,29 @@ export default class Scene3D {
 
     let lightUnit = new THREE.DirectionalLight(new THREE.Color('rgb(255,255,255)'), 0.84);
     lightUnit.position.set(0, 0, 0);
-    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.camera.position.z, 0);
+    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.camera.position.z, -750);
+    console.log(lightUnit.target.position);
     light.add(lightUnit);
     light.add(lightUnit.target);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 2 * 975, 2.0);
+    //const helper = new THREE.DirectionalLightHelper(lightUnit);
+    //light.add(helper);
+    //lightUnit.target.updateMatrixWorld();
+    //helper.update();
+
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
     lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
     light.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 2 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
     lightUnit.position.set(2 * 730, 2 * 800, 2 * -985);
     light.add(lightUnit);
 
     light.position.z = this.camera.position.z;
+    //console.log(light.position.z);
     this.scene.add(light);
+
+
   };
 
   setViewScene(i) {
@@ -162,6 +178,7 @@ export default class Scene3D {
   }
 
   render() {
+    //this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
 
