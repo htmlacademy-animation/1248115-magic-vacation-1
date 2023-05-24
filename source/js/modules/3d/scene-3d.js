@@ -42,12 +42,6 @@ export default class Scene3D {
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
     this.camera.position.z = this.positionZ;
 
-    //this.controls = new OrbitControls(this.camera, this.canvas);
-    //this.controls.enableDamping = true;
-    //console.log(this.controls);
-    //this.controls.target.set(0, 5, 0);
-    //this.controls.update();
-
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas
     });
@@ -134,15 +128,9 @@ export default class Scene3D {
 
     let lightUnit = new THREE.DirectionalLight(new THREE.Color('rgb(255,255,255)'), 0.84);
     lightUnit.position.set(0, 0, 0);
-    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.camera.position.z, -750);
-    console.log(lightUnit.target.position);
+    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.camera.position.z, 2 * -750);
     light.add(lightUnit);
     light.add(lightUnit.target);
-
-    //const helper = new THREE.DirectionalLightHelper(lightUnit);
-    //light.add(helper);
-    //lightUnit.target.updateMatrixWorld();
-    //helper.update();
 
     lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
     lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
@@ -153,10 +141,7 @@ export default class Scene3D {
     light.add(lightUnit);
 
     light.position.z = this.camera.position.z;
-    //console.log(light.position.z);
     this.scene.add(light);
-
-
   };
 
   setViewScene(i) {
@@ -178,7 +163,6 @@ export default class Scene3D {
   }
 
   render() {
-    //this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
 
