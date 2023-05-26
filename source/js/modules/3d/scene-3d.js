@@ -3,7 +3,6 @@ import {vertexShader} from './vertex-shader.js';
 import {fragmentShader} from './fragment-shader.js';
 import {getRandomInteger} from './../helpers.js';
 import _ from './../utils.js';
-//import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 
 export default class Scene3D {
   constructor(options) {
@@ -101,8 +100,15 @@ export default class Scene3D {
         image.scale.y = this.textures[i].scaleY;
         image.position.x = this.stepScene * i + this.textures[i].positionX;
         image.position.y = this.textures[i].positionY;
+
         this.scene.add(image);
+        if (this.textures[i].objectComposition) {
+          this.textures[i].objectComposition.position.x = this.stepScene * i + this.textures[i].positionX;
+          this.textures[i].objectComposition.position.y = this.textures[i].positionY;
+          this.scene.add(this.textures[i].objectComposition);
+        }
       });
+
       this.getSphere();
       this.getLight();
       this.render()
@@ -132,11 +138,11 @@ export default class Scene3D {
     light.add(lightUnit);
     light.add(lightUnit.target);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 6 * 975, 2.0);
     lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
     light.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 6 * 975, 2.0);
     lightUnit.position.set(2 * 730, 2 * 800, 2 * -985);
     light.add(lightUnit);
 

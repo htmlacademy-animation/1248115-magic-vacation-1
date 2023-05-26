@@ -1,3 +1,6 @@
+import SceneSlide2 from "./3d/scene-slide-2";
+import SceneSlide3 from "./3d/scene-slide-3";
+
 const sectionHasTransitionEnd = ['story', 'prizes'];
 
 const accentTypographyData = [
@@ -155,6 +158,7 @@ const scene3DData = [
             centerY: -0.9
           },
         ],
+        objectComposition: new SceneSlide2(),
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -170,6 +174,7 @@ const scene3DData = [
           {},
           {}
         ],
+        objectComposition: new SceneSlide3(),
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
