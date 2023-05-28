@@ -1,3 +1,5 @@
+import SceneIntro from "./3d/scene-intro";
+import SceneSlide1 from "./3d/scene-slide-1";
 import SceneSlide2 from "./3d/scene-slide-2";
 import SceneSlide3 from "./3d/scene-slide-3";
 
@@ -100,6 +102,7 @@ const scene3DData = [
           {},
           {}
         ],
+        objectComposition: new SceneIntro(),
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -131,6 +134,7 @@ const scene3DData = [
           {},
           {}
         ],
+        objectComposition: new SceneSlide1(),
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
