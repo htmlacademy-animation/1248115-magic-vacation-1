@@ -109,7 +109,7 @@ export default class Scene3D {
         }
       });
 
-      this.getSphere();
+      //this.getSphere();
       this.getLight();
       this.render()
     };
