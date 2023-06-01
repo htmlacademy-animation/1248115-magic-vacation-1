@@ -40,6 +40,7 @@ export default class Scene3D {
 
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
     this.camera.position.z = this.positionZ;
+    this.light = new THREE.Group();
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas
@@ -100,8 +101,8 @@ export default class Scene3D {
         image.scale.y = this.textures[i].scaleY;
         image.position.x = this.stepScene * i + this.textures[i].positionX;
         image.position.y = this.textures[i].positionY;
-
         this.scene.add(image);
+
         if (this.textures[i].objectComposition) {
           this.textures[i].objectComposition.position.x = this.stepScene * i + this.textures[i].positionX;
           this.textures[i].objectComposition.position.y = this.textures[i].positionY;
@@ -130,28 +131,28 @@ export default class Scene3D {
   };
 
   getLight() {
-    const light = new THREE.Group();
-
     let lightUnit = new THREE.DirectionalLight(new THREE.Color('rgb(255,255,255)'), 0.84);
     lightUnit.position.set(0, 0, 0);
     lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.camera.position.z, 2 * -750);
-    light.add(lightUnit);
-    light.add(lightUnit.target);
+    this.light.add(lightUnit);
+    this.light.add(lightUnit.target);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 6 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
     lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
-    light.add(lightUnit);
+    this.light.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 6 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
     lightUnit.position.set(2 * 730, 2 * 800, 2 * -985);
-    light.add(lightUnit);
+    this.light.add(lightUnit);
 
-    light.position.z = this.camera.position.z;
-    this.scene.add(light);
+    this.light.position.z = this.camera.position.z;
+    this.scene.add(this.light);
   };
 
   setViewScene(i) {
     this.camera.position.x = this.stepScene * i;
+    this.light.position.x = this.camera.position.x
+
     this.currentSlide = i;
     if (this.currentSlide === 1) {
       this.currentAnimateColorCount = 0;

@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import SvgLoader from "./svg-loader";
+import {color3D} from './data-3d';
+import {reflection3D} from './data-3d';
 import Carpet from "./carpet";
 import Saturn from "./saturn";
 
@@ -12,7 +14,13 @@ export default class SceneSlide1 extends THREE.Group {
   constructChildren() {
     this.addFlowers();
     this.addCarpet();
-    this.addSaturn();
+    this.addSaturn({
+      colorSaturn: color3D.DominantRed,
+      colorRing: color3D.BrightPurple,
+      colorRope: color3D.MetalGrey,
+      metalness: reflection3D.soft.metalness,
+      roughness: reflection3D.soft.roughness
+    });
   }
 
   addFlowers() {
@@ -33,8 +41,8 @@ export default class SceneSlide1 extends THREE.Group {
     this.add(carpet);
   }
 
-  addSaturn() {
-    const saturn = new Saturn();
+  addSaturn(options) {
+    const saturn = new Saturn(options);
     saturn.position.set(60, 240, 100);
     this.add(saturn);
   }

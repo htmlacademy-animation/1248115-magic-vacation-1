@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import {color3D} from './data-3d';
+import {reflection3D} from './data-3d';
 import Lantern from "./lantern";
 import Pyramid from "./pyramid";
 import SvgLoader from "./svg-loader";
@@ -10,21 +12,30 @@ export default class SceneSlide2 extends THREE.Group {
   }
 
   constructChildren() {
-    this.addPyramid();
-    this.addLantern();
+    this.addPyramid({
+      pyramidColor: color3D.Blue,
+      metalness: reflection3D.soft.metalness,
+      roughness: reflection3D.soft.roughness
+    });
+    this.addLantern({
+      lanternColor: color3D.Blue,
+      lampColor: color3D.LightBlue,
+      metalness: reflection3D.soft.metalness,
+      roughness: reflection3D.soft.roughness
+    });
     this.addLeaf1();
     this.addLeaf2();
   }
 
-  addPyramid() {
-    const pyramid = new Pyramid();
+  addPyramid(options) {
+    const pyramid = new Pyramid(options);
     pyramid.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(10.0), 0, 0, `XYZ`));
     pyramid.position.set(-8, -60, 25);
     this.add(pyramid);
   }
 
-  addLantern() {
-    const lantern = new Lantern();
+  addLantern(options) {
+    const lantern = new Lantern(options);
     lantern.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(15.0), THREE.MathUtils.degToRad(20.0), THREE.MathUtils.degToRad(-0.0), `XYZ`));
     lantern.position.set(380, -210, 12);
     this.add(lantern);

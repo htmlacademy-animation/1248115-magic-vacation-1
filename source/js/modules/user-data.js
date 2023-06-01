@@ -2,6 +2,7 @@ import SceneIntro from "./3d/scene-intro";
 import SceneSlide1 from "./3d/scene-slide-1";
 import SceneSlide2 from "./3d/scene-slide-2";
 import SceneSlide3 from "./3d/scene-slide-3";
+import SceneSlide4 from "./3d/scene-slide-4";
 
 const sectionHasTransitionEnd = ['story', 'prizes'];
 
@@ -194,6 +195,7 @@ const scene3DData = [
           {},
           {}
         ],
+        objectComposition: new SceneSlide4(),
         scaleX: 2048,
         scaleY: 1024,
         positionX: 0,
@@ -201,12 +203,12 @@ const scene3DData = [
       },
     ],
   },
-]
+];
 
 export {
   sectionHasTransitionEnd,
   accentTypographyData,
   animatedResultTitleData,
   prizesData,
-  scene3DData
+  scene3DData,
 };

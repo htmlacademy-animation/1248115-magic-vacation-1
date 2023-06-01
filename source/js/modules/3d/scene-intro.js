@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import SvgLoader from "./svg-loader";
+import {color3D} from './data-3d';
+import {reflection3D} from './data-3d';
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
@@ -8,7 +10,11 @@ export default class SceneIntro extends THREE.Group {
   }
 
   constructChildren() {
-    this.addKeyHole();
+    this.addKeyHole({
+      colorFlatness: color3D.Purple,
+      metalnessFlatness: reflection3D.basic.metalness,
+      roughnessFlatness: reflection3D.basic.roughness
+    });
     this.addFlamingo();
     this.addQuestion();
     this.addSnowFlake();
@@ -51,11 +57,25 @@ export default class SceneIntro extends THREE.Group {
     this.add(leaf);
   }
 
-  addKeyHole() {
+  addKeyHole(options) {
+    const keyHoleGroup = new THREE.Group();
+
     const keyHole = new SvgLoader(`keyHole`).createSvgGroup();
     const scale = 1.5;
     keyHole.position.set(-1000 * scale, 1000 * scale, 0);
     keyHole.scale.set(scale, -scale, scale);
-    this.add(keyHole);
+    keyHoleGroup.add(keyHole);
+
+    const flatnessGeometry = new THREE.PlaneGeometry(500, 500);
+    const flatnessMaterial = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(options.colorFlatness),
+      metalness: options.metalnessFlatness,
+      roughness: options.roughnessFlatness,
+    });
+    const flatnessMesh = new THREE.Mesh(flatnessGeometry, flatnessMaterial);
+    flatnessMesh.position.z = 2;
+    keyHoleGroup.add(flatnessMesh);
+
+    this.add(keyHoleGroup);
   }
 };
