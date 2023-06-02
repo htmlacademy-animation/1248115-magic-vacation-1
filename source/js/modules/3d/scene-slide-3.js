@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import {color3D} from './data-3d';
+import {reflection3D} from './data-3d';
 import Snowman from "./snowman";
 import Road from "./road";
 
@@ -10,12 +12,19 @@ export default class SceneSlide3 extends THREE.Group {
   }
 
   constructChildren() {
-    this.addSnowman();
+    this.addSnowman({
+      colorSphere: color3D.SnowColor,
+      metalnessSphere: reflection3D.strong.metalness,
+      roughnessSphere: reflection3D.strong.roughness,
+      colorCone: color3D.Orange,
+      metalnessCone: reflection3D.soft.metalness,
+      roughnessCone: reflection3D.soft.roughness
+    });
     this.addRoad();
   }
 
-  addSnowman() {
-    const snowman = new Snowman();
+  addSnowman(options) {
+    const snowman = new Snowman(options);
     snowman.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(15.0), THREE.MathUtils.degToRad(-47.0), 0, `XYZ`));
     snowman.position.set(-130, -12, 0);
     this.add(snowman);
