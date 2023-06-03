@@ -70,7 +70,8 @@ export default class Lantern extends THREE.Group {
     const material = new THREE.MeshStandardMaterial({
       color: new THREE.Color(this.lampColor),
       metalness: this.metalness,
-      roughness: this.roughness
+      roughness: this.roughness,
+      emissive: 0x052052,
     });
     const geometry = new THREE.CylinderGeometry(Math.hypot(42, 42) / 2, Math.hypot(34, 34) / 2, 60, 4);
     const mesh = new THREE.Mesh(geometry, material);

@@ -13,7 +13,10 @@ export default class SceneSlide1 extends THREE.Group {
 
   constructChildren() {
     this.addFlowers();
-    this.addCarpet();
+    this.addCarpet({
+      mainColor: color3D.LightPurple,
+      additionalColor: color3D.AdditionalPurple,
+    });
     this.addSaturn({
       colorSaturn: color3D.DominantRed,
       colorRing: color3D.BrightPurple,
@@ -32,8 +35,8 @@ export default class SceneSlide1 extends THREE.Group {
     this.add(flower);
   }
 
-  addCarpet() {
-    const carpet = new Carpet();
+  addCarpet(options) {
+    const carpet = new Carpet(options);
     const scale = 0.7;
     carpet.scale.set(scale, scale, scale);
     carpet.position.set(0, -115, 0);
