@@ -73,6 +73,16 @@ const mapSvgForms = {
     height: 413,
     depth: 4,
     cap: 2
+  },
+  flower2: {
+    src: `./img/module-6/svg-forms/flower.svg`,
+    color: color3D.ShadowedAdditionalPurple,
+    metalness: reflection3D.basic.metalness,
+    roughness: reflection3D.basic.roughness,
+    svgHeight: 362,
+    height: 413,
+    depth: 4,
+    cap: 2
   }
 };
 

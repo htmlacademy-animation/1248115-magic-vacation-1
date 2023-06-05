@@ -1,13 +1,8 @@
 import * as THREE from 'three';
 
 const getLathePoints = (widht, thickness, radius) => {
-  const points = [];
-
-  for (let i = radius; i <= radius + widht; i++) {
-    for (let j = 1; j <= thickness; j++) {
-      points.push(new THREE.Vector2(i, j));
-    }
-  }
+  const coords = [[radius, 0], [radius + widht, 0], [radius + widht, thickness], [radius, thickness]];
+  const points = coords.map(([a, b]) => new THREE.Vector2(a, b));
 
   return points;
 };

@@ -137,11 +137,11 @@ export default class Scene3D {
     this.light.add(lightUnit);
     this.light.add(lightUnit.target);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 12 * 975, 2.0);
     lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
     this.light.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 12 * 975, 2.0);
     lightUnit.position.set(2 * 730, 2 * 800, 2 * -985);
     this.light.add(lightUnit);
 
