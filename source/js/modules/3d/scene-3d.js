@@ -41,6 +41,7 @@ export default class Scene3D {
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
     this.camera.position.z = this.positionZ;
     this.light = new THREE.Group();
+    this.getLight();
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas
@@ -109,10 +110,8 @@ export default class Scene3D {
           this.scene.add(this.textures[i].objectComposition);
         }
       });
-
       //this.getSphere();
-      this.getLight();
-      this.render()
+      setTimeout(() => this.render(), 400) ;
     };
   };
 
