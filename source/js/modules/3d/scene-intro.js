@@ -2,6 +2,7 @@ import * as THREE from "three";
 import SvgLoader from "./svg-loader";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
+import {loadModel} from "./model-3d-loader";
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
@@ -19,6 +20,9 @@ export default class SceneIntro extends THREE.Group {
     this.addQuestion();
     this.addSnowFlake();
     this.addLeaf();
+    this.addPlane();
+    this.addSuitcase();
+    this.addWatermelon();
   }
 
   addFlamingo() {
@@ -77,5 +81,43 @@ export default class SceneIntro extends THREE.Group {
     keyHoleGroup.add(flatnessMesh);
 
     this.add(keyHoleGroup);
+  }
+
+  addPlane() {
+    const name = `airplane`;
+    const material = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(color3D.White),
+      metalness: reflection3D.basic.metalness,
+      roughness: reflection3D.basic.roughness
+    });
+    loadModel(name, material, (mesh) => {
+      mesh.name = name;
+      mesh.position.set(270, 150, 100);
+      mesh.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 130 * THREE.Math.DEG2RAD, -25 * THREE.Math.DEG2RAD), `XYZ`);
+      mesh.scale.set(1.4, 1.4, 1.4);
+      this.add(mesh);
+    });
+  }
+
+  addSuitcase() {
+    const name = `suitcase`;
+    loadModel(name, null, (mesh) => {
+      mesh.name = name;
+      mesh.position.set(-80, -190, 60);
+      mesh.rotation.copy(new THREE.Euler(25 * THREE.Math.DEG2RAD, -145 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
+      mesh.scale.set(0.8, 0.8, 0.8);
+      this.add(mesh);
+    });
+  }
+
+  addWatermelon() {
+    const name = `watermelon`;
+    loadModel(name, null, (mesh) => {
+      mesh.name = name;
+      mesh.position.set(-775, -280, 60);
+      mesh.rotation.copy(new THREE.Euler(10 * THREE.Math.DEG2RAD, 0, 140 * THREE.Math.DEG2RAD), `XYZ`);
+      mesh.scale.set(2.2, 2.2, 2.2);
+      this.add(mesh);
+    });
   }
 };
