@@ -2,7 +2,7 @@ import * as THREE from "three";
 import SvgLoader from "./svg-loader";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
-import Saturn from "./saturn";
+import SaturnRope from "./saturn-rope";
 import Carpet from "./carpet";
 
 export default class SceneSlide4 extends THREE.Group {
@@ -27,7 +27,7 @@ export default class SceneSlide4 extends THREE.Group {
   }
 
   addSaturn(options) {
-    const saturn = new Saturn(options);
+    const saturn = new SaturnRope(options);
     saturn.position.set(80, 240, 100);
     this.add(saturn);
   }

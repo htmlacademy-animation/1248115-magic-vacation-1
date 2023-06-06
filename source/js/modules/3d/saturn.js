@@ -7,7 +7,6 @@ export default class Saturn extends THREE.Group {
 
     this.colorSaturn = options.colorSaturn;
     this.colorRing = options.colorRing;
-    this.colorRope = options.colorRope;
     this.metalness = options.metalness,
     this.roughness = options.roughness,
     this.widthRing = 40;
@@ -20,8 +19,6 @@ export default class Saturn extends THREE.Group {
   constructChildren() {
     this.addSphereBig();
     this.addRing();
-    this.addCylinder();
-    this.addSphereSmall();
   }
 
   addSphereBig() {
@@ -46,30 +43,6 @@ export default class Saturn extends THREE.Group {
     const geometry = new THREE.LatheGeometry(points, 50);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(20.0), 0, THREE.MathUtils.degToRad(18.0)), `XYZ`);
-    this.add(mesh);
-  }
-
-  addCylinder() {
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.colorRope),
-      metalness: this.metalness,
-      roughness: this.roughness
-    });
-    const geometry = new THREE.CylinderGeometry(1, 1, 1000, 10);
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 500, 0);
-    this.add(mesh);
-  }
-
-  addSphereSmall() {
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.colorRing),
-      metalness: this.metalness,
-      roughness: this.roughness
-    });
-    const geometry = new THREE.SphereGeometry(10, 30, 30);
-    const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 120, 0);
     this.add(mesh);
   }
 }

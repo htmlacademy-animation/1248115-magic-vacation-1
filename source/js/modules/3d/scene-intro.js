@@ -3,6 +3,7 @@ import SvgLoader from "./svg-loader";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
+import Saturn from "./saturn";
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
@@ -20,6 +21,12 @@ export default class SceneIntro extends THREE.Group {
     this.addQuestion();
     this.addSnowFlake();
     this.addLeaf();
+    this.addSaturn({
+      colorSaturn: color3D.DominantRed,
+      colorRing: color3D.ShadowedBrightPurple,
+      metalness: reflection3D.soft.metalness,
+      roughness: reflection3D.soft.roughness
+    });
     this.addPlane();
     this.addSuitcase();
     this.addWatermelon();
@@ -59,6 +66,12 @@ export default class SceneIntro extends THREE.Group {
     leaf.scale.set(scale, -scale, scale);
     leaf.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(7.0), THREE.MathUtils.degToRad(-70.0), THREE.MathUtils.degToRad(-70.0)), `XYZ`);
     this.add(leaf);
+  }
+
+  addSaturn(options) {
+    const saturn = new Saturn(options);
+    saturn.position.set(420, -140, 140);
+    this.add(saturn);
   }
 
   addKeyHole(options) {
