@@ -89,7 +89,7 @@ const scene3DData = [
       fov: 35,
       near: 0.1,
       far: 1500,
-      positionZ: 2 * 750
+      positionZ: 1405
     },
     stepScene: 2048,
     textures: [
@@ -121,7 +121,7 @@ const scene3DData = [
       fov: 35,
       near: 0.1,
       far: 1500,
-      positionZ: 2 * 750
+      positionZ: 1405
     },
     stepScene: 2048,
     textures: [
