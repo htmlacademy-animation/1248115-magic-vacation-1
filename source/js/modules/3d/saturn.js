@@ -42,7 +42,7 @@ export default class Saturn extends THREE.Group {
     });
     const geometry = new THREE.LatheGeometry(points, 50);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(20.0), 0, THREE.MathUtils.degToRad(18.0)), `XYZ`);
+    mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(10.0), 0, THREE.MathUtils.degToRad(10.0)), `XYZ`);
     this.add(mesh);
   }
 }
