@@ -1,11 +1,11 @@
 import Swiper from "swiper";
-import {story} from './init-scene-3d.js';
+import {story} from './3d/init-scene-3d.js';
 
 export default () => {
   let storySlider;
   document.body.setAttribute('data-slide', 1);
 
-  story.init();
+  //story.init();
 
   const setSlider = function () {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {

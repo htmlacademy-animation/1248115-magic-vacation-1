@@ -13,16 +13,36 @@ const objectsConfig = {
   watermelon: {
     type: `gltf`,
     path: `./3d/module-6/scene-0-objects/watermelon.gltf`,
-  }
+  },
+  wallCornerUnit: {
+    type: `obj`,
+    path: `./3d/module-6/rooms-scenes/common/WallCornerUnit.obj`,
+  },
+  staticObjects1: {
+    type: `gltf`,
+    path: `./3d/module-6/rooms-scenes/scenesStatic/scene1-static-output-1.gltf`,
+  },
+  staticObjects2: {
+    type: `gltf`,
+    path: `./3d/module-6/rooms-scenes/scenesStatic/scene2-static-output-1.gltf`,
+  },
+  staticObjects3: {
+    type: `gltf`,
+    path: `./3d/module-6/rooms-scenes/scenesStatic/scene3-static-output-1.gltf`,
+  },
+  staticObjects4: {
+    type: `gltf`,
+    path: `./3d/module-6/rooms-scenes/scenesStatic/scene4-static-output-1.gltf`,
+  },
 };
 
-const loadObj = (path, onComplete) => {
-  const loaderObj = new OBJLoader();
+const loadObj = (loadManager, path, onComplete) => {
+  const loaderObj = new OBJLoader(loadManager);
   loaderObj.load(path, onComplete);
 };
 
-const loadGltf = (path, onComplete) => {
-  const loaderGltf = new GLTFLoader();
+const loadGltf = (loadManager, path, onComplete) => {
+  const loaderGltf = new GLTFLoader(loadManager);
   loaderGltf.load(path, onComplete);
 };
 
@@ -40,7 +60,7 @@ const onComplete = (obj3d, material, callback) => {
   }
 };
 
-export const loadModel = (key, material, callback) => {
+export const loadModel = (loadManager, key, material, callback) => {
   const params = objectsConfig[key];
 
   if (!params) {
@@ -57,11 +77,11 @@ export const loadModel = (key, material, callback) => {
 
   switch (params.type) {
     case `gltf`:
-      loadGltf(params.path, onGltfComplete);
+      loadGltf(loadManager, params.path, onGltfComplete);
 
       break;
     default:
-      loadObj(params.path, (model) => onComplete(model, material, callback));
+      loadObj(loadManager, params.path, (model) => onComplete(model, material, callback));
 
       break;
   }

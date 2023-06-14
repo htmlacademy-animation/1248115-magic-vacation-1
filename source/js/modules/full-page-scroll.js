@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
-import {story} from './init-scene-3d.js';
+import {story} from './3d/init-scene-3d.js';
 
 export default class FullPageScroll {
   constructor() {

@@ -4,10 +4,12 @@ import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
 import Saturn from "./saturn";
+import {loadManagerIntro} from "./load-manager"
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
     super();
+    this.loadManager = loadManagerIntro;
     this.constructChildren();
   }
 
@@ -103,10 +105,10 @@ export default class SceneIntro extends THREE.Group {
       metalness: reflection3D.basic.metalness,
       roughness: reflection3D.basic.roughness
     });
-    loadModel(name, material, (mesh) => {
+    loadModel(this.loadManager, name, material, (mesh) => {
       mesh.name = name;
       mesh.position.set(270, 150, 100);
-      mesh.rotation.copy(new THREE.Euler(80 * THREE.Math.DEG2RAD, 130 * THREE.Math.DEG2RAD, -25 * THREE.Math.DEG2RAD), `XYZ`);
+      mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(80), THREE.MathUtils.degToRad(130), THREE.MathUtils.degToRad(-25)), `XYZ`);
       mesh.scale.set(1.4, 1.4, 1.4);
       this.add(mesh);
     });
@@ -114,10 +116,10 @@ export default class SceneIntro extends THREE.Group {
 
   addSuitcase() {
     const name = `suitcase`;
-    loadModel(name, null, (mesh) => {
+    loadModel(this.loadManager, name, null, (mesh) => {
       mesh.name = name;
       mesh.position.set(-80, -190, 60);
-      mesh.rotation.copy(new THREE.Euler(25 * THREE.Math.DEG2RAD, -145 * THREE.Math.DEG2RAD, 15 * THREE.Math.DEG2RAD), `XYZ`);
+      mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-145), THREE.MathUtils.degToRad(15)), `XYZ`);
       mesh.scale.set(0.8, 0.8, 0.8);
       this.add(mesh);
     });
@@ -125,10 +127,10 @@ export default class SceneIntro extends THREE.Group {
 
   addWatermelon() {
     const name = `watermelon`;
-    loadModel(name, null, (mesh) => {
+    loadModel(this.loadManager, name, null, (mesh) => {
       mesh.name = name;
       mesh.position.set(-775, -280, 60);
-      mesh.rotation.copy(new THREE.Euler(10 * THREE.Math.DEG2RAD, 0, 140 * THREE.Math.DEG2RAD), `XYZ`);
+      mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(10), 0, THREE.MathUtils.degToRad(140)), `XYZ`);
       mesh.scale.set(2.2, 2.2, 2.2);
       this.add(mesh);
     });

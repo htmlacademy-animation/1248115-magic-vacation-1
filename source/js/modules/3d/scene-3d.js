@@ -1,36 +1,48 @@
 import * as THREE from 'three';
-import {vertexShader} from './vertex-shader.js';
-import {fragmentShader} from './fragment-shader.js';
-import {getRandomInteger} from './../helpers.js';
-import _ from './../utils.js';
+
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+
+const configScene3D = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+  backgroundColor: 0x5f458c,
+  alpha: 1,
+  cameraOptions: {
+    fov: 35,
+    near: 10,
+    far: 3000,
+  },
+  stepScene: 2048,
+}
 
 export default class Scene3D {
-  constructor(options) {
-    this.canvasId = options.canvasId;
-    this.width = options.width;
-    this.height = options.height;
+  constructor() {
+    this.canvasId = 'canvas-intro';
+    this.positionZ = 1405;
+    this.width = configScene3D.width;
+    this.height = configScene3D.height;
     this.aspectRation = this.width / this.height;
-    this.alpha = options.alpha;
-    this.backgroundColor = options.backgroundColor;
-    this.fov = options.cameraOptions.fov;
-    this.near = options.cameraOptions.near;
-    this.far = options.cameraOptions.far;
-    this.positionZ = options.cameraOptions.positionZ;
-    this.textures = options.textures;
-    this.stepScene = options.stepScene;
+    this.alpha = configScene3D.alpha;
+    this.backgroundColor = configScene3D.backgroundColor;
+    this.fov = configScene3D.cameraOptions.fov;
+    this.near = configScene3D.cameraOptions.near;
+    this.far = configScene3D.cameraOptions.far;
+    this.stepScene = configScene3D.stepScene;
     this.render = this.render.bind(this);
-    this.renderAnimation = this.renderAnimation.bind(this);
-    this.currentSlide = 0;
-    this.isAnimateScene = false;
-    this.startTime = null;
     this.materials = [];
-    this.animateTotalDuration = 2000;
-    this.animateHueDuration = 660;
-    this.currentAnimateColorCount = 0;
-    this.hue = 0.0;
+    this.textures = [];
+    this.loadedTextures = [];
+
+    this.isAnimateRender = true;
   }
 
-  init() {
+  getCamera() {
+    this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
+    this.controls = new OrbitControls(this.camera, document.body);
+    this.camera.position.z = this.positionZ;
+  }
+
+  get3dInfrastructure() {
     this.canvas = document.getElementById(this.canvasId);
     this.canvas.width = this.width;
     this.canvas.height = this.height;
@@ -38,8 +50,7 @@ export default class Scene3D {
     this.scene = new THREE.Scene();
     this.color = new THREE.Color(this.backgroundColor);
 
-    this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
-    this.camera.position.z = this.positionZ;
+    this.getCamera();
     this.light = new THREE.Group();
     this.getLight();
 
@@ -49,70 +60,15 @@ export default class Scene3D {
     this.renderer.setClearColor(this.color, this.alpha);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
+  }
 
-    const loadManager = new THREE.LoadingManager();
-    const textureLoader = new THREE.TextureLoader(loadManager);
-    const loadedTextures = this.textures.map((texture) => textureLoader.load(texture.url));
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    let material;
+  init() {
+    this.get3dInfrastructure();
+  };
 
-    loadManager.onLoad = () => {
-      loadedTextures.forEach((texture, i) => {
-        material = new THREE.RawShaderMaterial({
-          uniforms: {
-            map: {
-              value: texture
-            },
-            hueShift: {
-              value: this.textures[i].hue
-            },
-            circles: {
-              value: this.textures[i].isCircles
-            },
-            ratio: {
-              value: this.textures[i].scaleX / this.textures[i].scaleY
-            },
-            paramArrayCircles: {
-              value: [
-                {
-                  radius: this.textures[i].paramCircles[0].radius,
-                  centerX: this.textures[i].paramCircles[0].centerX,
-                  centerY: this.textures[i].paramCircles[0].centerY
-                },
-                {
-                  radius: this.textures[i].paramCircles[1].radius,
-                  centerX: this.textures[i].paramCircles[1].centerX,
-                  centerY: this.textures[i].paramCircles[1].centerY
-                },
-                {
-                  radius: this.textures[i].paramCircles[2].radius,
-                  centerX: this.textures[i].paramCircles[2].centerX,
-                  centerY: this.textures[i].paramCircles[2].centerY
-                },
-              ]
-            }
-					},
-          vertexShader: vertexShader,
-					fragmentShader: fragmentShader
-        });
-
-        this.materials.push(material);
-        const image = new THREE.Mesh(geometry, material);
-        image.scale.x = this.textures[i].scaleX;
-        image.scale.y = this.textures[i].scaleY;
-        image.position.x = this.stepScene * i + this.textures[i].positionX;
-        image.position.y = this.textures[i].positionY;
-        this.scene.add(image);
-
-        if (this.textures[i].objectComposition) {
-          this.textures[i].objectComposition.position.x = this.stepScene * i + this.textures[i].positionX;
-          this.textures[i].objectComposition.position.y = this.textures[i].positionY;
-          this.scene.add(this.textures[i].objectComposition);
-        }
-      });
-      //this.getSphere();
-      setTimeout(() => this.render(), 400) ;
-    };
+  loadTextures() {
+    const textureLoader = new THREE.TextureLoader(this.loadManager);
+    this.loadedTextures = this.textures.map((texture) => textureLoader.load(texture.url));
   };
 
   getSphere() {
@@ -148,63 +104,16 @@ export default class Scene3D {
     this.scene.add(this.light);
   };
 
-  setViewScene(i) {
-    this.camera.position.x = this.stepScene * i;
-    this.light.position.x = this.camera.position.x
-
-    this.currentSlide = i;
-    if (this.currentSlide === 1) {
-      this.currentAnimateColorCount = 0;
-      this.hue = parseFloat(getRandomInteger(this.textures[1].hueRange[0], this.textures[1].hueRange[1]));
-      this.materials[1].uniforms.hueShift.value = 0.0;
-      this.materials[1].needsUpdate = true;
-      this.isAnimateScene = true;
-      this.startTime = performance.now();
-      requestAnimationFrame(this.renderAnimation);
-    } else {
-      this.isAnimateScene = false;
-      this.startTime = null;
-      this.render();
-    }
-  }
-
   render() {
-    this.renderer.render(this.scene, this.camera);
-  }
+    //this.renderer.render(this.scene, this.camera);
 
-  animateColor(progress) {
-    this.materials[1].uniforms.hueShift.value = this.hue * progress;
-    this.materials[1].needsUpdate = true;
-  }
-
-  animateCircles(progressX, progressY) {
-    this.materials[1].uniforms.paramArrayCircles.value.map((item, index) => {
-      item.centerX = this.textures[1].paramCircles[index].centerX + 1.8 * progressX;
-      item.centerY = this.textures[1].paramCircles[index].centerY + (1.45 + index / 4) * progressY;
-    })
-    this.materials[1].needsUpdate = true;
-  }
-
-  renderAnimation(time) {
-    if (this.currentSlide === 1 && this.isAnimateScene) {
-      let timeFractionColor = (time - this.startTime - this.animateHueDuration * this.currentAnimateColorCount) / this.animateHueDuration;
-      if (timeFractionColor > 1) {
-        this.currentAnimateColorCount++;
-        this.hue = parseFloat(getRandomInteger(this.textures[1].hueRange[0], this.textures[1].hueRange[1]));
-      }
-      let timeFractionCircle = (time - this.startTime) / this.animateTotalDuration;
-      if (timeFractionCircle > 1) {
-        timeFractionCircle = 1;
-      }
-      let progressColor = _.easeInOutLinear(timeFractionColor);
-      let progressCirclesX = _.easeDampedWave(timeFractionCircle);
-      let progressCirclesY = _.easeLinear(timeFractionCircle);
-      this.animateColor(progressColor);
-      this.animateCircles(progressCirclesX, progressCirclesY);
-      this.renderer.render(this.scene, this.camera);
-      if (timeFractionCircle < 1) {
-        requestAnimationFrame(this.renderAnimation);
-      }
+    if (this.isAnimateRender) {
+      requestAnimationFrame(this.render);
+    } else {
+      cancelAnimationFrame(this.render);
     }
+
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
   }
 }
