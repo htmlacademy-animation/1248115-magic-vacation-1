@@ -4,12 +4,14 @@ import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
 import Saturn from "./saturn";
-import {loadManagerIntro} from "./load-manager"
+import {loadManagerIntro} from "./load-manager";
+import {suitcaseIntro} from "./get-suitcase";
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
     super();
     this.loadManager = loadManagerIntro;
+    this.suitcase = suitcaseIntro;
     this.constructChildren();
   }
 
@@ -115,14 +117,11 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addSuitcase() {
-    const name = `suitcase`;
-    loadModel(this.loadManager, name, null, (mesh) => {
-      mesh.name = name;
-      mesh.position.set(-80, -190, 60);
-      mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-145), THREE.MathUtils.degToRad(15)), `XYZ`);
-      mesh.scale.set(0.8, 0.8, 0.8);
-      this.add(mesh);
-    });
+    const suitcase = this.suitcase;
+    suitcase.position.set(-80, -190, 60);
+    suitcase.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-145), THREE.MathUtils.degToRad(15)), `XYZ`);
+    suitcase.scale.set(0.8, 0.8, 0.8);
+    this.add(suitcase);
   }
 
   addWatermelon() {

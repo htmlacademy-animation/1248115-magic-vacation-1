@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import {isMobile} from './../helpers.js';
 
 export default class Snowman extends THREE.Group {
   constructor(options) {
@@ -9,6 +10,8 @@ export default class Snowman extends THREE.Group {
     this.colorCone = options.colorCone;
     this.metalnessCone = options.metalnessCone;
     this.roughnessCone = options.roughnessCone;
+    this.isShadow = !isMobile();
+
     this.constructChildren();
   }
 
@@ -27,6 +30,7 @@ export default class Snowman extends THREE.Group {
     });
     const geometry = new THREE.SphereGeometry(44, 30, 30);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -40,6 +44,7 @@ export default class Snowman extends THREE.Group {
     const geometry = new THREE.SphereGeometry(78, 30, 30);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -108, 0);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -53,6 +58,7 @@ export default class Snowman extends THREE.Group {
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.copy(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(-90.0), `XYZ`));
     mesh.position.set(45, 0, 0);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 }

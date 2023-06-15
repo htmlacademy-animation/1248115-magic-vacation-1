@@ -23,6 +23,7 @@ export default class SceneSlide4 extends THREE.Group {
       roughness: reflection3D.basic.roughness,
     });
     this.addStaticObjects();
+    this.addSonya();
     this.addSaturn({
       colorSaturn: color3D.ShadowedDominantRed,
       colorRing: color3D.ShadowedBrightPurple,
@@ -46,6 +47,18 @@ export default class SceneSlide4 extends THREE.Group {
     const name = `staticObjects4`;
     loadModel(this.loadManager, name, null, (mesh) => {
       mesh.name = name;
+      mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
+      this.add(mesh);
+    });
+  }
+
+  addSonya() {
+    const name = `sonya`;
+    loadModel(this.loadManager, name, null, (mesh) => {
+      mesh.name = name;
+      const scale = 1.2;
+      mesh.scale.set(scale, scale, scale);
+      mesh.position.set(120, 90, 400);
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
       this.add(mesh);
     });

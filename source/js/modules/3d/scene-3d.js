@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-
+import {isMobile} from './../helpers.js';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 
 const configScene3D = {
@@ -32,6 +32,7 @@ export default class Scene3D {
     this.materials = [];
     this.textures = [];
     this.loadedTextures = [];
+    this.isShadow = !isMobile();
 
     this.isAnimateRender = true;
   }
@@ -60,6 +61,10 @@ export default class Scene3D {
     this.renderer.setClearColor(this.color, this.alpha);
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(this.width, this.height);
+    if (this.canvasId = 'canvas-story' && this.isShadow) {
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    };
   }
 
   init() {
@@ -72,7 +77,7 @@ export default class Scene3D {
   };
 
   getSphere() {
-    const geometry = new THREE.SphereGeometry(2 * 100, 80, 80);
+    const geometry = new THREE.SphereGeometry(6 * 100, 80, 80);
 
     const material = new THREE.MeshStandardMaterial({
       color: 0xff3333,
@@ -92,12 +97,26 @@ export default class Scene3D {
     this.light.add(lightUnit);
     this.light.add(lightUnit.target);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 12 * 975, 2.0);
-    lightUnit.position.set(2 * -785, 2 * -350, 2 * -710);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 3 * 975, 2.0);
+    lightUnit.position.set(1 * -785, 1 * -350, 1 * -710);
+    if (this.canvasId = 'canvas-story' && this.isShadow) {
+      lightUnit.castShadow = true;
+      lightUnit.shadow.mapSize.width = 512;
+      lightUnit.shadow.mapSize.height = 512;
+      lightUnit.shadow.camera.near = 1;
+      lightUnit.shadow.camera.far = 3000;
+    };
     this.light.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 12 * 975, 2.0);
-    lightUnit.position.set(2 * 730, 2 * 800, 2 * -985);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 3 * 975, 2.0);
+    lightUnit.position.set(1 * 730, 1 * 800, 1 * -985);
+    if (this.canvasId = 'canvas-story' && this.isShadow) {
+      lightUnit.castShadow = true;
+      lightUnit.shadow.mapSize.width = 1000;
+      lightUnit.shadow.mapSize.height = 1000;
+      lightUnit.shadow.camera.near = 1;
+      lightUnit.shadow.camera.far = 3000;
+    };
     this.light.add(lightUnit);
 
     this.light.position.z = this.camera.position.z;

@@ -22,6 +22,7 @@ export default class SceneSlide3 extends THREE.Group {
       roughness: reflection3D.soft.roughness,
     });
     this.addStaticObjects();
+    this.addCompass();
     this.addSnowman({
       colorSphere: color3D.SnowColor,
       metalnessSphere: reflection3D.strong.metalness,
@@ -40,6 +41,15 @@ export default class SceneSlide3 extends THREE.Group {
 
   addStaticObjects() {
     const name = `staticObjects3`;
+    loadModel(this.loadManager, name, null, (mesh) => {
+      mesh.name = name;
+      mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
+      this.add(mesh);
+    });
+  }
+
+  addCompass() {
+    const name = `compass`;
     loadModel(this.loadManager, name, null, (mesh) => {
       mesh.name = name;
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);

@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import {getLathePoints, getLatheDegrees} from './three-utils';
 import {reflection3D} from './data-3d';
-import {CarpetCustomMaterial} from './carpet-custom-material'
+import {CarpetCustomMaterial} from './carpet-custom-material';
+import {isMobile} from './../helpers.js';
 
 export default class Carpet extends THREE.Group {
   constructor(options) {
@@ -14,6 +15,7 @@ export default class Carpet extends THREE.Group {
     this.finishDeg = 74;
     this.mainColor = options.mainColor;
     this.additionalColor = options.additionalColor;
+    this.isShadow = !isMobile();
 
     this.constructChildren();
   }
@@ -33,6 +35,7 @@ export default class Carpet extends THREE.Group {
     });
     const geometry = new THREE.LatheGeometry(points, 50, start, length);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.receiveShadow = this.isShadow;
     this.add(mesh);
   }
 }

@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import {SVGLoader} from "three/examples/jsm/loaders/SVGLoader";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
+import {isMobile} from './../helpers.js';
 
 const mapSvgForms = {
   keyHole: {
@@ -12,7 +13,8 @@ const mapSvgForms = {
     svgHeight: 2000,
     height: 2000,
     depth: 20,
-    cap: 2
+    cap: 2,
+    castShadow: false,
   },
   leaf: {
     src: `./img/module-6/svg-forms/leaf.svg`,
@@ -22,7 +24,8 @@ const mapSvgForms = {
     svgHeight: 64,
     height: 117,
     depth: 8,
-    cap: 2
+    cap: 2,
+    castShadow: false,
   },
   leafPyramid: {
     src: `./img/module-6/svg-forms/leaf.svg`,
@@ -32,7 +35,8 @@ const mapSvgForms = {
     svgHeight: 64,
     height: 335,
     depth: 3,
-    cap: 3
+    cap: 3,
+    castShadow: true,
   },
   flamingo: {
     src: `./img/module-6/svg-forms/flamingo.svg`,
@@ -42,7 +46,8 @@ const mapSvgForms = {
     svgHeight: 38,
     height: 85,
     depth: 8,
-    cap: 2
+    cap: 2,
+    castShadow: false,
   },
   question: {
     src: `./img/module-6/svg-forms/question.svg`,
@@ -52,7 +57,8 @@ const mapSvgForms = {
     svgHeight: 55,
     height: 56,
     depth: 8,
-    cap: 2
+    cap: 2,
+    castShadow: false,
   },
   snowflake: {
     src: `./img/module-6/svg-forms/snowflake.svg`,
@@ -62,7 +68,8 @@ const mapSvgForms = {
     svgHeight: 71,
     height: 74,
     depth: 8,
-    cap: 2
+    cap: 2,
+    castShadow: false,
   },
   flower: {
     src: `./img/module-6/svg-forms/flower.svg`,
@@ -72,7 +79,8 @@ const mapSvgForms = {
     svgHeight: 362,
     height: 413,
     depth: 4,
-    cap: 2
+    cap: 2,
+    castShadow: true,
   },
   flower2: {
     src: `./img/module-6/svg-forms/flower.svg`,
@@ -82,7 +90,8 @@ const mapSvgForms = {
     svgHeight: 362,
     height: 413,
     depth: 4,
-    cap: 2
+    cap: 2,
+    castShadow: true,
   }
 };
 
@@ -120,6 +129,9 @@ export default class SvgLoader {
                 bevelSegments: 3
               });
               const mesh = new THREE.Mesh(geometry, material);
+              if (!isMobile()) {
+                mesh.castShadow = mapSvgForms[this.name].castShadow;
+              }
               group.add(mesh);
             }
 

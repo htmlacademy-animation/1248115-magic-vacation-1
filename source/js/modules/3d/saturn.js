@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {getLathePoints} from './three-utils';
+import {isMobile} from './../helpers.js';
 
 export default class Saturn extends THREE.Group {
   constructor(options) {
@@ -7,11 +8,12 @@ export default class Saturn extends THREE.Group {
 
     this.colorSaturn = options.colorSaturn;
     this.colorRing = options.colorRing;
-    this.metalness = options.metalness,
-    this.roughness = options.roughness,
+    this.metalness = options.metalness;
+    this.roughness = options.roughness;
     this.widthRing = 40;
     this.thicknessRing = 2;
     this.innerRadiusRing = 80;
+    this.isShadow = !isMobile();
 
     this.constructChildren();
   }
@@ -29,6 +31,7 @@ export default class Saturn extends THREE.Group {
     });
     const geometry = new THREE.SphereGeometry(60, 50, 50);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -43,6 +46,7 @@ export default class Saturn extends THREE.Group {
     const geometry = new THREE.LatheGeometry(points, 50);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(10.0), 0, THREE.MathUtils.degToRad(10.0)), `XYZ`);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 }
