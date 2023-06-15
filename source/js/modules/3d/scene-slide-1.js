@@ -7,11 +7,13 @@ import SaturnRope from "./saturn-rope";
 import Room from "./room";
 import {loadModel} from "./model-3d-loader";
 import {loadManagerStory} from "./load-manager";
+//import {isMobile} from './../helpers.js';
 
 export default class SceneSlide1 extends THREE.Group {
   constructor() {
     super();
     this.loadManager = loadManagerStory;
+    //this.isShadow = !isMobile();
     this.constructChildren();
   }
 
@@ -23,6 +25,7 @@ export default class SceneSlide1 extends THREE.Group {
       roughness: reflection3D.soft.roughness,
     });
     this.addStaticObjects();
+    this.addDog();
     this.addFlowers();
     this.addCarpet({
       mainColor: color3D.LightPurple,
@@ -47,6 +50,16 @@ export default class SceneSlide1 extends THREE.Group {
     loadModel(this.loadManager, name, null, (mesh) => {
       mesh.name = name;
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
+      this.add(mesh);
+    });
+  }
+
+  addDog() {
+    const name = `dog`;
+    loadModel(this.loadManager, name, null, (mesh) => {
+      mesh.name = name;
+      mesh.position.set(50, 0, 650);
+      mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(15), 0), `XYZ`);
       this.add(mesh);
     });
   }

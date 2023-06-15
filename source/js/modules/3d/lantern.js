@@ -1,12 +1,15 @@
 import * as THREE from "three";
+import {isMobile} from './../helpers.js';
 
 export default class Lantern extends THREE.Group {
   constructor(options) {
     super();
-    this.lanternColor = options.lanternColor,
-    this.lampColor = options.lampColor,
-    this.metalness = options.metalness,
-    this.roughness = options.roughness
+    this.lanternColor = options.lanternColor;
+    this.lampColor = options.lampColor;
+    this.metalness = options.metalness;
+    this.roughness = options.roughness;
+    this.isShadow = !isMobile();
+
     this.constructChildren();
   }
 
@@ -27,6 +30,7 @@ export default class Lantern extends THREE.Group {
     });
     const geometry = new THREE.CylinderGeometry(16, 16, 120, 30);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -38,6 +42,7 @@ export default class Lantern extends THREE.Group {
     });
     const geometry = new THREE.SphereGeometry(16, 30, 30);
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.castShadow = this.isShadow;
     mesh.position.set(0, 60, 0);
     this.add(mesh);
   }
@@ -51,6 +56,7 @@ export default class Lantern extends THREE.Group {
     const geometry = new THREE.CylinderGeometry(7, 7, 230, 30);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 191, 0);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -63,6 +69,7 @@ export default class Lantern extends THREE.Group {
     const geometry = new THREE.BoxGeometry(37, 4, 37);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 303, 0);
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -77,6 +84,7 @@ export default class Lantern extends THREE.Group {
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 335, 0);
     mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), 0, `XYZ`));
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 
@@ -90,6 +98,7 @@ export default class Lantern extends THREE.Group {
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 368, 0);
     mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), 0, `XYZ`));
+    mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
 }

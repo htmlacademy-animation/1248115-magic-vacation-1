@@ -3,8 +3,9 @@ import Scene3D from './scene-3d';
 import AllStoryScene from './all-story-scene';
 import {vertexShader} from './vertex-shader.js';
 import {fragmentShader} from './fragment-shader.js';
-import {getRandomInteger} from './../helpers.js';
+import {getRandomInteger, isMobile} from './../helpers.js';
 import _ from './../utils.js';
+import {suitcaseStory} from "./get-suitcase";
 
 export default class Story3D extends Scene3D {
   constructor(options) {
@@ -13,6 +14,7 @@ export default class Story3D extends Scene3D {
     this.textures = options.textures;
     this.objectsComposition = options.objectsComposition;
     this.loadManager = options.loadManager;
+    this.suitcase = suitcaseStory;
 
     this.currentSlide = 0;
     this.isAnimateScene = false;
@@ -26,13 +28,16 @@ export default class Story3D extends Scene3D {
 
   init() {
     super.init();
-    this.light.position.y = this.camera.position.y;
+    //this.light.position.y = this.camera.position.y;
+    this.light.position.y = 180;
     this.light.position.z = this.camera.position.z;
+
     //this.loadTextures();
     this.loadManager.onLoad = () => {
       //this.getTextureScenes();
       //this.getSphere();
       this.addStoryScenes();
+      this.addSuitcase();
       this.render();
     };
   };
@@ -97,9 +102,18 @@ export default class Story3D extends Scene3D {
   addStoryScenes() {
     const storyScenes = new AllStoryScene();
     storyScenes.position.set(0, -180, 0);
-    //storyScenes.rotation.copy(new THREE.Euler(15 * THREE.Math.DEG2RAD, 0 * THREE.Math.DEG2RAD, 0 * THREE.Math.DEG2RAD));
+    //storyScenes.position.set(0, 0, 0);
     this.storyScenes = storyScenes;
     this.scene.add(this.storyScenes);
+  }
+
+  addSuitcase() {
+    const suitcase = this.suitcase;
+    suitcase.position.set(-340, -180, 790);
+    //suitcase.position.set(-340, 0, 790);
+    suitcase.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
+    suitcase.castShadow = this.isShadow;
+    this.scene.add(suitcase);
   }
 
   setViewScene(i) {
