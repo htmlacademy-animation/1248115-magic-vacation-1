@@ -18,7 +18,7 @@ const configScene3D = {
 export default class Scene3D {
   constructor() {
     this.canvasId = 'canvas-intro';
-    this.positionZ = 1405;
+    this.positionZ = 1405; //2405;
     this.width = configScene3D.width;
     this.height = configScene3D.height;
     this.aspectRation = this.width / this.height;
@@ -34,7 +34,7 @@ export default class Scene3D {
     this.loadedTextures = [];
     this.isShadow = !isMobile();
 
-    this.isAnimateRender = true;
+    this.isAnimateRender = false;
   }
 
   getCamera() {
@@ -97,18 +97,19 @@ export default class Scene3D {
     this.light.add(lightUnit);
     this.light.add(lightUnit.target);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 3 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
     lightUnit.position.set(1 * -785, 1 * -350, 1 * -710);
     if (this.canvasId = 'canvas-story' && this.isShadow) {
       lightUnit.castShadow = true;
-      lightUnit.shadow.mapSize.width = 512;
-      lightUnit.shadow.mapSize.height = 512;
+      lightUnit.shadow.mapSize.width = 1000;
+      lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
+      lightUnit.shadow.bias = -0.005;
     };
     this.light.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 3 * 975, 2.0);
+    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
     lightUnit.position.set(1 * 730, 1 * 800, 1 * -985);
     if (this.canvasId = 'canvas-story' && this.isShadow) {
       lightUnit.castShadow = true;
@@ -116,6 +117,7 @@ export default class Scene3D {
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
+      lightUnit.shadow.bias = 0.005;
     };
     this.light.add(lightUnit);
 
@@ -125,11 +127,9 @@ export default class Scene3D {
 
   render() {
     //this.renderer.render(this.scene, this.camera);
-
+    console.log('render');
     if (this.isAnimateRender) {
       requestAnimationFrame(this.render);
-    } else {
-      cancelAnimationFrame(this.render);
     }
 
     this.controls.update();
