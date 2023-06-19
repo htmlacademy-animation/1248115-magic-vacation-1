@@ -62,6 +62,10 @@ function easeDampedWave(x) {
   return a * Math.exp(-lambda * x) * Math.cos(omega * x);
 }
 
+function easeOutQuad(x) {
+  return 1 - (1 - x) * (1 - x);
+}
+
 const _ = Object.freeze({
   easeLinear,
   easeInCubic,
@@ -72,6 +76,7 @@ const _ = Object.freeze({
   easeOutElastic,
   easeInOutLinear,
   easeDampedWave,
+  easeOutQuad,
 });
 
 export default _;

@@ -6,12 +6,18 @@ import {loadModel} from "./model-3d-loader";
 import Saturn from "./saturn";
 import {loadManagerIntro} from "./load-manager";
 import {suitcaseIntro} from "./get-suitcase";
+import _ from './../utils';
+import Animation from './../animation';
+import {getRandomInteger} from './../helpers';
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
     super();
     this.loadManager = loadManagerIntro;
     this.suitcase = suitcaseIntro;
+    this.objectsMoveInAnimation = [];
+    this.animations = [];
+
     this.constructChildren();
   }
 
@@ -34,48 +40,113 @@ export default class SceneIntro extends THREE.Group {
     this.addPlane();
     this.addSuitcase();
     this.addWatermelon();
+    this.initMoveInShakeAnimations();
   }
 
   addFlamingo() {
+    const name = 'flamingo';
+    this.objectsMoveInAnimation.push(name);
     const flamingo = new SvgLoader(`flamingo`).createSvgGroup();
-    const scale = 2;
-    flamingo.position.set(-520, 380, 80);
-    flamingo.scale.set(-scale, -scale, scale);
-    flamingo.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(-5.0), THREE.MathUtils.degToRad(40.0), THREE.MathUtils.degToRad(25.0)), `XYZ`);
-    this.add(flamingo);
+    flamingo.scale.set(0, 0, 0);
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(flamingo);
+    outerGroup.add(innerGroup);
+    outerGroup.position.set(0, 0, 40);
+    outerGroup.name = name;
+    outerGroup.options = {
+      position: [-520, 380, 80],
+      scale: [-2, -2, 2],
+      rotation: [-5, 40, 25],
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(outerGroup);
   }
 
   addQuestion() {
+    const name = 'question';
+    this.objectsMoveInAnimation.push(name);
     const question = new SvgLoader(`question`).createSvgGroup();
-    const scale = 2;
-    question.position.set(100, -330, 100);
-    question.scale.set(scale, -scale, scale);
-    question.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(-40.0), THREE.MathUtils.degToRad(15.0), THREE.MathUtils.degToRad(20.0)), `XYZ`);
-    this.add(question);
+    question.scale.set(0, 0, 0);
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(question);
+    outerGroup.add(innerGroup);
+    outerGroup.position.set(0, 0, 40);
+    outerGroup.name = name;
+    outerGroup.options = {
+      position: [100, -330, 100],
+      scale: [2, -2, 2],
+      rotation: [-40, 15, 20],
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(outerGroup);
   }
 
   addSnowFlake() {
+    const name = 'snowflake';
+    this.objectsMoveInAnimation.push(name);
     const snowflake = new SvgLoader(`snowflake`).createSvgGroup();
-    const scale = 1.7;
-    snowflake.position.set(-450, -10, 120);
-    snowflake.scale.set(scale, scale, scale);
-    snowflake.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(-10.0), THREE.MathUtils.degToRad(40.0), THREE.MathUtils.degToRad(10.0)), `XYZ`);
-    this.add(snowflake);
+    snowflake.scale.set(0, 0, 0);
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(snowflake);
+    outerGroup.add(innerGroup);
+    outerGroup.position.set(0, 0, 40);
+    outerGroup.name = name;
+    outerGroup.options = {
+      position: [-450, -10, 120],
+      scale: [1.7, 1.7, 1.7],
+      rotation: [-10, 40, 10],
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(outerGroup);
   }
 
   addLeaf() {
+    const name = 'leaf';
+    this.objectsMoveInAnimation.push(name);
     const leaf = new SvgLoader(`leaf`).createSvgGroup();
-    const scale = 1.7;
-    leaf.position.set(660, 340, 200);
-    leaf.scale.set(scale, -scale, scale);
-    leaf.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(7.0), THREE.MathUtils.degToRad(-70.0), THREE.MathUtils.degToRad(-70.0)), `XYZ`);
-    this.add(leaf);
+    leaf.scale.set(0, 0, 0);
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(leaf);
+    outerGroup.add(innerGroup);
+    outerGroup.position.set(0, 0, 40);
+    outerGroup.name = name;
+    outerGroup.options = {
+      position: [660, 340, 200],
+      scale: [1, -1, 1],
+      rotation: [7, -70, -70],
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(outerGroup);
   }
 
   addSaturn(options) {
+    const name = 'saturn';
+    this.objectsMoveInAnimation.push(name);
     const saturn = new Saturn(options);
-    saturn.position.set(420, -140, 140);
-    this.add(saturn);
+    saturn.scale.set(0, 0, 0);
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(saturn);
+    innerGroup.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(0), THREE.MathUtils.degToRad(-90), THREE.MathUtils.degToRad(0)), `XYZ`);
+    outerGroup.add(innerGroup);
+    outerGroup.position.set(0, 0, 40);
+    outerGroup.name = name;
+    outerGroup.options = {
+      position: [420, -140, 150],
+      scale: [0.7, 0.7, 0.7],
+      rotation: [5, 0, 25],
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(outerGroup);
   }
 
   addKeyHole(options) {
@@ -102,6 +173,7 @@ export default class SceneIntro extends THREE.Group {
 
   addPlane() {
     const name = `airplane`;
+    this.objectsMoveInAnimation.push(name);
     const material = new THREE.MeshStandardMaterial({
       color: new THREE.Color(color3D.White),
       metalness: reflection3D.basic.metalness,
@@ -109,29 +181,91 @@ export default class SceneIntro extends THREE.Group {
     });
     loadModel(this.loadManager, name, material, (mesh) => {
       mesh.name = name;
-      mesh.position.set(270, 150, 100);
-      mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(80), THREE.MathUtils.degToRad(130), THREE.MathUtils.degToRad(-25)), `XYZ`);
-      mesh.scale.set(1.4, 1.4, 1.4);
-      this.add(mesh);
+      mesh.scale.set(0, 0, 0);
+      const outerGroup = new THREE.Group();
+      const innerGroup = new THREE.Group();
+      innerGroup.add(mesh);
+      outerGroup.add(innerGroup);
+      outerGroup.position.set(0, 0, 40);
+      outerGroup.name = name;
+      outerGroup.options = {
+        position: [270, 150, 100],
+        scale: [1.4, 1.4, 1.4],
+        rotation: [80, 130, -25],
+        amplitude: getRandomInteger(2, 10) / 10,
+        period: getRandomInteger(1000, 3000),
+      };
+      this.add(outerGroup);
     });
   }
 
   addSuitcase() {
+    const name = 'suitcase'
     const suitcase = this.suitcase;
-    suitcase.position.set(-80, -190, 60);
-    suitcase.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(25), THREE.MathUtils.degToRad(-145), THREE.MathUtils.degToRad(15)), `XYZ`);
-    suitcase.scale.set(0.8, 0.8, 0.8);
-    this.add(suitcase);
+    suitcase.scale.set(0, 0, 0);
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(suitcase);
+    outerGroup.add(innerGroup);
+    outerGroup.position.set(0, 0, 40);
+    outerGroup.name = name;
+    this.objectsMoveInAnimation.push(name);
+    outerGroup.options = {
+      position: [-80, -190, 90],
+      scale: [0.8, 0.8, 0.8],
+      rotation: [25, -145, 15],
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(outerGroup);
   }
 
   addWatermelon() {
     const name = `watermelon`;
+    this.objectsMoveInAnimation.push(name);
     loadModel(this.loadManager, name, null, (mesh) => {
       mesh.name = name;
-      mesh.position.set(-775, -280, 60);
-      mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(10), 0, THREE.MathUtils.degToRad(140)), `XYZ`);
-      mesh.scale.set(2.2, 2.2, 2.2);
-      this.add(mesh);
+      mesh.scale.set(0, 0, 0);
+      const outerGroup = new THREE.Group();
+      const innerGroup = new THREE.Group();
+      innerGroup.add(mesh);
+      outerGroup.add(innerGroup);
+      outerGroup.position.set(0, 0, 40);
+      outerGroup.name = name;
+      outerGroup.options = {
+        position: [-775, -280, 80],
+        scale: [2.2, 2.2, 2.2],
+        rotation: [10, 0, 140],
+        amplitude: getRandomInteger(2, 10) / 10,
+        period: getRandomInteger(1000, 3000),
+      };
+      this.add(outerGroup);
     });
+  }
+
+  initMoveInShakeAnimations() {
+    this.animations.push(new Animation({
+      func: (progress) => {
+        this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
+          item.children[0].children[0].scale.set(item.options.scale[0] * progress, item.options.scale[1] * progress, item.options.scale[2] * progress);
+          item.children[0].rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(item.options.rotation[0] * progress), THREE.MathUtils.degToRad(item.options.rotation[1] * progress), THREE.MathUtils.degToRad(item.options.rotation[2] * progress)), `XYZ`);
+          item.position.set(0 + progress * (item.options.position[0] - 0), 0 + progress * (item.options.position[1] - 0), 40 + progress * (item.options.position[2] - 40));
+        })
+      },
+      duration: 1500,
+      delay: 500,
+      easing: _.easeOutCubic
+    }));
+
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
+          item.position.y = item.position.y + item.options.amplitude * Math.sin(1.5 * (details.currentTime - details.startTime) / item.options.period);
+          console.log('animation');
+        })
+      },
+      duration: 'infinite',
+      delay: 3000,
+    }));
   }
 };

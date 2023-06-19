@@ -8,16 +8,24 @@ export default class Intro3D extends Scene3D {
     super()
     this.canvasId = options.canvasId;
     this.textures = options.textures;
-    this.objectsComposition = options.objectsComposition;
+    this.composition = options.objectsComposition[0];
     this.loadManager = options.loadManager;
+    this.start = false;
   }
 
   init() {
     super.init();
-    this.loadTextures();
+    //this.loadTextures();
     this.loadManager.onLoad = () => {
-      //this.getTextureScenes();
       this.getObjectsComposition();
+
+      if (this.composition) {
+        if (this.isAnimateRender) {
+          setTimeout(() => this.composition.animations.forEach((animation) => animation.start(), 500));
+        }
+        this.start = true;
+      }
+
       this.render();
     };
   };
@@ -50,10 +58,6 @@ export default class Intro3D extends Scene3D {
   }
 
   getObjectsComposition() {
-    this.objectsComposition.forEach((composition, i) => {
-      composition.position.x = this.stepScene * i + this.textures[i].positionX;
-      composition.position.y = this.textures[i].positionY;
-      this.scene.add(composition);
-    });
+    this.scene.add(this.composition);
   }
 }

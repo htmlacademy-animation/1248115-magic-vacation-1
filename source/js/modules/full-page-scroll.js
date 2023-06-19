@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
-import {story} from './3d/init-scene-3d.js';
+import {intro, story} from './3d/init-scene-3d.js';
 
 export default class FullPageScroll {
   constructor() {
@@ -85,6 +85,10 @@ export default class FullPageScroll {
     }, 100);
     story.isAnimateScene = false;
     story.startTime = null;
+    if (this.previousActiveScreen === 0) {
+      intro.isAnimateRender = false;
+      intro.composition.animations.forEach((animation) => animation.stop());
+    }
     if (this.screenElements[this.activeScreen].id === "game") {
       if (!done) {
         setTimeout(startTimer, 200);
@@ -99,6 +103,14 @@ export default class FullPageScroll {
         story.startTime = Date.now();
         requestAnimationFrame(story.renderAnimation);
       }
+    }
+    if (this.screenElements[this.activeScreen].id === "top") {
+      intro.isAnimateRender = true;
+      if (intro.start) {
+        intro.composition.animations.forEach((animation) => animation.start());
+      }
+      intro.render();
+      console.log(intro.isAnimateRender);
     }
     this.previousActiveScreen = this.activeScreen;
   }

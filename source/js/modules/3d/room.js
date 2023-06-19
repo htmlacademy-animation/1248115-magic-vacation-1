@@ -38,7 +38,7 @@ export default class Room extends THREE.Group {
       const scale = 1;
       mesh.position.set(0, 0, 0);
       mesh.scale.set(scale, scale, scale);
-      mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45.0), 0));
+      mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), 0));
       this.add(mesh);
     });
   }
