@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
-import {intro, story} from './3d/init-scene-3d.js';
+import {intro, story} from './3d/init-scene-3d';
 
 export default class FullPageScroll {
   constructor() {
@@ -83,11 +83,17 @@ export default class FullPageScroll {
       this.screenElements[this.activeScreen].classList.add(`active`);
       document.body.setAttribute('data-screen', this.screenElements[this.activeScreen].id);
     }, 100);
-    story.isAnimateScene = false;
-    story.startTime = null;
+
     if (this.previousActiveScreen === 0) {
       intro.isAnimateRender = false;
       intro.composition.animations.forEach((animation) => animation.stop());
+    }
+    if (this.previousActiveScreen === 1) {
+      story.isAnimateRender = false;
+      story.animations.forEach((animation) => animation.stop());
+
+      story.isAnimateScene = false;
+      story.startTime = null;
     }
     if (this.screenElements[this.activeScreen].id === "game") {
       if (!done) {
@@ -98,6 +104,11 @@ export default class FullPageScroll {
       showAnimatePrizes();
     }
     if (this.screenElements[this.activeScreen].id === "story") {
+      story.isAnimateRender = true;
+      if (story.start) {
+        story.animations.forEach((animation) => animation.start());
+      }
+      story.render();
       if (story.currentSlide ===1) {
         story.isAnimateScene = true;
         story.startTime = Date.now();
@@ -110,7 +121,6 @@ export default class FullPageScroll {
         intro.composition.animations.forEach((animation) => animation.start());
       }
       intro.render();
-      console.log(intro.isAnimateRender);
     }
     this.previousActiveScreen = this.activeScreen;
   }

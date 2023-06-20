@@ -135,7 +135,10 @@ export default class SceneIntro extends THREE.Group {
     const outerGroup = new THREE.Group();
     const innerGroup = new THREE.Group();
     innerGroup.add(saturn);
-    innerGroup.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(0), THREE.MathUtils.degToRad(-90), THREE.MathUtils.degToRad(0)), `XYZ`);
+    innerGroup.rotation.copy(
+      new THREE.Euler(THREE.MathUtils.degToRad(0),
+      THREE.MathUtils.degToRad(-90),
+      THREE.MathUtils.degToRad(0)), `XYZ`);
     outerGroup.add(innerGroup);
     outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
@@ -247,9 +250,18 @@ export default class SceneIntro extends THREE.Group {
     this.animations.push(new Animation({
       func: (progress) => {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
-          item.children[0].children[0].scale.set(item.options.scale[0] * progress, item.options.scale[1] * progress, item.options.scale[2] * progress);
-          item.children[0].rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(item.options.rotation[0] * progress), THREE.MathUtils.degToRad(item.options.rotation[1] * progress), THREE.MathUtils.degToRad(item.options.rotation[2] * progress)), `XYZ`);
-          item.position.set(0 + progress * (item.options.position[0] - 0), 0 + progress * (item.options.position[1] - 0), 40 + progress * (item.options.position[2] - 40));
+          item.children[0].children[0].scale.set(
+            item.options.scale[0] * progress,
+            item.options.scale[1] * progress,
+            item.options.scale[2] * progress);
+          item.children[0].rotation.copy(
+            new THREE.Euler(THREE.MathUtils.degToRad(item.options.rotation[0] * progress),
+            THREE.MathUtils.degToRad(item.options.rotation[1] * progress),
+            THREE.MathUtils.degToRad(item.options.rotation[2] * progress)), `XYZ`);
+          item.position.set(
+            0 + progress * (item.options.position[0] - 0),
+            0 + progress * (item.options.position[1] - 0),
+            40 + progress * (item.options.position[2] - 40));
         })
       },
       duration: 1500,
@@ -261,7 +273,7 @@ export default class SceneIntro extends THREE.Group {
       func: (progress, details) => {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
           item.position.y = item.position.y + item.options.amplitude * Math.sin(1.5 * (details.currentTime - details.startTime) / item.options.period);
-          console.log('animation');
+          //console.log('animation');
         })
       },
       duration: 'infinite',
