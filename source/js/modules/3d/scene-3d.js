@@ -127,7 +127,7 @@ export default class Scene3D {
 
   render() {
     //this.renderer.render(this.scene, this.camera);
-    console.log('render');
+    //console.log('render');
     if (this.isAnimateRender) {
       requestAnimationFrame(this.render);
     }

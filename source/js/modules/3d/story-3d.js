@@ -6,6 +6,7 @@ import {fragmentShader} from './fragment-shader.js';
 import {getRandomInteger, isMobile} from './../helpers.js';
 import _ from './../utils.js';
 import {suitcaseStory} from "./get-suitcase";
+import Animation from './../animation';
 
 export default class Story3D extends Scene3D {
   constructor(options) {
@@ -15,6 +16,8 @@ export default class Story3D extends Scene3D {
     this.objectsComposition = options.objectsComposition;
     this.loadManager = options.loadManager;
     this.suitcase = suitcaseStory;
+    this.animations = [];
+    this.start = false;
 
     this.currentSlide = 0;
     this.isAnimateScene = false;
@@ -28,7 +31,6 @@ export default class Story3D extends Scene3D {
 
   init() {
     super.init();
-    //this.light.position.y = this.camera.position.y;
     this.light.position.y = 180;
     this.light.position.z = this.camera.position.z;
 
@@ -38,6 +40,15 @@ export default class Story3D extends Scene3D {
       //this.getSphere();
       this.addStoryScenes();
       this.addSuitcase();
+      this.initSuitcaseAnimations();
+      this.start = true;
+
+      if (this.isAnimateRender) {
+        if (this.start) {
+          setTimeout(() => this.animations.forEach((animation) => animation.start(), 300));
+        }
+      }
+
       this.render();
     };
   };
@@ -102,22 +113,83 @@ export default class Story3D extends Scene3D {
   addStoryScenes() {
     const storyScenes = new AllStoryScene();
     storyScenes.position.set(0, -180, 0);
-    //storyScenes.position.set(0, 0, 0);
     this.storyScenes = storyScenes;
     this.scene.add(this.storyScenes);
   }
 
   addSuitcase() {
+    const name = 'suitcase'
     const suitcase = this.suitcase;
-    suitcase.position.set(-340, -180, 790);
-    //suitcase.position.set(-340, 0, 790);
-    suitcase.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
     suitcase.castShadow = this.isShadow;
-    this.scene.add(suitcase);
+
+    const outerGroup = new THREE.Group();
+    const innerGroup = new THREE.Group();
+    innerGroup.add(suitcase);
+    outerGroup.add(innerGroup);
+    outerGroup.name = name;
+    outerGroup.position.set(-340, -30, 790);
+    outerGroup.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
+    this.scene.add(outerGroup);
+    console.log(outerGroup);
+  }
+
+  initSuitcaseAnimations() {
+    const objectAnimation = this.scene.children.find((item) => (item.name === 'suitcase'));
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.position.y = -30 + progress * (-180 + 30);
+        console.log('чемодан опускается');
+      },
+      duration: 300,
+      delay: 0,
+      easing: _.easeInSine
+    }));
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          1 - 0.05 * progress, 1 + 0.1 * progress, 1 - 0.05 * progress
+        );
+      },
+      duration: 300,
+      delay: 0,
+      easing: _.easeInSine
+    }));
+
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          0.95 + 0.15 * progress, 1.1 - 0.15 * progress, 0.95 + 0.15 * progress
+        );
+      },
+      duration: 250,
+      delay: 300,
+      easing: _.easeInOutCubic
+    }));
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          1.1 - 0.115 * progress, 0.95 + 0.08 * progress, 1.1 - 0.115 * progress
+        );
+      },
+      duration: 250,
+      delay: 550,
+      easing: _.easeInOutCubic
+    }));
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          0.985 + 0.015 * progress, 1.03 - 0.03 * progress, 0.985 + 0.015 * progress
+        );
+      },
+      duration: 150,
+      delay: 800,
+      easing: _.easeInOutCubic
+    }));
   }
 
   setViewScene(i) {
     this.storyScenes.rotation.copy(new THREE.Euler(0, i * (-90) * THREE.Math.DEG2RAD, 0));
+    this.render();
 
     if (this.loadedTextures.length) {
       this.camera.position.x = this.stepScene * i;
