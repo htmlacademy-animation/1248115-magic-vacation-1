@@ -40,6 +40,7 @@ export default class SceneSlide2 extends THREE.Group {
 
   addRoom(options) {
     const room = new Room(options);
+    room.name = 'room2';
     this.add(room);
   }
 
@@ -54,31 +55,41 @@ export default class SceneSlide2 extends THREE.Group {
 
   addPyramid(options) {
     const pyramid = new Pyramid(options);
+    pyramid.name = 'pyramid';
     pyramid.position.set(-20, 150, 370);
     this.add(pyramid);
   }
 
   addLantern(options) {
     const lantern = new Lantern(options);
+    lantern.name = 'lantern';
     lantern.position.set(400, 55, 535);
     this.add(lantern);
   }
 
   addLeaf1() {
     const leaf = new SvgLoader(`leafPyramid`).createSvgGroup();
+    leaf.position.set(-64, -117, 0);
+    const leafWrapper = new THREE.Group();
+    leafWrapper.name = 'leaf1';;
     const scale = 2.8;
-    leaf.position.set(-280, 310, 430);
-    leaf.scale.set(scale, -scale, scale);
-    leaf.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), 0), `XYZ`);
-    this.add(leaf);
+    leafWrapper.add(leaf);
+    leafWrapper.position.set(-130, 40, 330);
+    leafWrapper.scale.set(scale, -scale, scale);
+    leafWrapper.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), 0), `XYZ`);
+    this.add(leafWrapper);
   }
 
   addLeaf2() {
     const leaf = new SvgLoader(`leafPyramid`).createSvgGroup();
+    leaf.position.set(-64, -117, 0);
+    const leafWrapper = new THREE.Group();
+    leafWrapper.name = 'leaf2';
     const scale = 2;
-    leaf.position.set(-330, 135, 460);
-    leaf.scale.set(scale, -scale, scale);
-    leaf.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), THREE.MathUtils.degToRad(45.0)), `XYZ`);
-    this.add(leaf);
+    leafWrapper.add(leaf);
+    leafWrapper.position.set(-140, 55, 320);
+    leafWrapper.scale.set(scale, -scale, scale);
+    leafWrapper.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), THREE.MathUtils.degToRad(45.0)), `XYZ`);
+    this.add(leafWrapper);
   }
 };

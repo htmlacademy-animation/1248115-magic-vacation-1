@@ -20,7 +20,6 @@ export default class Intro3D extends Scene3D {
       this.getObjectsComposition();
 
       if (this.composition) {
-        console.log(this.isAnimateRender);
         if (this.isAnimateRender) {
           setTimeout(() => this.composition.animations.forEach((animation) => animation.start(), 500));
         }

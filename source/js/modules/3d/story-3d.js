@@ -16,7 +16,10 @@ export default class Story3D extends Scene3D {
     this.objectsComposition = options.objectsComposition;
     this.loadManager = options.loadManager;
     this.suitcase = suitcaseStory;
-    this.animations = [];
+    this.animationsScene1 = [];
+    this.animationsScene2 = [];
+    this.animationsScene3 = [];
+    this.animationsScene4 = [];
     this.start = false;
 
     this.currentSlide = 0;
@@ -41,11 +44,18 @@ export default class Story3D extends Scene3D {
       this.addStoryScenes();
       this.addSuitcase();
       this.initSuitcaseAnimations();
+      this.initDogAnimation();
+      this.initSaturnAnimation();
+      this.initLeafAnimation();
+      this.initCompassAnimation();
+      this.initSaturnAnimation2();
+      this.initSonyaAnimation();
+
       this.start = true;
 
       if (this.isAnimateRender) {
         if (this.start) {
-          setTimeout(() => this.animations.forEach((animation) => animation.start(), 300));
+          setTimeout(() => this.animationsScene1.forEach((animation) => animation.start(), 300));
         }
       }
 
@@ -130,21 +140,19 @@ export default class Story3D extends Scene3D {
     outerGroup.position.set(-340, -30, 790);
     outerGroup.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
     this.scene.add(outerGroup);
-    console.log(outerGroup);
   }
 
   initSuitcaseAnimations() {
     const objectAnimation = this.scene.children.find((item) => (item.name === 'suitcase'));
-    this.animations.push(new Animation({
+    this.animationsScene1.push(new Animation({
       func: (progress) => {
         objectAnimation.position.y = -30 + progress * (-180 + 30);
-        console.log('чемодан опускается');
       },
       duration: 300,
       delay: 0,
       easing: _.easeInSine
     }));
-    this.animations.push(new Animation({
+    this.animationsScene1.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
           1 - 0.05 * progress, 1 + 0.1 * progress, 1 - 0.05 * progress
@@ -155,7 +163,7 @@ export default class Story3D extends Scene3D {
       easing: _.easeInSine
     }));
 
-    this.animations.push(new Animation({
+    this.animationsScene1.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
           0.95 + 0.15 * progress, 1.1 - 0.15 * progress, 0.95 + 0.15 * progress
@@ -165,7 +173,7 @@ export default class Story3D extends Scene3D {
       delay: 300,
       easing: _.easeInOutCubic
     }));
-    this.animations.push(new Animation({
+    this.animationsScene1.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
           1.1 - 0.115 * progress, 0.95 + 0.08 * progress, 1.1 - 0.115 * progress
@@ -175,7 +183,7 @@ export default class Story3D extends Scene3D {
       delay: 550,
       easing: _.easeInOutCubic
     }));
-    this.animations.push(new Animation({
+    this.animationsScene1.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
           0.985 + 0.015 * progress, 1.03 - 0.03 * progress, 0.985 + 0.015 * progress
@@ -187,8 +195,132 @@ export default class Story3D extends Scene3D {
     }));
   }
 
+  initDogAnimation() {
+    const objectAnimation = this.scene.getObjectByName('Tail');
+    this.animationsScene1.push(new Animation({
+      func: (progress, details) => {
+        const progressFactor = Math.floor((details.currentTime - details.startTime) / 1000 % 6);
+        const amp = progressFactor > 2 && progressFactor < 6 ? 0.8 : 0.4;
+        objectAnimation.rotation.x = amp * Math.sin(6 * Math.PI * (details.currentTime - details.startTime) / 1000);
+      },
+      duration: `infinite`,
+    }));
+  }
+
+  initSaturnAnimation() {
+    const objectAnimation = this.scene.getObjectByName('saturn1');
+    this.animationsScene1.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimation.rotation.z = THREE.MathUtils.degToRad(1 * Math.sin(time));
+        objectAnimation.rotation.x = THREE.MathUtils.degToRad(-1 * Math.cos(time));
+      },
+      duration: `infinite`,
+    }));
+
+    const objectAnimationRing = objectAnimation.getObjectByName('ring');
+    this.animationsScene1.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimationRing.rotation.x = THREE.MathUtils.degToRad(-3 * Math.sin(time));
+        objectAnimationRing.rotation.y = THREE.MathUtils.degToRad(7 * Math.sin(time));
+        objectAnimationRing.rotation.z = THREE.MathUtils.degToRad(-12 + 3 * Math.sin(time));
+      },
+      duration: `infinite`,
+    }));
+  }
+
+  initLeafAnimation() {
+    const objectAnimation1 = this.scene.getObjectByName('leaf1');
+    this.animationsScene2.push(new Animation({
+      func: (progress, details) => {
+        const time = ((details.currentTime - details.startTime) / 300) % 16;
+        objectAnimation1.rotation.z = 0.3 * Math.exp(-0.2 * time) * Math.cos(1.2 * time + Math.PI / 2);
+      },
+      duration: `infinite`,
+    }));
+    const objectAnimation2 = this.scene.getObjectByName('leaf2');
+    this.animationsScene2.push(new Animation({
+      func: (progress, details) => {
+        const time = ((details.currentTime - details.startTime) / 300) % 16;
+        objectAnimation2.rotation.z = 0.5 * Math.exp(-0.2 * time) * Math.cos(0.9 * time + Math.PI / 2) + THREE.MathUtils.degToRad(45);
+      },
+      duration: `infinite`,
+    }));
+  }
+
+  initCompassAnimation() {
+    const objectAnimation = this.scene.getObjectByName('compass').children[0];
+    console.log(objectAnimation);
+    this.animationsScene3.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimation.rotation.z = THREE.MathUtils.degToRad(15) * Math.sin(2 * time);
+      },
+      duration: `infinite`,
+    }));
+  }
+
+  initSaturnAnimation2() {
+    const objectAnimation = this.scene.getObjectByName('saturn2');
+    this.animationsScene4.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimation.rotation.z = THREE.MathUtils.degToRad(1 * Math.sin(time));
+        objectAnimation.rotation.x = THREE.MathUtils.degToRad(-1 * Math.cos(time));
+      },
+      duration: `infinite`,
+    }));
+
+    const objectAnimationRing = objectAnimation.getObjectByName('ring');
+    this.animationsScene4.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimationRing.rotation.x = THREE.MathUtils.degToRad(-3 * Math.sin(time));
+        objectAnimationRing.rotation.y = THREE.MathUtils.degToRad(7 * Math.sin(time));
+        objectAnimationRing.rotation.z = THREE.MathUtils.degToRad(-12 + 3 * Math.sin(time));
+      },
+      duration: `infinite`,
+    }));
+  }
+
+  initSonyaAnimation() {
+    const sonyaObjectAnimation = this.scene.getObjectByName('sonya');
+    const rightHandObject = sonyaObjectAnimation.getObjectByName(`RightHand`);
+    const leftHandObject = sonyaObjectAnimation.getObjectByName(`LeftHand`);
+
+    this.animationsScene4.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        sonyaObjectAnimation.position.y = 10 * Math.sin(time * 2) + 100;
+      },
+      duration: `infinite`,
+    }));
+
+    this.animationsScene4.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        rightHandObject.rotation.y = THREE.MathUtils.degToRad(-55) + THREE.MathUtils.degToRad(5) * Math.cos(1.5 + time * 2);
+      },
+      duration: `infinite`,
+    }));
+
+    this.animationsScene4.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        leftHandObject.rotation.y = THREE.MathUtils.degToRad(55) + THREE.MathUtils.degToRad(5) * Math.cos(-1.5 + time * 2);
+      },
+      duration: `infinite`,
+    }));
+  }
+
   setViewScene(i) {
     this.storyScenes.rotation.copy(new THREE.Euler(0, i * (-90) * THREE.Math.DEG2RAD, 0));
+    this.animationsScene1.forEach((animation) => animation.stop());
+    this.animationsScene2.forEach((animation) => animation.stop());
+    this.animationsScene3.forEach((animation) => animation.stop());
+    this.animationsScene4.forEach((animation) => animation.stop());
+    this[`animationsScene${i+1}`].forEach((animation) => animation.start());
     this.render();
 
     if (this.loadedTextures.length) {
