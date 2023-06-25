@@ -11,6 +11,8 @@ export default class SaturnRope extends Saturn {
   constructChildren() {
     super.constructChildren();
 
+    this.bigSphere.position.set(0, -1000, 0);
+    this.ring.position.set(0, -1000, 0);
     this.addCylinder();
     this.addSphereSmall();
   }
@@ -23,7 +25,7 @@ export default class SaturnRope extends Saturn {
     });
     const geometry = new THREE.CylinderGeometry(1, 1, 1000, 10);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 500, 0);
+    mesh.position.set(0, -500, 0);
     mesh.castShadow = this.isShadow;
     this.add(mesh);
   }
@@ -36,7 +38,7 @@ export default class SaturnRope extends Saturn {
     });
     const geometry = new THREE.SphereGeometry(10, 30, 30);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.position.set(0, 120, 0);
+    mesh.position.set(0, 120 - 1000, 0);
     mesh.castShadow = this.isShadow;
     this.add(mesh);
   }

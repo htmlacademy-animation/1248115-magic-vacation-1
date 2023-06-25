@@ -7,13 +7,12 @@ import SaturnRope from "./saturn-rope";
 import Room from "./room";
 import {loadModel} from "./model-3d-loader";
 import {loadManagerStory} from "./load-manager";
-//import {isMobile} from './../helpers.js';
 
 export default class SceneSlide1 extends THREE.Group {
   constructor() {
     super();
     this.loadManager = loadManagerStory;
-    //this.isShadow = !isMobile();
+
     this.constructChildren();
   }
 
@@ -42,6 +41,7 @@ export default class SceneSlide1 extends THREE.Group {
 
   addRoom(options) {
     const room = new Room(options);
+    room.name = 'room1';
     this.add(room);
   }
 
@@ -66,6 +66,7 @@ export default class SceneSlide1 extends THREE.Group {
 
   addFlowers() {
     const flower = new SvgLoader(`flower`).createSvgGroup();
+    flower.name = 'flower1';
     const scale = 0.8;
     flower.position.set(-240, 335, 320);
     flower.scale.set(scale, -scale, scale);
@@ -75,6 +76,7 @@ export default class SceneSlide1 extends THREE.Group {
 
   addCarpet(options) {
     const carpet = new Carpet(options);
+    carpet.name = 'carpet';
     const scale = 1;
     carpet.scale.set(scale, scale, scale);
     carpet.position.set(15, 0, 15);
@@ -84,7 +86,8 @@ export default class SceneSlide1 extends THREE.Group {
 
   addSaturn(options) {
     const saturn = new SaturnRope(options);
-    saturn.position.set(60, 480, 320);
+    saturn.name = 'saturn1';
+    saturn.position.set(60, 480 + 1000, 320);
     this.add(saturn);
   }
 };

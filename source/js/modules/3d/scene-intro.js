@@ -273,7 +273,6 @@ export default class SceneIntro extends THREE.Group {
       func: (progress, details) => {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
           item.position.y = item.position.y + item.options.amplitude * Math.sin(1.5 * (details.currentTime - details.startTime) / item.options.period);
-          //console.log('animation');
         })
       },
       duration: 'infinite',

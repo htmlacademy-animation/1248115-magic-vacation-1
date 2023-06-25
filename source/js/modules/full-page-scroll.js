@@ -90,7 +90,7 @@ export default class FullPageScroll {
     }
     if (this.previousActiveScreen === 1) {
       story.isAnimateRender = false;
-      story.animations.forEach((animation) => animation.stop());
+      story.animationsScene1.forEach((animation) => animation.stop());
 
       story.isAnimateScene = false;
       story.startTime = null;
@@ -106,7 +106,7 @@ export default class FullPageScroll {
     if (this.screenElements[this.activeScreen].id === "story") {
       story.isAnimateRender = true;
       if (story.start) {
-        story.animations.forEach((animation) => animation.start());
+        story.animationsScene1.forEach((animation) => animation.start());
       }
       story.render();
       if (story.currentSlide ===1) {
