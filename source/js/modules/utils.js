@@ -76,8 +76,11 @@ function easeInOutSine(x) {
 
 function easeInOutCubic(x){
   return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
 
-  }
+function easeOutSine(x) {
+  return Math.sin((x * Math.PI) / 2);
+}
 
 const _ = Object.freeze({
   easeLinear,
@@ -93,6 +96,7 @@ const _ = Object.freeze({
   easeInSine,
   easeInOutSine,
   easeInOutCubic,
+  easeOutSine
 });
 
 export default _;

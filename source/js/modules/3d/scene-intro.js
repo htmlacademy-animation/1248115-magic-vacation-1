@@ -40,6 +40,7 @@ export default class SceneIntro extends THREE.Group {
     this.addPlane();
     this.addSuitcase();
     this.addWatermelon();
+    this.initSuitcaseAnimations();
     this.initMoveInShakeAnimations();
   }
 
@@ -138,7 +139,7 @@ export default class SceneIntro extends THREE.Group {
     innerGroup.rotation.copy(
       new THREE.Euler(THREE.MathUtils.degToRad(0),
       THREE.MathUtils.degToRad(-90),
-      THREE.MathUtils.degToRad(0)), `XYZ`);
+      THREE.MathUtils.degToRad(0), `XYZ`));
     outerGroup.add(innerGroup);
     outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
@@ -206,17 +207,14 @@ export default class SceneIntro extends THREE.Group {
     const name = 'suitcase'
     const suitcase = this.suitcase;
     suitcase.scale.set(0, 0, 0);
+    suitcase.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(-45), THREE.MathUtils.degToRad(-90), THREE.MathUtils.degToRad(0)));
     const outerGroup = new THREE.Group();
     const innerGroup = new THREE.Group();
     innerGroup.add(suitcase);
+    innerGroup.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(0), THREE.MathUtils.degToRad(0), THREE.MathUtils.degToRad(15)));
     outerGroup.add(innerGroup);
-    outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
-    this.objectsMoveInAnimation.push(name);
     outerGroup.options = {
-      position: [-80, -190, 90],
-      scale: [0.8, 0.8, 0.8],
-      rotation: [25, -145, 15],
       amplitude: getRandomInteger(2, 10) / 10,
       period: getRandomInteger(1000, 3000),
     };
@@ -257,7 +255,7 @@ export default class SceneIntro extends THREE.Group {
           item.children[0].rotation.copy(
             new THREE.Euler(THREE.MathUtils.degToRad(item.options.rotation[0] * progress),
             THREE.MathUtils.degToRad(item.options.rotation[1] * progress),
-            THREE.MathUtils.degToRad(item.options.rotation[2] * progress)), `XYZ`);
+            THREE.MathUtils.degToRad(item.options.rotation[2] * progress)));
           item.position.set(
             0 + progress * (item.options.position[0] - 0),
             0 + progress * (item.options.position[1] - 0),
@@ -274,6 +272,49 @@ export default class SceneIntro extends THREE.Group {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
           item.position.y = item.position.y + item.options.amplitude * Math.sin(1.5 * (details.currentTime - details.startTime) / item.options.period);
         })
+      },
+      duration: 'infinite',
+      delay: 3000,
+    }));
+  }
+
+  initSuitcaseAnimations() {
+    const objectAnimation = this.getObjectByName('suitcase');
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(0.45 * progress, 0.45 * progress, 0.45 * progress);
+        objectAnimation.children[0].children[0].rotation.copy(
+          new THREE.Euler(THREE.MathUtils.degToRad(-45 + progress * (-60 + 45)),
+          THREE.MathUtils.degToRad(-90 + progress * (-110 + 90)),
+          0));
+        objectAnimation.children[0].rotation.copy(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(15 + progress * (-50 - 15))));
+        objectAnimation.position.set(progress * 10, progress * 95, progress * 120);
+      },
+      duration: 800,
+      delay: 850,
+      easing: _.easeOutQuad
+    }));
+
+    this.animations.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(0.45 + progress * (0.6 - 0.45), 0.45 + progress * (0.6 - 0.45), 0.45 + progress * (0.6 - 0.45));
+        objectAnimation.children[0].children[0].rotation.copy(
+          new THREE.Euler(THREE.MathUtils.degToRad(-60 + progress * (25 + 60)),
+          THREE.MathUtils.degToRad(-115 + progress * (-145 + 115)),
+          0));
+        objectAnimation.children[0].rotation.copy(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(-50 + progress * (-12 + 50))));
+        objectAnimation.children[0].position.set(progress * -70, progress * -260, progress * 10);
+      },
+      duration: 800,
+      delay: 1650,
+      easing: _.easeInOutSine
+    }));
+
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        objectAnimation.position.y =
+          objectAnimation.position.y + objectAnimation.options.amplitude
+          * Math.sin(1.5 * (details.currentTime - details.startTime) / objectAnimation.options.period);
       },
       duration: 'infinite',
       delay: 3000,
