@@ -9,6 +9,7 @@ import {suitcaseIntro} from "./get-suitcase";
 import _ from './../utils';
 import Animation from './../animation';
 import {getRandomInteger} from './../helpers';
+import Airplane from "./airplane";
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
@@ -42,6 +43,7 @@ export default class SceneIntro extends THREE.Group {
     this.addWatermelon();
     this.initSuitcaseAnimations();
     this.initMoveInShakeAnimations();
+    this.initAirplaneAnimations();
   }
 
   addFlamingo() {
@@ -169,38 +171,23 @@ export default class SceneIntro extends THREE.Group {
       roughness: options.roughnessFlatness,
     });
     const flatnessMesh = new THREE.Mesh(flatnessGeometry, flatnessMaterial);
-    flatnessMesh.position.z = 2;
+    flatnessMesh.position.z = -120;
     keyHoleGroup.add(flatnessMesh);
 
     this.add(keyHoleGroup);
   }
 
   addPlane() {
-    const name = `airplane`;
-    this.objectsMoveInAnimation.push(name);
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(color3D.White),
-      metalness: reflection3D.basic.metalness,
-      roughness: reflection3D.basic.roughness
-    });
-    loadModel(this.loadManager, name, material, (mesh) => {
-      mesh.name = name;
-      mesh.scale.set(0, 0, 0);
-      const outerGroup = new THREE.Group();
-      const innerGroup = new THREE.Group();
-      innerGroup.add(mesh);
-      outerGroup.add(innerGroup);
-      outerGroup.position.set(0, 0, 40);
-      outerGroup.name = name;
-      outerGroup.options = {
-        position: [270, 150, 100],
-        scale: [1.4, 1.4, 1.4],
-        rotation: [80, 130, -25],
-        amplitude: getRandomInteger(2, 10) / 10,
-        period: getRandomInteger(1000, 3000),
-      };
-      this.add(outerGroup);
-    });
+    const airplane = new Airplane();
+    airplane.name = 'airplaneFlight';
+    airplane.position.x = 135;
+    airplane.position.y = -120;
+    airplane.rotation.y = -Math.PI;
+    airplane.options = {
+      amplitude: getRandomInteger(2, 10) / 10,
+      period: getRandomInteger(1000, 3000),
+    };
+    this.add(airplane);
   }
 
   addSuitcase() {
@@ -318,6 +305,62 @@ export default class SceneIntro extends THREE.Group {
       },
       duration: 'infinite',
       delay: 3000,
+    }));
+  }
+
+  initAirplaneAnimations() {
+    const objectAnimation = this.getObjectByName('airplaneFlight');
+
+    const initialPlaneRadius = objectAnimation.planeRadius;
+    const initialFightHeight = objectAnimation.flightHeight;
+    const initialFlightRotationY = objectAnimation.flightRotationY;
+    const initialPlaneRotationZ = objectAnimation.planeRotationZ;
+    const initialPlaneGroupRotationZ = objectAnimation.planeGroupRotationZ;
+    const initialPlaneScale = objectAnimation.planeScale;
+
+    this.animations.push(new Animation({
+        func: (progress) => {
+          objectAnimation.planeScale =
+            initialPlaneScale +
+            (objectAnimation.maxPlaneScale - initialPlaneScale) * progress;
+
+          objectAnimation.planeRadius =
+            initialPlaneRadius +
+            (objectAnimation.maxPlaneRadius - initialPlaneRadius) * progress;
+
+          objectAnimation.flightHeight =
+            initialFightHeight +
+            (objectAnimation.maxFlightHeight - initialFightHeight) * progress;
+
+          objectAnimation.flightRotationY =
+            initialFlightRotationY + (progress * 5 * Math.PI) / 4;
+
+          objectAnimation.planeRotationZ =
+            progress < 0.5
+              ? initialPlaneRotationZ - progress * Math.PI
+              : initialPlaneRotationZ -
+              0.45 * Math.PI +
+              (progress - 0.5) * Math.PI;
+
+          objectAnimation.planeGroupRotationZ =
+            initialPlaneGroupRotationZ + (progress * Math.PI) / 4;
+
+          objectAnimation.invalidate(progress);
+        },
+        duration: 2000,
+        delay: 1500,
+        easing: _.easeOutQuad,
+      }),
+    );
+
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        objectAnimation.position.y =
+          objectAnimation.position.y + objectAnimation.options.amplitude
+          * Math.sin(1.5 * (details.currentTime - details.startTime) / objectAnimation.options.period);
+      },
+      duration: 'infinite',
+      delay: 3500,
     }));
   }
 };

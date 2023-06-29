@@ -251,7 +251,6 @@ export default class Story3D extends Scene3D {
 
   initCompassAnimation() {
     const objectAnimation = this.scene.getObjectByName('compass').children[0];
-    console.log(objectAnimation);
     this.animationsScene3.push(new Animation({
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
