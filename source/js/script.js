@@ -10,7 +10,7 @@ import social from './modules/social.js';
 import FullPageScroll from './modules/full-page-scroll';
 import {loadPage} from './modules/load-page';
 import {getAnimatedTitles} from './modules/get-animated-titles';
-import {intro, story} from './modules/3d/init-scene-3d.js';
+import {scene3D} from './modules/3d/init-scene-3d.js';
 
 // init modules
 mobileHeight();
@@ -24,8 +24,7 @@ social();
 loadPage();
 getAnimatedTitles();
 
-intro.init();
-story.init();
+scene3D.init();
 
 const fullPageScroll = new FullPageScroll();
 fullPageScroll.init();

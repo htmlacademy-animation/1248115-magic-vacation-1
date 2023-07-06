@@ -2,13 +2,10 @@ import * as THREE from "three";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
-import {loadManagerIntro} from "./load-manager";
 
 export default class Airplane extends THREE.Group {
   constructor() {
     super();
-
-    this.loadManager = loadManagerIntro;
 
     this._planeRadius = 100;
     this._planeRadiusChanged = true;
@@ -38,7 +35,7 @@ export default class Airplane extends THREE.Group {
       metalness: reflection3D.basic.metalness,
       roughness: reflection3D.basic.roughness
     });
-    loadModel(this.loadManager, name, material, (mesh) => {
+    loadModel(name, material, (mesh) => {
       mesh.name = name;
       mesh.scale.set(0.6, 0.6, 0.6);
       mesh.position.z = 100;

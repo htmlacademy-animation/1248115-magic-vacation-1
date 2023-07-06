@@ -5,12 +5,13 @@ import Snowman from "./snowman";
 import Road from "./road";
 import Room from "./room";
 import {loadModel} from "./model-3d-loader";
-import {loadManagerStory} from "./load-manager";
+import Animation from './../animation';
 
 export default class SceneSlide3 extends THREE.Group {
   constructor() {
     super();
-    this.loadManager = loadManagerStory;
+    this.animations = [];
+
     this.constructChildren();
   }
 
@@ -42,7 +43,7 @@ export default class SceneSlide3 extends THREE.Group {
 
   addStaticObjects() {
     const name = `staticObjects3`;
-    loadModel(this.loadManager, name, null, (mesh) => {
+    loadModel(name, null, (mesh) => {
       mesh.name = name;
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
       this.add(mesh);
@@ -51,7 +52,7 @@ export default class SceneSlide3 extends THREE.Group {
 
   addCompass() {
     const name = `compass`;
-    loadModel(this.loadManager, name, null, (mesh) => {
+    loadModel(name, null, (mesh) => {
       mesh.name = name;
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
       this.add(mesh);
@@ -74,5 +75,17 @@ export default class SceneSlide3 extends THREE.Group {
     road.position.set(15, 1, 15);
     road.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-46.0), 0), `XYZ`);
     this.add(road);
+  }
+
+  initCompassAnimation() {
+    const objectAnimation = this.getObjectByName('compass').children[0];
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimation.rotation.z = THREE.MathUtils.degToRad(15) * Math.sin(2 * time);
+        //console.log('стори3 - анимация компаса');
+      },
+      duration: `infinite`,
+    }));
   }
 };

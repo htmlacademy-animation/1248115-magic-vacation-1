@@ -1,8 +1,5 @@
-import Intro3D from './intro-3d.js';
-import Story3D from './story-3d.js';
-import {scene3DData} from './scene-3d-data.js';
+import Scene3D from './scene-3d';
 
-const intro = new Intro3D(scene3DData[0]);
-const story = new Story3D(scene3DData[1]);
+const scene3D = new Scene3D;
 
-export {intro, story};
+export {scene3D};

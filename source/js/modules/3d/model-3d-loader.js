@@ -1,6 +1,7 @@
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 import {isMobile} from './../helpers.js';
+import {loadManager} from "./load-manager";
 
 const objectsConfig = {
   airplane: {
@@ -71,12 +72,12 @@ const objectsConfig = {
   },
 };
 
-const loadObj = (loadManager, path, onComplete) => {
+const loadObj = (path, onComplete) => {
   const loaderObj = new OBJLoader(loadManager);
   loaderObj.load(path, onComplete);
 };
 
-const loadGltf = (loadManager, path, onComplete) => {
+const loadGltf = (path, onComplete) => {
   const loaderGltf = new GLTFLoader(loadManager);
   loaderGltf.load(path, onComplete);
 };
@@ -104,7 +105,7 @@ const onComplete = (obj3d, material, params, callback) => {
   }
 };
 
-export const loadModel = (loadManager, key, material, callback) => {
+export const loadModel = (key, material, callback) => {
   const params = objectsConfig[key];
 
   if (!params) {
@@ -121,11 +122,11 @@ export const loadModel = (loadManager, key, material, callback) => {
 
   switch (params.type) {
     case `gltf`:
-      loadGltf(loadManager, params.path, onGltfComplete);
+      loadGltf(params.path, onGltfComplete);
 
       break;
     default:
-      loadObj(loadManager, params.path, (model) => onComplete(model, material, params, callback));
+      loadObj(params.path, (model) => onComplete(model, material, params, callback));
 
       break;
   }
