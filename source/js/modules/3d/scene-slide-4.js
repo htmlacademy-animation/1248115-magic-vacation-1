@@ -6,12 +6,13 @@ import SaturnRope from "./saturn-rope";
 import Carpet from "./carpet";
 import Room from "./room";
 import {loadModel} from "./model-3d-loader";
-import {loadManagerStory} from "./load-manager";
+import Animation from './../animation';
 
 export default class SceneSlide4 extends THREE.Group {
   constructor() {
     super();
-    this.loadManager = loadManagerStory;
+    this.animations = [];
+
     this.constructChildren();
   }
 
@@ -46,7 +47,7 @@ export default class SceneSlide4 extends THREE.Group {
 
   addStaticObjects() {
     const name = `staticObjects4`;
-    loadModel(this.loadManager, name, null, (mesh) => {
+    loadModel(name, null, (mesh) => {
       mesh.name = name;
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
       this.add(mesh);
@@ -55,7 +56,7 @@ export default class SceneSlide4 extends THREE.Group {
 
   addSonya() {
     const name = `sonya`;
-    loadModel(this.loadManager, name, null, (mesh) => {
+    loadModel(name, null, (mesh) => {
       mesh.name = name;
       const scale = 1.2;
       mesh.scale.set(scale, scale, scale);
@@ -90,5 +91,59 @@ export default class SceneSlide4 extends THREE.Group {
     flower.scale.set(scale, -scale, scale);
     flower.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), 0), `XYZ`);
     this.add(flower);
+  }
+
+  initSaturnAnimation2() {
+    const objectAnimation = this.getObjectByName('saturn2');
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimation.rotation.z = THREE.MathUtils.degToRad(1 * Math.sin(time));
+        objectAnimation.rotation.x = THREE.MathUtils.degToRad(-1 * Math.cos(time));
+      },
+      duration: `infinite`,
+    }));
+
+    const objectAnimationRing = objectAnimation.getObjectByName('ring');
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        objectAnimationRing.rotation.x = THREE.MathUtils.degToRad(-3 * Math.sin(time));
+        objectAnimationRing.rotation.y = THREE.MathUtils.degToRad(7 * Math.sin(time));
+        objectAnimationRing.rotation.z = THREE.MathUtils.degToRad(-12 + 3 * Math.sin(time));
+      },
+      duration: `infinite`,
+    }));
+  }
+
+  initSonyaAnimation() {
+    const sonyaObjectAnimation = this.getObjectByName('sonya');
+    const rightHandObject = sonyaObjectAnimation.getObjectByName(`RightHand`);
+    const leftHandObject = sonyaObjectAnimation.getObjectByName(`LeftHand`);
+
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        sonyaObjectAnimation.position.y = 10 * Math.sin(time * 2) + 100;
+        //console.log('стори4 - анимация ИИ');
+      },
+      duration: `infinite`,
+    }));
+
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        rightHandObject.rotation.y = THREE.MathUtils.degToRad(-55) + THREE.MathUtils.degToRad(5) * Math.cos(1.5 + time * 2);
+      },
+      duration: `infinite`,
+    }));
+
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = (details.currentTime - details.startTime) / 1000;
+        leftHandObject.rotation.y = THREE.MathUtils.degToRad(55) + THREE.MathUtils.degToRad(5) * Math.cos(-1.5 + time * 2);
+      },
+      duration: `infinite`,
+    }));
   }
 };

@@ -1,14 +1,12 @@
 import * as THREE from 'three';
 import {getLatheDegrees } from './three-utils';
 import {loadModel} from "./model-3d-loader";
-import {loadManagerStory} from "./load-manager";
+//import {loadManagerStory} from "./load-manager";
 import {isMobile} from './../helpers.js';
 
 export default class Room extends THREE.Group {
   constructor(options) {
     super();
-
-    this.loadManager = loadManagerStory;
     this.wallColor = options.wallColor;
     this.floorColor = options.floorColor;
     this.metalness = options.metalness;
@@ -33,7 +31,7 @@ export default class Room extends THREE.Group {
       roughness: this.roughness,
       side: THREE.DoubleSide,
     });
-    loadModel(this.loadManager, name, material, (mesh) => {
+    loadModel(name, material, (mesh) => {
       mesh.name = name;
       const scale = 1;
       mesh.position.set(0, 0, 0);

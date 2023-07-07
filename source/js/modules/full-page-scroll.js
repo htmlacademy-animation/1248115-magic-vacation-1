@@ -1,7 +1,7 @@
 import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
-import {intro, story} from './3d/init-scene-3d';
+import {scene3D} from './3d/init-scene-3d';
 
 export default class FullPageScroll {
   constructor() {
@@ -85,15 +85,15 @@ export default class FullPageScroll {
     }, 100);
 
     if (this.previousActiveScreen === 0) {
-      intro.isAnimateRender = false;
-      intro.composition.animations.forEach((animation) => animation.stop());
+      scene3D.isIntroAnimateRender = false;
+      scene3D.introScene.animations.forEach((animation) => animation.stop());
     }
     if (this.previousActiveScreen === 1) {
-      story.isAnimateRender = false;
-      story.animationsScene1.forEach((animation) => animation.stop());
-
-      story.isAnimateScene = false;
-      story.startTime = null;
+      scene3D.isStoryAnimateRender = false;
+      scene3D.story1.animations.forEach((animation) => animation.stop());
+      scene3D.story2.animations.forEach((animation) => animation.stop());
+      scene3D.story3.animations.forEach((animation) => animation.stop());
+      scene3D.story4.animations.forEach((animation) => animation.stop());
     }
     if (this.screenElements[this.activeScreen].id === "game") {
       if (!done) {
@@ -104,23 +104,29 @@ export default class FullPageScroll {
       showAnimatePrizes();
     }
     if (this.screenElements[this.activeScreen].id === "story") {
-      story.isAnimateRender = true;
-      if (story.start) {
-        story.animationsScene1.forEach((animation) => animation.start());
+      scene3D.isStoryAnimateRender = true;
+
+      if (scene3D.introActive) {
+        scene3D.switchCameraRig(scene3D.slide);
+        if (scene3D.slide === 1) {
+          scene3D.story1.animationSuitcase.forEach((animation) => animation.start());
+        }
       }
-      story.render();
-      if (story.currentSlide ===1) {
-        story.isAnimateScene = true;
-        story.startTime = Date.now();
-        requestAnimationFrame(story.renderAnimation);
+      if (scene3D.startIntro) {
+        scene3D[`story${scene3D.slide}`].animations.forEach((animation) => animation.start());
       }
+      scene3D.render();
     }
     if (this.screenElements[this.activeScreen].id === "top") {
-      intro.isAnimateRender = true;
-      if (intro.start) {
-        intro.composition.animations.forEach((animation) => animation.start());
+      scene3D.isIntroAnimateRender = true;
+      if (scene3D.startIntro) {
+        if (!scene3D.introActive) {
+          scene3D.switchCameraRig(0);
+          scene3D.introActive = true;
+        }
+        scene3D.introScene.animations.forEach((animation) => animation.start());
       }
-      intro.render();
+      scene3D.render();
     }
     this.previousActiveScreen = this.activeScreen;
   }

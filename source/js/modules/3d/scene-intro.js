@@ -4,20 +4,18 @@ import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
 import Saturn from "./saturn";
-import {loadManagerIntro} from "./load-manager";
-import {suitcaseIntro} from "./get-suitcase";
 import _ from './../utils';
 import Animation from './../animation';
 import {getRandomInteger} from './../helpers';
 import Airplane from "./airplane";
+import Suitcase from "./suitcase";
 
 export default class SceneIntro extends THREE.Group {
   constructor() {
     super();
-    this.loadManager = loadManagerIntro;
-    this.suitcase = suitcaseIntro;
     this.objectsMoveInAnimation = [];
     this.animations = [];
+    this.specialAnimations = [];
 
     this.constructChildren();
   }
@@ -39,7 +37,7 @@ export default class SceneIntro extends THREE.Group {
       roughness: reflection3D.soft.roughness
     });
     this.addPlane();
-    this.addSuitcase();
+    this.addSuitcase(this.loadManager);
     this.addWatermelon();
     this.initSuitcaseAnimations();
     this.initMoveInShakeAnimations();
@@ -192,7 +190,7 @@ export default class SceneIntro extends THREE.Group {
 
   addSuitcase() {
     const name = 'suitcase'
-    const suitcase = this.suitcase;
+    const suitcase = new Suitcase();
     suitcase.scale.set(0, 0, 0);
     suitcase.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(-45), THREE.MathUtils.degToRad(-90), THREE.MathUtils.degToRad(0)));
     const outerGroup = new THREE.Group();
@@ -211,7 +209,7 @@ export default class SceneIntro extends THREE.Group {
   addWatermelon() {
     const name = `watermelon`;
     this.objectsMoveInAnimation.push(name);
-    loadModel(this.loadManager, name, null, (mesh) => {
+    loadModel(name, null, (mesh) => {
       mesh.name = name;
       mesh.scale.set(0, 0, 0);
       const outerGroup = new THREE.Group();
@@ -232,7 +230,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   initMoveInShakeAnimations() {
-    this.animations.push(new Animation({
+    this.specialAnimations.push(new Animation({
       func: (progress) => {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
           item.children[0].children[0].scale.set(
@@ -267,7 +265,7 @@ export default class SceneIntro extends THREE.Group {
 
   initSuitcaseAnimations() {
     const objectAnimation = this.getObjectByName('suitcase');
-    this.animations.push(new Animation({
+    this.specialAnimations.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(0.45 * progress, 0.45 * progress, 0.45 * progress);
         objectAnimation.children[0].children[0].rotation.copy(
@@ -282,7 +280,7 @@ export default class SceneIntro extends THREE.Group {
       easing: _.easeOutQuad
     }));
 
-    this.animations.push(new Animation({
+    this.specialAnimations.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(0.45 + progress * (0.6 - 0.45), 0.45 + progress * (0.6 - 0.45), 0.45 + progress * (0.6 - 0.45));
         objectAnimation.children[0].children[0].rotation.copy(
@@ -318,7 +316,7 @@ export default class SceneIntro extends THREE.Group {
     const initialPlaneGroupRotationZ = objectAnimation.planeGroupRotationZ;
     const initialPlaneScale = objectAnimation.planeScale;
 
-    this.animations.push(new Animation({
+    this.specialAnimations.push(new Animation({
         func: (progress) => {
           objectAnimation.planeScale =
             initialPlaneScale +

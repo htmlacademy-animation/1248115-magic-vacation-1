@@ -6,12 +6,13 @@ import Pyramid from "./pyramid";
 import SvgLoader from "./svg-loader";
 import Room from "./room";
 import {loadModel} from "./model-3d-loader";
-import {loadManagerStory} from "./load-manager";
+import Animation from './../animation';
 
 export default class SceneSlide2 extends THREE.Group {
   constructor() {
     super();
-    this.loadManager = loadManagerStory;
+    this.animations = [];
+
     this.constructChildren();
   }
 
@@ -46,7 +47,7 @@ export default class SceneSlide2 extends THREE.Group {
 
   addStaticObjects() {
     const name = `staticObjects2`;
-    loadModel(this.loadManager, name, null, (mesh) => {
+    loadModel(name, null, (mesh) => {
       mesh.name = name;
       mesh.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-45), 0), `XYZ`);
       this.add(mesh);
@@ -91,5 +92,25 @@ export default class SceneSlide2 extends THREE.Group {
     leafWrapper.scale.set(scale, -scale, scale);
     leafWrapper.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(45.0), THREE.MathUtils.degToRad(45.0)), `XYZ`);
     this.add(leafWrapper);
+  }
+
+  initLeafAnimation() {
+    const objectAnimation1 = this.getObjectByName('leaf1');
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = ((details.currentTime - details.startTime) / 300) % 16;
+        objectAnimation1.rotation.z = 0.3 * Math.exp(-0.2 * time) * Math.cos(1.2 * time + Math.PI / 2);
+        //console.log('стори2 - анимация листьев');
+      },
+      duration: `infinite`,
+    }));
+    const objectAnimation2 = this.getObjectByName('leaf2');
+    this.animations.push(new Animation({
+      func: (progress, details) => {
+        const time = ((details.currentTime - details.startTime) / 300) % 16;
+        objectAnimation2.rotation.z = 0.5 * Math.exp(-0.2 * time) * Math.cos(0.9 * time + Math.PI / 2) + THREE.MathUtils.degToRad(45);
+      },
+      duration: `infinite`,
+    }));
   }
 };
