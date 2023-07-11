@@ -7,6 +7,9 @@ import SceneSlide2 from "./scene-slide-2";
 import SceneSlide3 from "./scene-slide-3";
 import SceneSlide4 from "./scene-slide-4";
 import CameraRig from "./camera-rig";
+import Suitcase from "./suitcase";
+import Animation from './../animation';
+import _ from './../utils';
 
 const configScene3D = {
   width: window.innerWidth,
@@ -44,11 +47,20 @@ export default class Scene3D {
     this.story2 = new SceneSlide2();
     this.story3 = new SceneSlide3();
     this.story4 = new SceneSlide4();
+    this.suitcase = new Suitcase();
+    this.suitcaseGroup = new THREE.Group();
     this.slide = 1;
     this.startIntro = false;
     this.startStory = false;
     this.introActive = true;
     this.cameraPositionZ = 1500;
+    this.prevIndex = 0;
+    this.animationSuitcase = [];
+    this.story1.visible = false;
+    this.story2.visible = false;
+    this.story3.visible = false;
+    this.story4.visible = false;
+    this.suitcaseGroup.visible = false;
   }
 
   init() {
@@ -57,7 +69,8 @@ export default class Scene3D {
     this.loadManager.onLoad = () => {
       this.addIntroComposition();
       this.addStoryScenes();
-      this.story1.initSuitcaseAnimations();
+      this.addSuitcase();
+      this.initSuitcaseAnimations();
       this.story1.initDogAnimation();
       this.story1.initSaturnAnimation();
       this.story2.initLeafAnimation();
@@ -74,7 +87,7 @@ export default class Scene3D {
       }
       if (this.isStoryAnimateRender) {
         setTimeout(() => {
-          this.story1.animationSuitcase.forEach((animation) => animation.start());
+          this.animationSuitcase.forEach((animation) => animation.start());
           this.story1.animations.forEach((animation) => animation.start());
           this.startIntro = true;
           this.startStory = true;
@@ -123,6 +136,9 @@ export default class Scene3D {
     this.light.add(lightUnit);
     this.light.add(lightUnit.target);
 
+    this.pointLightGroup = new THREE.Group();
+    this.pointLightGroup.name = 'pointLightGroup';
+
     lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
     lightUnit.position.set(1 * -785, 1 * -350, 1 * -710);
     if (this.isShadow) {
@@ -131,9 +147,9 @@ export default class Scene3D {
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
-      lightUnit.shadow.bias = -0.005;
+      lightUnit.shadow.bias = -0.005;//-0.005
     };
-    this.light.add(lightUnit);
+    this.pointLightGroup.add(lightUnit);
 
     lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
     lightUnit.position.set(1 * 730, 1 * 800, 1 * -985);
@@ -143,13 +159,15 @@ export default class Scene3D {
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
-      lightUnit.shadow.bias = 0.005;
+      lightUnit.shadow.bias = -0.005;//0.005
     };
-    this.light.add(lightUnit);
+    this.pointLightGroup.add(lightUnit);
+    this.pointLightGroup.position.set(0, 0, 2150);
+    this.cameraRig.addObjectToRotationAxis(this.pointLightGroup);
   };
 
   addIntroComposition() {
-    this.introScene.position.set(0, 0, 3270);//3270
+    this.introScene.position.set(0, 0, 3270);
     this.scene.add(this.introScene);
   }
 
@@ -166,16 +184,100 @@ export default class Scene3D {
     this.scene.add(allStoryScenes);
   }
 
+  addSuitcase() {
+    const name = 'suitcaseGroup'
+    this.suitcase.castShadow = this.isShadow;
+    const innerGroup = new THREE.Group();
+    innerGroup.add(this.suitcase);
+    this.suitcaseGroup.add(innerGroup);
+    this.suitcaseGroup.name = name;
+    this.suitcaseGroup.position.set(-340, -550, 790);
+    this.suitcaseGroup.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
+    this.cameraRig.addObjectToRotationAxis(this.suitcaseGroup);
+  }
+
+  initSuitcaseAnimations() {
+    const objectAnimation = this.cameraRig.getObjectByName('suitcaseGroup');
+    this.animationSuitcase.push(new Animation({
+      func: (progress) => {
+        objectAnimation.position.y = -550 - progress * 150;
+      },
+      duration: 300,
+      delay: 1400,
+      easing: _.easeInSine
+    }));
+
+    this.animationSuitcase.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          1 - 0.05 * progress, 1 + 0.1 * progress, 1 - 0.05 * progress
+        );
+      },
+      duration: 300,
+      delay: 1400,
+      easing: _.easeInSine
+    }));
+    this.animationSuitcase.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          0.95 + 0.15 * progress, 1.1 - 0.15 * progress, 0.95 + 0.15 * progress
+        );
+      },
+      duration: 250,
+      delay: 1700,
+      easing: _.easeInOutCubic
+    }));
+    this.animationSuitcase.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          1.1 - 0.115 * progress, 0.95 + 0.08 * progress, 1.1 - 0.115 * progress
+        );
+      },
+      duration: 250,
+      delay: 1950,
+      easing: _.easeInOutCubic
+    }));
+    this.animationSuitcase.push(new Animation({
+      func: (progress) => {
+        objectAnimation.children[0].children[0].scale.set(
+          0.985 + 0.015 * progress, 1.03 - 0.03 * progress, 0.985 + 0.015 * progress
+        );
+      },
+      duration: 150,
+      delay: 2200,
+      easing: _.easeInOutCubic
+    }));
+  }
+
   loadTextures() {
     const textureLoader = new THREE.TextureLoader(this.loadManager);
     this.loadedTextures = this.textures.map((texture) => textureLoader.load(texture.url));
-  };
+  }
 
   switchCameraRig(i) {
-    this.cameraRig.changeStateTo(this.getCameraRigStageState(i));
+    if (i >= 1) {
+      this.story1.visible = true;
+      this.story2.visible = true;
+      this.story3.visible = true;
+      this.story4.visible = true;
+      this.suitcaseGroup.visible = true;
+    }
+
+    if (i >= 1 && this.prevIndex === 0) {
+      this.introScene.animationForwardKeyPatch.forEach((animation) => animation.start());
+    }
+
+    if (i === 0) {
+      this.introScene.visible = true;
+    }
+
+    this.cameraRig.changeStateTo(this.getCameraRigStageState(i), i);
+
     if (i > 0) {
       this.slide = i
     }
+
+    this.prevIndex = i;
   }
 
   setViewScene(i) {

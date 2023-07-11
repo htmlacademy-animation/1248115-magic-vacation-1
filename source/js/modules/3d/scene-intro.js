@@ -16,6 +16,8 @@ export default class SceneIntro extends THREE.Group {
     this.objectsMoveInAnimation = [];
     this.animations = [];
     this.specialAnimations = [];
+    this.animationForwardKeyPatch = [];
+    this.animationBackKeyPatch = [];
 
     this.constructChildren();
   }
@@ -42,6 +44,8 @@ export default class SceneIntro extends THREE.Group {
     this.initSuitcaseAnimations();
     this.initMoveInShakeAnimations();
     this.initAirplaneAnimations();
+    this.initForwardKeyPatchAnimation();
+    this.initBackKeyPatchAnimation();
   }
 
   addFlamingo() {
@@ -169,6 +173,8 @@ export default class SceneIntro extends THREE.Group {
       roughness: options.roughnessFlatness,
     });
     const flatnessMesh = new THREE.Mesh(flatnessGeometry, flatnessMaterial);
+    flatnessMesh.material.transparent = true;
+    flatnessMesh.name = 'keypatch';
     flatnessMesh.position.z = -120;
     keyHoleGroup.add(flatnessMesh);
 
@@ -359,6 +365,30 @@ export default class SceneIntro extends THREE.Group {
       },
       duration: 'infinite',
       delay: 3500,
+    }));
+  }
+
+  initForwardKeyPatchAnimation() {
+      const objectAnimation = this.getObjectByName('keypatch');
+      this.animationForwardKeyPatch.push(new Animation({
+        func: (progress) => {
+          objectAnimation.material.opacity = 1 - progress;
+        },
+        duration: 500,
+        delay: 0,
+        easing: _.easeLinear,
+      }));
+  }
+
+  initBackKeyPatchAnimation() {
+    const objectAnimation = this.getObjectByName('keypatch');
+    this.animationBackKeyPatch.push(new Animation({
+      func: (progress) => {
+        objectAnimation.material.opacity = progress;
+        },
+      duration: 300,
+      delay: 0,
+      easing: _.easeLinear,
     }));
   }
 };
