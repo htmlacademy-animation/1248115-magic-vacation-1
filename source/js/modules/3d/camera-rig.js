@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import _ from './../utils';
 import Animation from './../animation';
+import {scene3D} from './init-scene-3d';
 
 export default class CameraRig extends THREE.Group {
   constructor(stateParameters) {
@@ -24,14 +25,17 @@ export default class CameraRig extends THREE.Group {
     this.newStateParameters = stateParameters;
 
     this.constructRigElements();
-    this.initChangestateAnimation();
+    this.initChangeStateAnimation();
     this.invalidate();
   }
 
   constructRigElements() {
     const depthTrack = new THREE.Group();
+    depthTrack.name = 'depthTrack';
     const rotationAxis = new THREE.Group();
+    rotationAxis.name = 'rotationAxisY';
     const cameraNull = new THREE.Group();
+    cameraNull.name = 'cameraNull';
 
     this.add(rotationAxis);
     rotationAxis.add(depthTrack);
@@ -40,10 +44,6 @@ export default class CameraRig extends THREE.Group {
     this.depthTrack = depthTrack;
     this.rotationAxis = rotationAxis;
     this.cameraNull = cameraNull;
-  }
-
-  setState(newStateParameters) {
-    this.stateParameters = newStateParameters;
   }
 
   get depth() {
@@ -99,16 +99,37 @@ export default class CameraRig extends THREE.Group {
     this.cameraNull.add(object);
   }
 
-  changeStateTo(newStateParameters) {
+  addObjectToRotationAxis(object) {
+    this.rotationAxis.add(object);
+  }
+
+  changeStateTo(newStateParameters, index) {
     this.newStateParameters = newStateParameters;
-    //this.setState(newStateParameters);
+    this.index = index;
     this.startDepth = this._depth;
     this.startRotationCameraX = this._rotationCameraX;
     this.startRotationAxisY = this._rotationAxisY;
     this.animations.forEach((animation) => animation.start());
   }
 
-  initChangestateAnimation() {
+  setState(newStateParameters) {
+    this.stateParameters = newStateParameters;
+  }
+
+  changeVivisible(index) {
+    if (index >= 1) {
+      scene3D.introScene.visible = false;
+    }
+    if (index === 0) {
+      scene3D.story1.visible = false;
+      scene3D.story2.visible = false;
+      scene3D.story3.visible = false;
+      scene3D.story4.visible = false;
+      scene3D.suitcaseGroup.visible = false;
+    }
+  }
+
+  initChangeStateAnimation() {
     this.animations.push(
       new Animation({
         func: (progress) => {
@@ -121,13 +142,19 @@ export default class CameraRig extends THREE.Group {
             this.startRotationAxisY +
             (this.newStateParameters.rotationAxisY - this.startRotationAxisY) *
             progress;
-          console.log('переход сцен');
+          this.animatedObject = this.startRotationAxisY +
+          (this.newStateParameters.rotationAxisY - this.startRotationAxisY) *
+          progress;
           this.invalidate();
         },
         duration: 1600,
         easing: _.easeInOutSine,
         callback: () => {
           this.setState(this.newStateParameters);
+          this.changeVivisible(this.index);
+          if (this.index === 0) {
+            scene3D.introScene.animationBackKeyPatch.forEach((animation) => animation.start());
+          }
         },
       })
     );
