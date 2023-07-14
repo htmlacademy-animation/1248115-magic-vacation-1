@@ -13,14 +13,22 @@ export default class CameraRig extends THREE.Group {
     this._depth = this.stateParameters.depth || 0;
     this._rotationAxisY = this.stateParameters.rotationAxisY || 0;
     this._rotationCameraX = this.stateParameters.rotationCameraX || 0;
+    this._pitchRotation = 0;
+    this._pitchDepth = this.stateParameters.pitchDepth || 0;
+    this.duration = 1600;
 
     this._depthChanged = true;
     this._rotationAxisYChanged = true;
     this._rotationCameraXChanged = true;
+    this._pitchRotationChanged = true;
+    this._pitchDepthChanged = true;
 
     this.startDepth = this._depth;
     this.startRotationCameraX = this._rotationCameraX;
     this.startRotationAxisY = this._rotationAxisY;
+    this.startPitchRotation = this._pitchRotation;
+    this.startPitchDepth = this._pitchDepth;
+    this.duration = 1600;
 
     this.newStateParameters = stateParameters;
 
@@ -34,16 +42,22 @@ export default class CameraRig extends THREE.Group {
     depthTrack.name = 'depthTrack';
     const rotationAxis = new THREE.Group();
     rotationAxis.name = 'rotationAxisY';
+    const pitchAxis = new THREE.Group();
+    pitchAxis.name = 'pitchAxis';
     const cameraNull = new THREE.Group();
     cameraNull.name = 'cameraNull';
 
     this.add(rotationAxis);
     rotationAxis.add(depthTrack);
-    depthTrack.add(cameraNull);
+    depthTrack.add(pitchAxis);
+    pitchAxis.add(cameraNull);
 
     this.depthTrack = depthTrack;
     this.rotationAxis = rotationAxis;
+    this.pitchAxis = pitchAxis;
     this.cameraNull = cameraNull;
+
+    this.pitchAxis.position.z = this.pitchDepth;
   }
 
   get depth() {
@@ -52,6 +66,7 @@ export default class CameraRig extends THREE.Group {
 
   set depth(value) {
     if (value === this._depth) return;
+
     this._depth = value;
     this._depthChanged = true;
   }
@@ -78,14 +93,38 @@ export default class CameraRig extends THREE.Group {
     this._rotationAxisYChanged = true;
   }
 
+  get pitchRotation() {
+    return this._pitchRotation;
+  }
+
+  set pitchRotation(value) {
+    if (value === this._pitchRotation) return;
+
+    this._pitchRotation = value;
+    this._pitchRotationChanged = true;
+  }
+
+  get pitchDepth() {
+    return this._pitchDepth;
+  }
+
+  set pitchDepth(value) {
+    if (value === this._pitchDepth) return;
+
+    this._pitchDepth = value;
+    this._pitchDepthChanged = true;
+  }
+
   invalidate() {
     if (this._depthChanged) {
-      this.depthTrack.position.z = -this._depth;
+      this.depthTrack.position.z = this._depth;
       this._depthChanged = false;
     }
 
     if (this._rotationCameraXChanged) {
       this.depthTrack.rotation.x = this._rotationCameraX;
+      this.pitchAxis.position.y = this._pitchDepth * Math.tan(this._rotationCameraX);
+
       this._rotationCameraXChanged = false;
     }
 
@@ -93,6 +132,20 @@ export default class CameraRig extends THREE.Group {
       this.rotationAxis.rotation.y = this._rotationAxisY;
       this._rotationAxisYChanged = false;
     }
+
+    if (this._pitchRotationChanged) {
+      this.cameraNull.position.y = Math.tan(this._pitchRotation) * this._pitchDepth;
+      this.cameraNull.rotation.x = -this._pitchRotation;
+
+      this._pitchRotationChanged = false;
+    }
+
+    if (this._pitchDepthChanged) {
+      this.pitchAxis.position.z = this._pitchDepth;
+
+      this._pitchDepthChanged = false;
+    }
+
   }
 
   addObjectToCameraNull(object) {
@@ -109,6 +162,10 @@ export default class CameraRig extends THREE.Group {
     this.startDepth = this._depth;
     this.startRotationCameraX = this._rotationCameraX;
     this.startRotationAxisY = this._rotationAxisY;
+    this.startPitchRotation = this._pitchRotation;
+    this.startPitchDepth = this._pitchDepth;
+    this.duration = newStateParameters.duration;
+
     this.animations.forEach((animation) => animation.start());
   }
 
@@ -142,12 +199,19 @@ export default class CameraRig extends THREE.Group {
             this.startRotationAxisY +
             (this.newStateParameters.rotationAxisY - this.startRotationAxisY) *
             progress;
+          this.pitchRotation =
+            this.startPitchRotation +
+            (this.newStateParameters.pitchRotation - this.startPitchRotation) * progress;
+          this.pitchDepth =
+            this.startPitchDepth +
+            (this.newStateParameters.pitchDepth - this.startPitchDepth) * progress;
           this.animatedObject = this.startRotationAxisY +
-          (this.newStateParameters.rotationAxisY - this.startRotationAxisY) *
-          progress;
+            (this.newStateParameters.rotationAxisY - this.startRotationAxisY) *
+            progress;
+
           this.invalidate();
         },
-        duration: 1600,
+        duration: this.duration,
         easing: _.easeInOutSine,
         callback: () => {
           this.setState(this.newStateParameters);

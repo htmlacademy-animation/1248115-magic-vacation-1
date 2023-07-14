@@ -61,6 +61,7 @@ export default class Scene3D {
     this.story3.visible = false;
     this.story4.visible = false;
     this.suitcaseGroup.visible = false;
+    this.moveMouseHandler = this.moveMouseHandler.bind(this);
   }
 
   init() {
@@ -77,6 +78,7 @@ export default class Scene3D {
       this.story3.initCompassAnimation();
       this.story4.initSaturnAnimation2();
       this.story4.initSonyaAnimation();
+      this.addMouseListener();
 
       if (this.isIntroAnimateRender) {
         setTimeout(() => {
@@ -180,7 +182,8 @@ export default class Scene3D {
       scene.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(i * 90), 0));
       allStoryScenes.add(scene);
     });
-    allStoryScenes.position.set(0, (-700), 0);
+    allStoryScenes.position.set(0, -700, 0);
+
     this.scene.add(allStoryScenes);
   }
 
@@ -191,7 +194,7 @@ export default class Scene3D {
     innerGroup.add(this.suitcase);
     this.suitcaseGroup.add(innerGroup);
     this.suitcaseGroup.name = name;
-    this.suitcaseGroup.position.set(-340, -550, 790);
+    this.suitcaseGroup.position.set(-340, -550, 790);//-550
     this.suitcaseGroup.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
     this.cameraRig.addObjectToRotationAxis(this.suitcaseGroup);
   }
@@ -295,21 +298,44 @@ export default class Scene3D {
     if (index === 0) {
       return {
         index,
-        depth: -4750,
+        depth: 3270,
         rotationAxisY: 0,
         rotationCameraX: 0,
+        pitchRotation: 0,
+        pitchDepth: 1405,
+        duration: 1600,
       };
     }
     if ([1, 2, 3, 4].includes(index)) {
       this.introActive = false;
       return {
         index,
-        depth: -2150,
+        depth: 0,
         rotationAxisY: ((index - 1) * Math.PI) / 2,
         rotationCameraX: THREE.MathUtils.degToRad(-15),
+        pitchRotation: 0,
+        pitchDepth: 2200,
+        duration: 800,
       };
     }
     return {};
+  }
+
+  moveMouseHandler(evt) {
+    if (this.isIntroAnimateRender || this.isStoryAnimateRender) {
+      const maxAngleRotation = 0.075;//10
+      const windowHeight = window.innerHeight;
+      const centerHeight = windowHeight / 2;
+      let mouseY = evt.pageY;
+      let mouseShift = (centerHeight - mouseY) * 2;
+      let angleRotation = maxAngleRotation * mouseShift / windowHeight;
+      this.cameraRig.pitchRotation = angleRotation;
+      this.cameraRig.invalidate();
+    }
+  }
+
+  addMouseListener() {
+    document.addEventListener('mousemove', this.moveMouseHandler);
   }
 
   render() {
