@@ -1,20 +1,27 @@
 import * as THREE from "three";
 import _ from './../utils';
 import Animation from './../animation';
-import {scene3D} from './init-scene-3d';
 
 export default class CameraRig extends THREE.Group {
-  constructor(stateParameters) {
+  constructor() {
     super();
 
-    this.stateParameters = stateParameters;
+    this.stateParameters = {
+      index: 0,
+      depth: 3270,
+      rotationAxisY: 0,
+      rotationCameraX: 0,
+      pitchRotation: 0,
+      pitchDepth: 1405,
+    }
+
     this.animations = [];
 
-    this._depth = this.stateParameters.depth || 0;
-    this._rotationAxisY = this.stateParameters.rotationAxisY || 0;
-    this._rotationCameraX = this.stateParameters.rotationCameraX || 0;
-    this._pitchRotation = 0;
-    this._pitchDepth = this.stateParameters.pitchDepth || 0;
+    this._depth = this.stateParameters.depth;
+    this._rotationAxisY = this.stateParameters.rotationAxisY;
+    this._rotationCameraX = this.stateParameters.rotationCameraX;
+    this._pitchRotation = this.stateParameters.pitchRotation;
+    this._pitchDepth = this.stateParameters.pitchDepth;
     this.duration = 1600;
 
     this._depthChanged = true;
@@ -28,9 +35,6 @@ export default class CameraRig extends THREE.Group {
     this.startRotationAxisY = this._rotationAxisY;
     this.startPitchRotation = this._pitchRotation;
     this.startPitchDepth = this._pitchDepth;
-    this.duration = 1600;
-
-    this.newStateParameters = stateParameters;
 
     this.constructRigElements();
     this.initChangeStateAnimation();
@@ -156,15 +160,27 @@ export default class CameraRig extends THREE.Group {
     this.rotationAxis.add(object);
   }
 
-  changeStateTo(newStateParameters, index) {
-    this.newStateParameters = newStateParameters;
+  getNewState(index) {
+    this.newStateParameters = {
+      index: index,
+      depth: index === 0 ? 3270 : 0,
+      rotationAxisY: index === 0 ? 0 : ((index - 1) * Math.PI) / 2,
+      rotationCameraX: index === 0 ? 0 : THREE.MathUtils.degToRad(-15),
+      pitchRotation: 0,
+      pitchDepth: index === 0 ? 1405 : 2200,
+    }
+  }
+
+  changeStateTo(index, scene) {
+    this.scene = scene;
+    this.getNewState(index);
     this.index = index;
     this.startDepth = this._depth;
     this.startRotationCameraX = this._rotationCameraX;
     this.startRotationAxisY = this._rotationAxisY;
     this.startPitchRotation = this._pitchRotation;
     this.startPitchDepth = this._pitchDepth;
-    this.duration = newStateParameters.duration;
+    this.duration = this.index === 0 ? 1600 : 800;
 
     this.animations.forEach((animation) => animation.start());
   }
@@ -175,14 +191,14 @@ export default class CameraRig extends THREE.Group {
 
   changeVivisible(index) {
     if (index >= 1) {
-      scene3D.introScene.visible = false;
+      this.scene.introScene.visible = false;
     }
     if (index === 0) {
-      scene3D.story1.visible = false;
-      scene3D.story2.visible = false;
-      scene3D.story3.visible = false;
-      scene3D.story4.visible = false;
-      scene3D.suitcaseGroup.visible = false;
+      this.scene.story1.visible = false;
+      this.scene.story2.visible = false;
+      this.scene.story3.visible = false;
+      this.scene.story4.visible = false;
+      this.scene.suitcaseGroup.visible = false;
     }
   }
 
@@ -217,7 +233,7 @@ export default class CameraRig extends THREE.Group {
           this.setState(this.newStateParameters);
           this.changeVivisible(this.index);
           if (this.index === 0) {
-            scene3D.introScene.animationBackKeyPatch.forEach((animation) => animation.start());
+            this.scene.introScene.animationBackKeyPatch.forEach((animation) => animation.start());
           }
         },
       })

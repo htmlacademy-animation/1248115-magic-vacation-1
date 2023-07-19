@@ -7,6 +7,7 @@ import SceneSlide2 from "./scene-slide-2";
 import SceneSlide3 from "./scene-slide-3";
 import SceneSlide4 from "./scene-slide-4";
 import CameraRig from "./camera-rig";
+import CameraRigPortrait from "./camera-rig-portrait";
 import Suitcase from "./suitcase";
 import Animation from './../animation';
 import _ from './../utils';
@@ -42,6 +43,8 @@ export default class Scene3D {
     this.isIntroAnimateRender = false;
     this.isStoryAnimateRender = false;
     this.loadManager = loadManager;
+    this.cameraRig = new CameraRig();
+    this.cameraRigPortrait = new CameraRigPortrait();
     this.introScene = new SceneIntro();
     this.story1 = new SceneSlide1();
     this.story2 = new SceneSlide2();
@@ -50,11 +53,10 @@ export default class Scene3D {
     this.suitcase = new Suitcase();
     this.suitcaseGroup = new THREE.Group();
     this.slide = 1;
+    this.prevIndex = 0;
     this.startIntro = false;
     this.startStory = false;
-    this.introActive = true;
     this.cameraPositionZ = 1500;
-    this.prevIndex = 0;
     this.animationSuitcase = [];
     this.story1.visible = false;
     this.story2.visible = false;
@@ -62,6 +64,8 @@ export default class Scene3D {
     this.story4.visible = false;
     this.suitcaseGroup.visible = false;
     this.moveMouseHandler = this.moveMouseHandler.bind(this);
+    this.orientation = 'landscape';
+    this.currentCamera = null;
   }
 
   init() {
@@ -79,6 +83,8 @@ export default class Scene3D {
       this.story4.initSaturnAnimation2();
       this.story4.initSonyaAnimation();
       this.addMouseListener();
+      this.addResizeListener();
+      this.resize();
 
       if (this.isIntroAnimateRender) {
         setTimeout(() => {
@@ -109,9 +115,10 @@ export default class Scene3D {
     this.color = new THREE.Color(this.backgroundColor);
 
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
-    this.cameraRig = new CameraRig(this.getCameraRigStageState(0));
+    this.camera.name = 'camera';
     this.getLight();
     this.getCamera();
+
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas
     });
@@ -125,9 +132,14 @@ export default class Scene3D {
   }
 
   getCamera() {
+    this.currentCamera = this.cameraRig;
+    this.cameraRig.name = 'cameraRig';
     this.cameraRig.addObjectToCameraNull(this.camera);
     this.cameraRig.addObjectToCameraNull(this.light);
+    this.cameraRig.addObjectToRotationAxis(this.pointLightGroup);
+    this.cameraRigPortrait.name = 'cameraRigPortrait';
     this.scene.add(this.cameraRig);
+    this.scene.add(this.cameraRigPortrait);
   }
 
   getLight() {
@@ -165,7 +177,6 @@ export default class Scene3D {
     };
     this.pointLightGroup.add(lightUnit);
     this.pointLightGroup.position.set(0, 0, 2150);
-    this.cameraRig.addObjectToRotationAxis(this.pointLightGroup);
   };
 
   addIntroComposition() {
@@ -196,11 +207,11 @@ export default class Scene3D {
     this.suitcaseGroup.name = name;
     this.suitcaseGroup.position.set(-340, -550, 790);//-550
     this.suitcaseGroup.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
-    this.cameraRig.addObjectToRotationAxis(this.suitcaseGroup);
+    this.currentCamera.addObjectToRotationAxis(this.suitcaseGroup);///////
   }
 
   initSuitcaseAnimations() {
-    const objectAnimation = this.cameraRig.getObjectByName('suitcaseGroup');
+    const objectAnimation = this.currentCamera.getObjectByName('suitcaseGroup');/////
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.position.y = -550 - progress * 150;
@@ -274,7 +285,8 @@ export default class Scene3D {
       this.introScene.visible = true;
     }
 
-    this.cameraRig.changeStateTo(this.getCameraRigStageState(i), i);
+    this.cameraRig.changeStateTo(i, this);
+    this.cameraRigPortrait.changeStateTo(i, this);
 
     if (i > 0) {
       this.slide = i
@@ -284,41 +296,13 @@ export default class Scene3D {
   }
 
   setViewScene(i) {
-    this.slide = i;
+    //this.slide = i;
     this.story1.animations.forEach((animation) => animation.stop());
     this.story2.animations.forEach((animation) => animation.stop());
     this.story3.animations.forEach((animation) => animation.stop());
     this.story4.animations.forEach((animation) => animation.stop());
     this.switchCameraRig(i);
     this[`story${i}`].animations.forEach((animation) => animation.start());
-  }
-
-  getCameraRigStageState(index) {
-    this.introActive = true;
-    if (index === 0) {
-      return {
-        index,
-        depth: 3270,
-        rotationAxisY: 0,
-        rotationCameraX: 0,
-        pitchRotation: 0,
-        pitchDepth: 1405,
-        duration: 1600,
-      };
-    }
-    if ([1, 2, 3, 4].includes(index)) {
-      this.introActive = false;
-      return {
-        index,
-        depth: 0,
-        rotationAxisY: ((index - 1) * Math.PI) / 2,
-        rotationCameraX: THREE.MathUtils.degToRad(-15),
-        pitchRotation: 0,
-        pitchDepth: 2200,
-        duration: 800,
-      };
-    }
-    return {};
   }
 
   moveMouseHandler(evt) {
@@ -329,8 +313,8 @@ export default class Scene3D {
       let mouseY = evt.pageY;
       let mouseShift = (centerHeight - mouseY) * 2;
       let angleRotation = maxAngleRotation * mouseShift / windowHeight;
-      this.cameraRig.pitchRotation = angleRotation;
-      this.cameraRig.invalidate();
+      this.currentCamera.pitchRotation = angleRotation;
+      this.currentCamera.invalidate();
     }
   }
 
@@ -338,10 +322,60 @@ export default class Scene3D {
     document.addEventListener('mousemove', this.moveMouseHandler);
   }
 
+  resize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    if (height < 1 || width < 1) return;
+
+    if (width > height) {
+      if (this.orientation !== 'landscape') {
+        this.switchResizeCamera(this.cameraRig);
+        this.introScene.changeFinalPosition();
+      }
+      this.camera.fov = 35;
+      this.orientation = 'landscape';
+    } else {
+      if (this.orientation !== 'portrait') {
+        this.switchResizeCamera(this.cameraRigPortrait);
+        this.introScene.changeFinalPosition();
+      }
+      this.camera.fov = (32 * height) / Math.min(width * 1.3, height);
+      this.orientation = 'portrait'
+    }
+
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+    this.width = width;
+    this.height = height;
+    //this.getCamera();
+
+    return this;
+  }
+
+  switchResizeCamera(camera) {
+    this.currentCamera = camera;
+    camera.addObjectToCameraNull(this.camera);
+    camera.addObjectToCameraNull(this.light);
+    camera.addObjectToRotationAxis(this.pointLightGroup);
+    camera.addObjectToRotationAxis(this.suitcaseGroup);
+  }
+
+  addResizeListener() {
+    window.addEventListener('resize', () => {
+      this.resizeInProgress = true;
+    });
+  }
+
   render() {
     //console.log('render');
     if (this.isIntroAnimateRender || this.isStoryAnimateRender) {
+      if (this.resizeInProgress) {
+        this.resize();
+      }
       requestAnimationFrame(this.render);
+      this.resizeInProgress = false;
     }
     this.renderer.render(this.scene, this.camera);
   }
