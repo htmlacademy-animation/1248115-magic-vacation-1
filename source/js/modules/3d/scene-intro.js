@@ -39,7 +39,7 @@ export default class SceneIntro extends THREE.Group {
       roughness: reflection3D.soft.roughness
     });
     this.addPlane();
-    this.addSuitcase(this.loadManager);
+    this.addSuitcase();
     this.addWatermelon();
     this.initSuitcaseAnimations();
     this.initMoveInShakeAnimations();
@@ -60,7 +60,7 @@ export default class SceneIntro extends THREE.Group {
     outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
     outerGroup.options = {
-      position: [-520, 380, 80],
+      position: [-530, 350, 80],
       scale: [-2, -2, 2],
       rotation: [-5, 40, 25],
       amplitude: getRandomInteger(2, 10) / 10,
@@ -81,7 +81,7 @@ export default class SceneIntro extends THREE.Group {
     outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
     outerGroup.options = {
-      position: [100, -330, 100],
+      position: [100, -280, 100],
       scale: [2, -2, 2],
       rotation: [-40, 15, 20],
       amplitude: getRandomInteger(2, 10) / 10,
@@ -123,7 +123,7 @@ export default class SceneIntro extends THREE.Group {
     outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
     outerGroup.options = {
-      position: [660, 340, 200],
+      position: [630, 300, 300],
       scale: [1, -1, 1],
       rotation: [7, -70, -70],
       amplitude: getRandomInteger(2, 10) / 10,
@@ -225,7 +225,7 @@ export default class SceneIntro extends THREE.Group {
       outerGroup.position.set(0, 0, 40);
       outerGroup.name = name;
       outerGroup.options = {
-        position: [-775, -280, 80],
+        position: [-710, -250, 80],
         scale: [2.2, 2.2, 2.2],
         rotation: [10, 0, 140],
         amplitude: getRandomInteger(2, 10) / 10,
@@ -248,8 +248,8 @@ export default class SceneIntro extends THREE.Group {
             THREE.MathUtils.degToRad(item.options.rotation[1] * progress),
             THREE.MathUtils.degToRad(item.options.rotation[2] * progress)));
           item.position.set(
-            0 + progress * (item.options.position[0] - 0),
-            0 + progress * (item.options.position[1] - 0),
+            0 + progress * (item.options.position[0] * window.innerWidth / 1440 - 0),
+            0 + progress * (item.options.position[1] * window.innerHeight / 760 - 0),
             40 + progress * (item.options.position[2] - 40));
         })
       },
@@ -323,39 +323,38 @@ export default class SceneIntro extends THREE.Group {
     const initialPlaneScale = objectAnimation.planeScale;
 
     this.specialAnimations.push(new Animation({
-        func: (progress) => {
-          objectAnimation.planeScale =
-            initialPlaneScale +
-            (objectAnimation.maxPlaneScale - initialPlaneScale) * progress;
+      func: (progress) => {
+        objectAnimation.planeScale =
+          initialPlaneScale +
+          (objectAnimation.maxPlaneScale - initialPlaneScale) * progress;
 
-          objectAnimation.planeRadius =
-            initialPlaneRadius +
-            (objectAnimation.maxPlaneRadius - initialPlaneRadius) * progress;
+        objectAnimation.planeRadius =
+          initialPlaneRadius +
+          (objectAnimation.maxPlaneRadius - initialPlaneRadius) * progress * window.innerWidth / 1440;
 
-          objectAnimation.flightHeight =
-            initialFightHeight +
-            (objectAnimation.maxFlightHeight - initialFightHeight) * progress;
+        objectAnimation.flightHeight =
+          initialFightHeight +
+          (objectAnimation.maxFlightHeight - initialFightHeight) * progress;
 
-          objectAnimation.flightRotationY =
+        objectAnimation.flightRotationY =
             initialFlightRotationY + (progress * 5 * Math.PI) / 4;
 
-          objectAnimation.planeRotationZ =
-            progress < 0.5
-              ? initialPlaneRotationZ - progress * Math.PI
-              : initialPlaneRotationZ -
-              0.45 * Math.PI +
-              (progress - 0.5) * Math.PI;
+        objectAnimation.planeRotationZ =
+          progress < 0.5
+            ? initialPlaneRotationZ - progress * Math.PI
+            : initialPlaneRotationZ -
+            0.45 * Math.PI +
+            (progress - 0.5) * Math.PI;
 
-          objectAnimation.planeGroupRotationZ =
-            initialPlaneGroupRotationZ + (progress * Math.PI) / 4;
+        objectAnimation.planeGroupRotationZ =
+          initialPlaneGroupRotationZ + (progress * Math.PI) / 4;
 
-          objectAnimation.invalidate(progress);
-        },
-        duration: 2000,
-        delay: 1500,
-        easing: _.easeOutQuad,
-      }),
-    );
+        objectAnimation.invalidate(progress);
+      },
+      duration: 2000,
+      delay: 1500,
+      easing: _.easeOutQuad,
+    }));
 
     this.animations.push(new Animation({
       func: (progress, details) => {
@@ -369,15 +368,15 @@ export default class SceneIntro extends THREE.Group {
   }
 
   initForwardKeyPatchAnimation() {
-      const objectAnimation = this.getObjectByName('keypatch');
-      this.animationForwardKeyPatch.push(new Animation({
-        func: (progress) => {
-          objectAnimation.material.opacity = 1 - progress;
-        },
-        duration: 500,
-        delay: 0,
-        easing: _.easeLinear,
-      }));
+    const objectAnimation = this.getObjectByName('keypatch');
+    this.animationForwardKeyPatch.push(new Animation({
+      func: (progress) => {
+        objectAnimation.material.opacity = 1 - progress;
+      },
+      duration: 500,
+      delay: 0,
+      easing: _.easeLinear,
+    }));
   }
 
   initBackKeyPatchAnimation() {
@@ -390,5 +389,17 @@ export default class SceneIntro extends THREE.Group {
       delay: 0,
       easing: _.easeLinear,
     }));
+  }
+
+  changeFinalPosition() {
+    this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
+      if ((item.position.x < 0 && item.position.y > 0) || (item.position.x > 0 && item.position.y < 0)) {
+        [item.position.x, item.position.y] = [item.position.y, item.position.x];
+        item.position.x *= -1;
+        item.position.y *= -1;
+      } else {
+        [item.position.x, item.position.y] = [item.position.y, item.position.x];
+      }
+    })
   }
 };

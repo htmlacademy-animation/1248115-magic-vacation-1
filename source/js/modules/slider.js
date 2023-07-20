@@ -4,6 +4,7 @@ import {scene3D} from './3d/init-scene-3d.js';
 export default () => {
   let storySlider;
   document.body.setAttribute('data-slide', 1);
+  let activeIndex;
 
   const setSlider = function () {
     if (((window.innerWidth / window.innerHeight) < 1) || window.innerWidth < 769) {
@@ -19,12 +20,20 @@ export default () => {
           slideChange: () => {
             if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
               scene3D.setViewScene(1);
+              document.body.setAttribute('data-slide', 1);
+              activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
               scene3D.setViewScene(2);
+              document.body.setAttribute('data-slide', 2);
+              activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
               scene3D.setViewScene(3);
+              document.body.setAttribute('data-slide', 3);
+              activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 6 || storySlider.activeIndex === 7) {
               scene3D.setViewScene(4);
+              document.body.setAttribute('data-slide', 4);
+              activeIndex = storySlider.activeIndex;
             }
           },
           resize: () => {
@@ -54,15 +63,19 @@ export default () => {
             if (storySlider.activeIndex === 0) {
               scene3D.setViewScene(1);
               document.body.setAttribute('data-slide', 1);
+              activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 2) {
               scene3D.setViewScene(2);
               document.body.setAttribute('data-slide', 2);
+              activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 4) {
               scene3D.setViewScene(3);
               document.body.setAttribute('data-slide', 3);
+              activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 6) {
               scene3D.setViewScene(4);
               document.body.setAttribute('data-slide', 4);
+              activeIndex = storySlider.activeIndex;
             }
           },
           resize: () => {
@@ -80,6 +93,7 @@ export default () => {
       storySlider.destroy();
     }
     setSlider();
+    storySlider.slideTo(activeIndex);
   });
 
   setSlider();

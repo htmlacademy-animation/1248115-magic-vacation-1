@@ -106,14 +106,12 @@ export default class FullPageScroll {
 
     if (this.screenElements[this.activeScreen].id === "story") {
       scene3D.isStoryAnimateRender = true;
-      if (scene3D.introActive) {
-        scene3D.switchCameraRig(scene3D.slide);
-        if (scene3D.slide === 1) {
-          scene3D.animationSuitcase.forEach((animation) => animation.start());
-        }
+      scene3D.switchCameraRig(scene3D.slide);
+      if (scene3D.slide === 1) {
+        scene3D.animationSuitcase.forEach((animation) => animation.start());//
       }
       if (scene3D.startIntro) {
-        scene3D[`story${scene3D.slide}`].animations.forEach((animation) => animation.start());
+        scene3D[`story${scene3D.slide}`].animations.forEach((animation) => animation.start());//
       }
       scene3D.render();
     }
@@ -121,11 +119,8 @@ export default class FullPageScroll {
     if (this.screenElements[this.activeScreen].id === "top") {
       scene3D.isIntroAnimateRender = true;
       if (scene3D.startIntro) {
-        if (!scene3D.introActive) {
-          scene3D.switchCameraRig(0);
-          scene3D.introActive = true;
-        }
-        scene3D.introScene.animations.forEach((animation) => animation.start());
+        scene3D.switchCameraRig(0);
+        scene3D.introScene.animations.forEach((animation) => animation.start());//
       }
       scene3D.render();
     }
