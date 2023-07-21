@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import {getLatheDegrees } from './three-utils';
 import {loadModel} from "./model-3d-loader";
-//import {loadManagerStory} from "./load-manager";
 import {isMobile} from './../helpers.js';
+import {textureLoader} from './texture-loader';
 
 export default class Room extends THREE.Group {
   constructor(options) {
@@ -11,9 +11,11 @@ export default class Room extends THREE.Group {
     this.floorColor = options.floorColor;
     this.metalness = options.metalness;
     this.roughness = options.roughness;
+    this.matcapMaterial = options.matcapMaterial;
     this.startDeg = 0;
     this.finishDeg = 90;
     this.isShadow = !isMobile();
+    this.textureLoader = textureLoader;
 
     this.constructChildren();
   }
@@ -25,12 +27,21 @@ export default class Room extends THREE.Group {
 
   addWall() {
     const name = `wallCornerUnit`;
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.wallColor),
-      metalness: this.metalness,
-      roughness: this.roughness,
-      side: THREE.DoubleSide,
-    });
+    let material;
+    if (this.isShadow) {
+      material = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(this.wallColor),
+        metalness: this.metalness,
+        roughness: this.roughness,
+        side: THREE.DoubleSide,
+      });
+    } else {
+      material = new THREE.MeshMatcapMaterial({
+        color: new THREE.Color(this.wallColor),
+        matcap: this.textureLoader.load(this.matcapMaterial),
+        side: THREE.DoubleSide,
+      });
+    }
     loadModel(name, material, (mesh) => {
       mesh.name = name;
       const scale = 1;
@@ -42,19 +53,29 @@ export default class Room extends THREE.Group {
   }
 
   addFloor() {
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.floorColor),
-      metalness: this.metalness,
-      roughness: this.roughness,
-      side: THREE.DoubleSide,
-    });
+    let material;
+    if (this.isShadow) {
+      material = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(this.floorColor),
+        metalness: this.metalness,
+        roughness: this.roughness,
+        side: THREE.DoubleSide,
+      });
+    } else {
+      material = new THREE.MeshMatcapMaterial({
+        color: new THREE.Color(this.floorColor),
+        matcap: this.textureLoader.load(this.matcapMaterial),
+      });
+    }
     const {start, length} = getLatheDegrees(this.startDeg, this.finishDeg);
     const geometry = new THREE.CircleGeometry(1350, 30, start, length);
     const mesh = new THREE.Mesh(geometry, material);
     const scale = 1.3;
     mesh.scale.set(scale, scale, scale);
     mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(90), 0, THREE.MathUtils.degToRad(45)));
-    mesh.receiveShadow = this.isShadow;
+    if (this.isShadow) {
+      mesh.receiveShadow = this.isShadow;
+    }
     this.add(mesh);
   }
 };

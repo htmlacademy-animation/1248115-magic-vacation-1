@@ -36,7 +36,8 @@ export default class SceneIntro extends THREE.Group {
       colorSaturn: color3D.DominantRed,
       colorRing: color3D.ShadowedBrightPurple,
       metalness: reflection3D.soft.metalness,
-      roughness: reflection3D.soft.roughness
+      roughness: reflection3D.soft.roughness,
+      matcapMaterial: reflection3D.soft.matcapMaterial,
     });
     this.addPlane();
     this.addSuitcase();

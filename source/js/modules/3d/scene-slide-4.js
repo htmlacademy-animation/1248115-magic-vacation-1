@@ -22,6 +22,7 @@ export default class SceneSlide4 extends THREE.Group {
       floorColor: color3D.ShadowedDarkPurple,
       metalness: reflection3D.basic.metalness,
       roughness: reflection3D.basic.roughness,
+      matcapMaterial: reflection3D.basic.matcapMaterial,
     });
     this.addStaticObjects();
     this.addSonya();
@@ -30,7 +31,8 @@ export default class SceneSlide4 extends THREE.Group {
       colorRing: color3D.ShadowedBrightPurple,
       colorRope: color3D.MetalGrey,
       metalness: reflection3D.soft.metalness,
-      roughness: reflection3D.soft.roughness
+      roughness: reflection3D.soft.roughness,
+      matcapMaterial: reflection3D.soft.matcapMaterial,
     });
     this.addCarpet({
       mainColor: color3D.ShadowedLightPurple,

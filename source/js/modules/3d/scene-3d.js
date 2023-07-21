@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {isMobile} from '../helpers';
 import {loadManager} from "./load-manager";
+import {textureLoader} from "./texture-loader";
 import SceneIntro from "./scene-intro";
 import SceneSlide1 from "./scene-slide-1";
 import SceneSlide2 from "./scene-slide-2";
@@ -43,6 +44,7 @@ export default class Scene3D {
     this.isIntroAnimateRender = false;
     this.isStoryAnimateRender = false;
     this.loadManager = loadManager;
+    this.textureLoader = textureLoader;
     this.cameraRig = new CameraRig();
     this.cameraRigPortrait = new CameraRigPortrait();
     this.introScene = new SceneIntro();
@@ -82,6 +84,9 @@ export default class Scene3D {
       this.story3.initCompassAnimation();
       this.story4.initSaturnAnimation2();
       this.story4.initSonyaAnimation();
+      if (isMobile()) {
+        this.hideObjectMobile();
+      }
       this.addMouseListener();
       this.addResizeListener();
       this.resize();
@@ -136,7 +141,9 @@ export default class Scene3D {
     this.cameraRig.name = 'cameraRig';
     this.cameraRig.addObjectToCameraNull(this.camera);
     this.cameraRig.addObjectToCameraNull(this.light);
-    this.cameraRig.addObjectToRotationAxis(this.pointLightGroup);
+    if (this.isShadow) {
+      this.cameraRig.addObjectToRotationAxis(this.pointLightGroup);
+    }
     this.cameraRigPortrait.name = 'cameraRigPortrait';
     this.scene.add(this.cameraRig);
     this.scene.add(this.cameraRigPortrait);
@@ -150,33 +157,35 @@ export default class Scene3D {
     this.light.add(lightUnit);
     this.light.add(lightUnit.target);
 
-    this.pointLightGroup = new THREE.Group();
-    this.pointLightGroup.name = 'pointLightGroup';
-
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
-    lightUnit.position.set(1 * -785, 1 * -350, 1 * -710);
     if (this.isShadow) {
+      this.pointLightGroup = new THREE.Group();
+      this.pointLightGroup.name = 'pointLightGroup';
+
+      lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
+      lightUnit.position.set(1 * -785, 1 * -350, 1 * -710);
+
       lightUnit.castShadow = true;
       lightUnit.shadow.mapSize.width = 1000;
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
       lightUnit.shadow.bias = -0.005;//-0.005
-    };
-    this.pointLightGroup.add(lightUnit);
 
-    lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
-    lightUnit.position.set(1 * 730, 1 * 800, 1 * -985);
-    if (this.isShadow) {
+      this.pointLightGroup.add(lightUnit);
+
+      lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
+      lightUnit.position.set(1 * 730, 1 * 800, 1 * -985);
+
       lightUnit.castShadow = true;
       lightUnit.shadow.mapSize.width = 1000;
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
       lightUnit.shadow.bias = -0.005;//0.005
-    };
-    this.pointLightGroup.add(lightUnit);
-    this.pointLightGroup.position.set(0, 0, 2150);
+
+      this.pointLightGroup.add(lightUnit);
+      this.pointLightGroup.position.set(0, 0, 2150);
+    }
   };
 
   addIntroComposition() {
@@ -264,8 +273,7 @@ export default class Scene3D {
   }
 
   loadTextures() {
-    const textureLoader = new THREE.TextureLoader(this.loadManager);
-    this.loadedTextures = this.textures.map((texture) => textureLoader.load(texture.url));
+    this.loadedTextures = this.textures.map((texture) => this.textureLoader.load(texture.url));
   }
 
   switchCameraRig(i) {
@@ -296,7 +304,6 @@ export default class Scene3D {
   }
 
   setViewScene(i) {
-    //this.slide = i;
     this.story1.animations.forEach((animation) => animation.stop());
     this.story2.animations.forEach((animation) => animation.stop());
     this.story3.animations.forEach((animation) => animation.stop());
@@ -319,7 +326,9 @@ export default class Scene3D {
   }
 
   addMouseListener() {
-    document.addEventListener('mousemove', this.moveMouseHandler);
+    if (this.isShadow) {
+      document.addEventListener('mousemove', this.moveMouseHandler);
+    }
   }
 
   resize() {
@@ -349,7 +358,6 @@ export default class Scene3D {
     this.renderer.setSize(width, height);
     this.width = width;
     this.height = height;
-    //this.getCamera();
 
     return this;
   }
@@ -358,7 +366,9 @@ export default class Scene3D {
     this.currentCamera = camera;
     camera.addObjectToCameraNull(this.camera);
     camera.addObjectToCameraNull(this.light);
-    camera.addObjectToRotationAxis(this.pointLightGroup);
+    if (this.isShadow) {
+      camera.addObjectToRotationAxis(this.pointLightGroup);
+    }
     camera.addObjectToRotationAxis(this.suitcaseGroup);
   }
 
@@ -366,6 +376,23 @@ export default class Scene3D {
     window.addEventListener('resize', () => {
       this.resizeInProgress = true;
     });
+  }
+
+  hideObjectMobile() {
+    const namesHiddenObjects = ['surfobj', 'Skis', 'Table', 'Starfish_Null', 'lantern'];
+    let obj;
+    for (let name of namesHiddenObjects) {
+      obj = this.scene.getObjectByName(name);
+      if (obj) {
+        obj.visible = false;
+      }
+    }
+    for (let name of namesHiddenObjects) {
+      obj = this.story4.getObjectByName(name);
+      if (obj) {
+        obj.visible = false;
+      }
+    }
   }
 
   render() {

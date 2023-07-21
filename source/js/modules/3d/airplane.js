@@ -2,10 +2,15 @@ import * as THREE from "three";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
+import {isMobile} from './../helpers.js';
+import {textureLoader} from './texture-loader';
 
 export default class Airplane extends THREE.Group {
   constructor() {
     super();
+
+    this.isShadow = !isMobile();
+    this.textureLoader = textureLoader;
 
     this._planeRadius = 100;
     this._planeRadiusChanged = true;
@@ -30,11 +35,19 @@ export default class Airplane extends THREE.Group {
 
   createObj() {
     const name = `airplane`;
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(color3D.White),
-      metalness: reflection3D.basic.metalness,
-      roughness: reflection3D.basic.roughness
-    });
+    let material;
+    if (this.isShadow) {
+      material = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(color3D.White),
+        metalness: reflection3D.basic.metalness,
+        roughness: reflection3D.basic.roughness,
+      });
+    } else {
+      material = new THREE.MeshMatcapMaterial({
+        color: new THREE.Color(color3D.White),
+        matcap: this.textureLoader.load(reflection3D.basic.matcapMaterial),
+      });
+    }
     loadModel(name, material, (mesh) => {
       mesh.name = name;
       mesh.scale.set(0.6, 0.6, 0.6);

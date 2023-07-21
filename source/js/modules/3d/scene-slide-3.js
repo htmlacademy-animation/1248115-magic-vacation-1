@@ -21,6 +21,7 @@ export default class SceneSlide3 extends THREE.Group {
       floorColor: color3D.MountainBlue,
       metalness: reflection3D.soft.metalness,
       roughness: reflection3D.soft.roughness,
+      matcapMaterial: reflection3D.soft.matcapMaterial,
     });
     this.addStaticObjects();
     this.addCompass();
@@ -30,7 +31,9 @@ export default class SceneSlide3 extends THREE.Group {
       roughnessSphere: reflection3D.strong.roughness,
       colorCone: color3D.Orange,
       metalnessCone: reflection3D.soft.metalness,
-      roughnessCone: reflection3D.soft.roughness
+      roughnessCone: reflection3D.soft.roughness,
+      matcapMaterialSphere: reflection3D.strong.matcapMaterial,
+      matcapMaterialCone: reflection3D.soft.matcapMaterial,
     });
     this.addRoad();
   }

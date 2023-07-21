@@ -22,12 +22,14 @@ export default class SceneSlide2 extends THREE.Group {
       floorColor: color3D.BrightBlue,
       metalness: reflection3D.basic.metalness,
       roughness: reflection3D.basic.roughness,
+      matcapMaterial: reflection3D.basic.matcapMaterial,
     });
     this.addStaticObjects();
     this.addPyramid({
       pyramidColor: color3D.Blue,
       metalness: reflection3D.soft.metalness,
-      roughness: reflection3D.soft.roughness
+      roughness: reflection3D.soft.roughness,
+      matcapMaterial: reflection3D.soft.matcapMaterial,
     });
     this.addLantern({
       lanternColor: color3D.Blue,
@@ -100,7 +102,6 @@ export default class SceneSlide2 extends THREE.Group {
       func: (progress, details) => {
         const time = ((details.currentTime - details.startTime) / 300) % 16;
         objectAnimation1.rotation.z = 0.3 * Math.exp(-0.2 * time) * Math.cos(1.2 * time + Math.PI / 2);
-        //console.log('стори2 - анимация листьев');
       },
       duration: `infinite`,
     }));

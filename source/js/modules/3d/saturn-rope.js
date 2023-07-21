@@ -18,28 +18,48 @@ export default class SaturnRope extends Saturn {
   }
 
   addCylinder() {
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.colorRope),
-      metalness: this.metalness,
-      roughness: this.roughness
-    });
+    let material;
+    if (this.isShadow) {
+      material = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(this.colorRope),
+        metalness: this.metalness,
+        roughness: this.roughness
+      });
+    } else {
+      material = new THREE.MeshMatcapMaterial({
+        color: new THREE.Color(this.colorRope),
+        matcap: this.textureLoader.load(this.matcapMaterial),
+      });
+    }
     const geometry = new THREE.CylinderGeometry(1, 1, 1000, 10);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, -500, 0);
-    mesh.castShadow = this.isShadow;
+    if (this.isShadow) {
+      mesh.castShadow = this.isShadow;
+    }
     this.add(mesh);
   }
 
   addSphereSmall() {
-    const material = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(this.colorRing),
-      metalness: this.metalness,
-      roughness: this.roughness
-    });
+    let material;
+    if (this.isShadow) {
+      material = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(this.colorRing),
+        metalness: this.metalness,
+        roughness: this.roughness
+      });
+    } else {
+      material = new THREE.MeshMatcapMaterial({
+        color: new THREE.Color(this.colorRing),
+        matcap: this.textureLoader.load(this.matcapMaterial),
+      });
+    }
     const geometry = new THREE.SphereGeometry(10, 30, 30);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 120 - 1000, 0);
-    mesh.castShadow = this.isShadow;
+    if (this.isShadow) {
+      mesh.castShadow = this.isShadow;
+    }
     this.add(mesh);
   }
 }

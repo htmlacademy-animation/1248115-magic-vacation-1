@@ -23,6 +23,7 @@ export default class SceneSlide1 extends THREE.Group {
       floorColor: color3D.DarkPurple,
       metalness: reflection3D.soft.metalness,
       roughness: reflection3D.soft.roughness,
+      matcapMaterial: reflection3D.soft.matcapMaterial,
     });
     this.addStaticObjects();
     this.addDog();
@@ -36,7 +37,8 @@ export default class SceneSlide1 extends THREE.Group {
       colorRing: color3D.BrightPurple,
       colorRope: color3D.MetalGrey,
       metalness: reflection3D.soft.metalness,
-      roughness: reflection3D.soft.roughness
+      roughness: reflection3D.soft.roughness,
+      matcapMaterial: reflection3D.soft.matcapMaterial,
     });
   }
 

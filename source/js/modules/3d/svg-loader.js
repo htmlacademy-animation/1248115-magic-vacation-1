@@ -3,6 +3,7 @@ import {SVGLoader} from "three/examples/jsm/loaders/SVGLoader";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {isMobile} from './../helpers.js';
+import {textureLoader} from './texture-loader';
 
 const mapSvgForms = {
   keyHole: {
@@ -10,6 +11,7 @@ const mapSvgForms = {
     color: color3D.DarkPurple,
     metalness: reflection3D.soft.metalness,
     roughness: reflection3D.soft.roughness,
+    matcapMaterial: reflection3D.soft.matcapMaterial,
     svgHeight: 2000,
     height: 2000,
     depth: 20,
@@ -21,6 +23,7 @@ const mapSvgForms = {
     color: color3D.Green,
     metalness: reflection3D.basic.metalness,
     roughness: reflection3D.basic.roughness,
+    matcapMaterial: reflection3D.basic.matcapMaterial,
     svgHeight: 64,
     height: 117,
     depth: 8,
@@ -32,17 +35,19 @@ const mapSvgForms = {
     color: color3D.Green,
     metalness: reflection3D.basic.metalness,
     roughness: reflection3D.basic.roughness,
+    matcapMaterial: reflection3D.basic.matcapMaterial,
     svgHeight: 64,
     height: 335,
     depth: 3,
     cap: 3,
-    castShadow: true,
+    castShadow: !isMobile() ? true : false,
   },
   flamingo: {
     src: `./img/module-6/svg-forms/flamingo.svg`,
     color: color3D.LightDominantRed,
     metalness: reflection3D.soft.metalness,
     roughness: reflection3D.soft.roughness,
+    matcapMaterial: reflection3D.soft.matcapMaterial,
     svgHeight: 38,
     height: 85,
     depth: 8,
@@ -54,6 +59,7 @@ const mapSvgForms = {
     color: color3D.Blue,
     metalness: reflection3D.basic.metalness,
     roughness: reflection3D.basic.roughness,
+    matcapMaterial: reflection3D.basic.matcapMaterial,
     svgHeight: 55,
     height: 56,
     depth: 8,
@@ -65,6 +71,7 @@ const mapSvgForms = {
     color: color3D.Blue,
     metalness: reflection3D.basic.metalness,
     roughness: reflection3D.basic.roughness,
+    matcapMaterial: reflection3D.basic.matcapMaterial,
     svgHeight: 71,
     height: 74,
     depth: 8,
@@ -76,28 +83,31 @@ const mapSvgForms = {
     color: color3D.AdditionalPurple,
     metalness: reflection3D.basic.metalness,
     roughness: reflection3D.basic.roughness,
+    matcapMaterial: reflection3D.basic.matcapMaterial,
     svgHeight: 362,
     height: 413,
     depth: 4,
     cap: 2,
-    castShadow: true,
+    castShadow: !isMobile() ? true : false,
   },
   flower2: {
     src: `./img/module-6/svg-forms/flower.svg`,
     color: color3D.ShadowedAdditionalPurple,
     metalness: reflection3D.basic.metalness,
     roughness: reflection3D.basic.roughness,
+    matcapMaterial: reflection3D.basic.matcapMaterial,
     svgHeight: 362,
     height: 413,
     depth: 4,
     cap: 2,
-    castShadow: true,
+    castShadow: !isMobile() ? true : false,
   }
 };
 
 export default class SvgLoader {
   constructor(name) {
     this.name = name;
+    this.textureLoader = textureLoader;
   }
 
   createSvgGroup() {
@@ -111,11 +121,19 @@ export default class SvgLoader {
 
           for (let i = 0; i < paths.length; i++) {
             const path = paths[i];
-            const material = new THREE.MeshStandardMaterial({
-              color: new THREE.Color(mapSvgForms[this.name].color),
-              metalness: mapSvgForms[this.name].metalness,
-              roughness: mapSvgForms[this.name].roughness
-            });
+            let material;
+            if (!isMobile()) {
+              material = new THREE.MeshStandardMaterial({
+                color: new THREE.Color(mapSvgForms[this.name].color),
+                metalness: mapSvgForms[this.name].metalness,
+                roughness: mapSvgForms[this.name].roughness
+              });
+            } else {
+              material = new THREE.MeshMatcapMaterial({
+                color: new THREE.Color(mapSvgForms[this.name].color),
+                matcap: this.textureLoader.load(mapSvgForms[this.name].matcapMaterial),
+              });
+            }
 
             const shapes = path.toShapes(false);
 
@@ -134,9 +152,7 @@ export default class SvgLoader {
               }
               group.add(mesh);
             }
-
           }
-
         }
     );
 
