@@ -12,6 +12,7 @@ import CameraRigPortrait from "./camera-rig-portrait";
 import Suitcase from "./suitcase";
 import Animation from './../animation';
 import _ from './../utils';
+import FullPageScroll from './../full-page-scroll';
 
 const configScene3D = {
   width: window.innerWidth,
@@ -24,6 +25,9 @@ const configScene3D = {
     far: 3800,
   },
 }
+
+const loadingElem = document.querySelector('#loading');
+const progressBarElem = loadingElem.querySelector('.progressbar');
 
 export default class Scene3D {
   constructor() {
@@ -68,12 +72,18 @@ export default class Scene3D {
     this.moveMouseHandler = this.moveMouseHandler.bind(this);
     this.orientation = 'landscape';
     this.currentCamera = null;
+    this.loadingElem = loadingElem;
+    this.progressBarElem = progressBarElem;
   }
 
   init() {
     this.get3dInfrastructure();
 
     this.loadManager.onLoad = () => {
+      this.loadingElem.style.display = "none";
+      document.body.classList.add('loaded');
+      const fullPageScroll = new FullPageScroll();
+      fullPageScroll.init();
       this.addIntroComposition();
       this.addStoryScenes();
       this.addSuitcase();
@@ -108,6 +118,11 @@ export default class Scene3D {
         }, 500);
       }
       this.render();
+    };
+
+    this.loadManager.onProgress = (urlOfLastItemLoaded, itemsLoaded, itemsTotal) => {
+      const progress = itemsLoaded / itemsTotal;
+      this.progressBarElem.style.transform = `scaleX(${progress})`;
     };
   };
 
