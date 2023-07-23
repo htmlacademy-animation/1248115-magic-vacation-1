@@ -19,19 +19,27 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0 || storySlider.activeIndex === 1) {
-              scene3D.setViewScene(1);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(1);
+              }
               document.body.setAttribute('data-slide', 1);
               activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 2 || storySlider.activeIndex === 3) {
-              scene3D.setViewScene(2);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(2);
+              }
               document.body.setAttribute('data-slide', 2);
               activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 4 || storySlider.activeIndex === 5) {
-              scene3D.setViewScene(3);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(3);
+              }
               document.body.setAttribute('data-slide', 3);
               activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 6 || storySlider.activeIndex === 7) {
-              scene3D.setViewScene(4);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(4);
+              }
               document.body.setAttribute('data-slide', 4);
               activeIndex = storySlider.activeIndex;
             }
@@ -61,19 +69,27 @@ export default () => {
         on: {
           slideChange: () => {
             if (storySlider.activeIndex === 0) {
-              scene3D.setViewScene(1);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(1);
+              }
               document.body.setAttribute('data-slide', 1);
               activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 2) {
-              scene3D.setViewScene(2);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(2);
+              }
               document.body.setAttribute('data-slide', 2);
               activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 4) {
-              scene3D.setViewScene(3);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(3);
+              }
               document.body.setAttribute('data-slide', 3);
               activeIndex = storySlider.activeIndex;
             } else if (storySlider.activeIndex === 6) {
-              scene3D.setViewScene(4);
+              if (scene3D.isStoryAnimateRender) {
+                scene3D.setViewScene(4);
+              }
               document.body.setAttribute('data-slide', 4);
               activeIndex = storySlider.activeIndex;
             }

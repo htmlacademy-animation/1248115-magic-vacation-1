@@ -94,11 +94,9 @@ const fragmentShader = `
     ma = vUv;
     gl_FragColor = vec4(texture2D(map, ma).rgb, 1.);
 
-    if (circles == true) {
-      for (int index = 0; index < 3; index++) {
-        currentCircle = paramArrayCircles[index];
-        drawCircle();
-      }
+    for (int index = 0; index < 3; index++) {
+      currentCircle = paramArrayCircles[index];
+      drawCircle();
     }
 
     if (hueShift != 0.0) {
