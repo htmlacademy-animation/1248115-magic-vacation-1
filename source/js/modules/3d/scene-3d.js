@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {isMobile} from '../helpers';
+import {getRandomInteger, isMobile} from '../helpers';
 import {loadManager} from "./load-manager";
 import {textureLoader} from "./texture-loader";
 import SceneIntro from "./scene-intro";
@@ -13,6 +13,11 @@ import Suitcase from "./suitcase";
 import Animation from './../animation';
 import _ from './../utils';
 import FullPageScroll from './../full-page-scroll';
+import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer";
+import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass";
+import {ShaderPass} from "three/examples/jsm/postprocessing/ShaderPass";
+import {vertexShader} from './vertex-shader.js';
+import {fragmentShader} from './fragment-shader.js';
 
 const configScene3D = {
   width: window.innerWidth,
@@ -24,7 +29,25 @@ const configScene3D = {
     near: 50,
     far: 3800,
   },
-}
+};
+
+const paramCircles = [
+  {
+    radius: 0.35,
+    centerX: 0.4,
+    centerY: -0.15
+  },
+  {
+    radius: 0.25,
+    centerX: 0.3,
+    centerY: -0.45
+  },
+  {
+    radius: 0.12,
+    centerX: 0.5,
+    centerY: -0.9
+  },
+];
 
 const loadingElem = document.querySelector('#loading');
 const progressBarElem = loadingElem.querySelector('.progressbar');
@@ -63,7 +86,6 @@ export default class Scene3D {
     this.startIntro = false;
     this.startStory = false;
     this.cameraPositionZ = 1500;
-    this.animationSuitcase = [];
     this.story1.visible = false;
     this.story2.visible = false;
     this.story3.visible = false;
@@ -74,6 +96,9 @@ export default class Scene3D {
     this.currentCamera = null;
     this.loadingElem = loadingElem;
     this.progressBarElem = progressBarElem;
+    this.paramCircles = paramCircles;
+    this.animationsComposer = [];
+    this.animationSuitcase = [];
   }
 
   init() {
@@ -94,6 +119,7 @@ export default class Scene3D {
       this.story3.initCompassAnimation();
       this.story4.initSaturnAnimation2();
       this.story4.initSonyaAnimation();
+      this.initComposerAnimation();
       if (isMobile()) {
         this.hideObjectMobile();
       }
@@ -149,6 +175,7 @@ export default class Scene3D {
       this.renderer.shadowMap.enabled = true;
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     };
+    this.getComposer();
   }
 
   getCamera() {
@@ -203,6 +230,159 @@ export default class Scene3D {
     }
   };
 
+  getComposer() {
+    this.composer = new EffectComposer(this.renderer);
+    this.composer.setPixelRatio(window.devicePixelRatio);
+    const renderPass = new RenderPass(this.scene, this.camera);
+    this.effectMaterial = this.getEffectMaterial();
+    this.effectPass = new ShaderPass(this.effectMaterial, 'map');
+    this.composer.addPass(renderPass);
+    this.composer.addPass(this.effectPass);
+  }
+
+  render() {
+    if (this.isIntroAnimateRender || this.isStoryAnimateRender) {
+      if (this.resizeInProgress) {
+        this.resize();
+      }
+      requestAnimationFrame(this.render);
+      this.resizeInProgress = false;
+    }
+    this.composer.render();
+  }
+
+  loadTextures() {
+    this.loadedTextures = this.textures.map((texture) => this.textureLoader.load(texture.url));
+  }
+
+  switchCameraRig(i) {
+    if (i >= 1) {
+      this.story1.visible = true;
+      this.story2.visible = true;
+      this.story3.visible = true;
+      this.story4.visible = true;
+      this.suitcaseGroup.visible = true;
+    }
+
+    if (i >= 1 && this.prevIndex === 0) {
+      this.introScene.animationForwardKeyPatch.forEach((animation) => animation.start());
+    }
+
+    if (i === 0) {
+      this.introScene.visible = true;
+    }
+
+    this.cameraRig.changeStateTo(i, this);
+    this.cameraRigPortrait.changeStateTo(i, this);
+
+    if (i > 0) {
+      this.slide = i
+    }
+
+    this.prevIndex = i;
+  }
+
+  setViewScene(i) {
+    this.story1.animations.forEach((animation) => animation.stop());
+    this.story2.animations.forEach((animation) => animation.stop());
+    this.story3.animations.forEach((animation) => animation.stop());
+    this.story4.animations.forEach((animation) => animation.stop());
+    this.switchCameraRig(i);
+    this[`story${i}`].animations.forEach((animation) => animation.start());
+
+    if (i === 2) {
+      this.material = this.effectMaterial;
+      this.hue = parseFloat(getRandomInteger(-5, -18));
+      this.material.uniforms.hueShift.value = 0.0;
+      this.material.needsUpdate = true;
+      this.animationsComposer.forEach((animation) => animation.start());
+    }
+  }
+
+  resize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    if (height < 1 || width < 1) return;
+
+    if (width > height) {
+      if (this.orientation !== 'landscape') {
+        this.switchResizeCamera(this.cameraRig);
+        this.introScene.changeFinalPosition();
+      }
+      this.camera.fov = 35;
+      this.orientation = 'landscape';
+    } else {
+      if (this.orientation !== 'portrait') {
+        this.switchResizeCamera(this.cameraRigPortrait);
+        this.introScene.changeFinalPosition();
+      }
+      this.camera.fov = (32 * height) / Math.min(width * 1.3, height);
+      this.orientation = 'portrait'
+    }
+
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+    this.composer.setSize(width, height);
+
+    this.effectMaterial = this.getEffectMaterial();
+    this.effectPass = new ShaderPass(this.effectMaterial, 'map');
+    this.composer.addPass(this.effectPass);
+
+    this.width = width;
+    this.height = height;
+
+    return this;
+  }
+
+  switchResizeCamera(camera) {
+    this.currentCamera = camera;
+    camera.addObjectToCameraNull(this.camera);
+    camera.addObjectToCameraNull(this.light);
+    if (this.isShadow) {
+      camera.addObjectToRotationAxis(this.pointLightGroup);
+    }
+    camera.addObjectToRotationAxis(this.suitcaseGroup);
+  }
+
+  getEffectMaterial(texture) {
+    return new THREE.RawShaderMaterial({
+      uniforms: {
+        map: {
+          value: texture
+        },
+        hueShift: {
+          value: 0.0
+        },
+        ratio: {
+          value: window.innerWidth / window.innerHeight
+        },
+        paramArrayCircles: {
+          value: [
+            {
+              radius: this.paramCircles[0].radius,
+              centerX: this.paramCircles[0].centerX,
+              centerY: this.paramCircles[0].centerY,
+            },
+            {
+              radius: this.paramCircles[1].radius,
+              centerX: this.paramCircles[1].centerX,
+              centerY: this.paramCircles[1].centerY
+            },
+            {
+              radius: this.paramCircles[2].radius,
+              centerX: this.paramCircles[2].centerX,
+              centerY: this.paramCircles[2].centerY
+            },
+          ]
+        }
+      },
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+    });
+  }
+
   addIntroComposition() {
     this.introScene.position.set(0, 0, 3270);
     this.scene.add(this.introScene);
@@ -229,13 +409,30 @@ export default class Scene3D {
     innerGroup.add(this.suitcase);
     this.suitcaseGroup.add(innerGroup);
     this.suitcaseGroup.name = name;
-    this.suitcaseGroup.position.set(-340, -550, 790);//-550
+    this.suitcaseGroup.position.set(-340, -550, 790);
     this.suitcaseGroup.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-20.0), 0), `XYZ`);
-    this.currentCamera.addObjectToRotationAxis(this.suitcaseGroup);///////
+    this.currentCamera.addObjectToRotationAxis(this.suitcaseGroup);
+  }
+
+  hideObjectMobile() {
+    const namesHiddenObjects = ['surfobj', 'Skis', 'Table', 'Starfish_Null', 'lantern'];
+    let obj;
+    for (let name of namesHiddenObjects) {
+      obj = this.scene.getObjectByName(name);
+      if (obj) {
+        obj.visible = false;
+      }
+    }
+    for (let name of namesHiddenObjects) {
+      obj = this.story4.getObjectByName(name);
+      if (obj) {
+        obj.visible = false;
+      }
+    }
   }
 
   initSuitcaseAnimations() {
-    const objectAnimation = this.currentCamera.getObjectByName('suitcaseGroup');/////
+    const objectAnimation = this.currentCamera.getObjectByName('suitcaseGroup');
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.position.y = -550 - progress * 150;
@@ -287,49 +484,48 @@ export default class Scene3D {
     }));
   }
 
-  loadTextures() {
-    this.loadedTextures = this.textures.map((texture) => this.textureLoader.load(texture.url));
+  initComposerAnimation() {
+    this.animationsComposer.push(new Animation({
+      func: (progress) => {
+        this.material.uniforms.paramArrayCircles.value.map((item, index) => {
+          item.centerX = this.paramCircles[index].centerX + 1.8 * progress;
+        })
+      },
+      duration: 2000,
+      delay: 1600,
+      easing: _.easeDampedWave,
+    }));
+
+    this.animationsComposer.push(new Animation({
+      func: (progress) => {
+        this.material.uniforms.paramArrayCircles.value.map((item, index) => {
+          item.centerY = this.paramCircles[index].centerY + (1.45 + index / 4) * progress;
+        })
+      },
+      duration: 2000,
+      delay: 1600,
+      easing: _.easeLinear,
+    }));
+
+    this.animationsComposer.push(new Animation({
+      func: (progress) => {
+        this.material.uniforms.hueShift.value = this.hue * progress;
+      },
+      duration: 2000,
+      delay: 1600,
+      easing: _.easeInOutLinear,
+    }));
   }
 
-  switchCameraRig(i) {
-    if (i >= 1) {
-      this.story1.visible = true;
-      this.story2.visible = true;
-      this.story3.visible = true;
-      this.story4.visible = true;
-      this.suitcaseGroup.visible = true;
-    }
-
-    if (i >= 1 && this.prevIndex === 0) {
-      this.introScene.animationForwardKeyPatch.forEach((animation) => animation.start());
-    }
-
-    if (i === 0) {
-      this.introScene.visible = true;
-    }
-
-    this.cameraRig.changeStateTo(i, this);
-    this.cameraRigPortrait.changeStateTo(i, this);
-
-    if (i > 0) {
-      this.slide = i
-    }
-
-    this.prevIndex = i;
-  }
-
-  setViewScene(i) {
-    this.story1.animations.forEach((animation) => animation.stop());
-    this.story2.animations.forEach((animation) => animation.stop());
-    this.story3.animations.forEach((animation) => animation.stop());
-    this.story4.animations.forEach((animation) => animation.stop());
-    this.switchCameraRig(i);
-    this[`story${i}`].animations.forEach((animation) => animation.start());
+  addResizeListener() {
+    window.addEventListener('resize', () => {
+      this.resizeInProgress = true;
+    });
   }
 
   moveMouseHandler(evt) {
     if (this.isIntroAnimateRender || this.isStoryAnimateRender) {
-      const maxAngleRotation = 0.075;//10
+      const maxAngleRotation = 0.075;
       const windowHeight = window.innerHeight;
       const centerHeight = windowHeight / 2;
       let mouseY = evt.pageY;
@@ -344,81 +540,5 @@ export default class Scene3D {
     if (this.isShadow) {
       document.addEventListener('mousemove', this.moveMouseHandler);
     }
-  }
-
-  resize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    if (height < 1 || width < 1) return;
-
-    if (width > height) {
-      if (this.orientation !== 'landscape') {
-        this.switchResizeCamera(this.cameraRig);
-        this.introScene.changeFinalPosition();
-      }
-      this.camera.fov = 35;
-      this.orientation = 'landscape';
-    } else {
-      if (this.orientation !== 'portrait') {
-        this.switchResizeCamera(this.cameraRigPortrait);
-        this.introScene.changeFinalPosition();
-      }
-      this.camera.fov = (32 * height) / Math.min(width * 1.3, height);
-      this.orientation = 'portrait'
-    }
-
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(width, height);
-    this.width = width;
-    this.height = height;
-
-    return this;
-  }
-
-  switchResizeCamera(camera) {
-    this.currentCamera = camera;
-    camera.addObjectToCameraNull(this.camera);
-    camera.addObjectToCameraNull(this.light);
-    if (this.isShadow) {
-      camera.addObjectToRotationAxis(this.pointLightGroup);
-    }
-    camera.addObjectToRotationAxis(this.suitcaseGroup);
-  }
-
-  addResizeListener() {
-    window.addEventListener('resize', () => {
-      this.resizeInProgress = true;
-    });
-  }
-
-  hideObjectMobile() {
-    const namesHiddenObjects = ['surfobj', 'Skis', 'Table', 'Starfish_Null', 'lantern'];
-    let obj;
-    for (let name of namesHiddenObjects) {
-      obj = this.scene.getObjectByName(name);
-      if (obj) {
-        obj.visible = false;
-      }
-    }
-    for (let name of namesHiddenObjects) {
-      obj = this.story4.getObjectByName(name);
-      if (obj) {
-        obj.visible = false;
-      }
-    }
-  }
-
-  render() {
-    //console.log('render');
-    if (this.isIntroAnimateRender || this.isStoryAnimateRender) {
-      if (this.resizeInProgress) {
-        this.resize();
-      }
-      requestAnimationFrame(this.render);
-      this.resizeInProgress = false;
-    }
-    this.renderer.render(this.scene, this.camera);
   }
 }
