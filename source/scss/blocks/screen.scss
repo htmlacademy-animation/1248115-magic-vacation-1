@@ -400,7 +400,7 @@
 .screen--game {
   position: relative;
   background-color: $c-dark;
-
+  /*
   &::before {
     content: "";
     position: absolute;
@@ -426,9 +426,38 @@
       opacity: 0;
     }
   }
+  */
+  .game-sonya {
+    position: absolute;
+    //right: calc(-32.7rem - 8.5rem);//-8.5rem;
+    //bottom: -36.9rem;//0
+    right: -8.5rem;//-8.5rem;
+    bottom: 0;//0
+    width: 32.7rem;
+    height: 36.9rem;
+    background-image: url("../img/sonya.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translate(41.2rem, 36.9rem) rotate(-20deg) scale(0.7);
+
+    @include retina {
+      background-image: url("../img/sonya@2x.png");
+    }
+
+    @media (min-width: $stop-scaling) {
+      right: -85px;
+      width: 327px;
+      height: 369px;
+    }
+
+    @media (max-width: $tablet) and (orientation: portrait) {
+      opacity: 0;
+    }
+  }
 }
 
 .screen--result {
+  //display: none;////////////////////////////////
   position: absolute;
   bottom: 0;
   left: 0;
@@ -438,7 +467,8 @@
   pointer-events: none;
 
   &.screen--show {
-    opacity: 1;
+    //opacity: 1;
+    opacity: 0.3;////////////////////////////////
     pointer-events: auto;
   }
 }

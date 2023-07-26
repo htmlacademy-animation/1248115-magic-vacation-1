@@ -2,6 +2,7 @@ import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
 import {scene3D} from './3d/init-scene-3d';
+import {sonyaAnimationPause, sonyaAnimationPlay} from './sonya-animation.js';
 
 export default class FullPageScroll {
   constructor() {
@@ -78,6 +79,7 @@ export default class FullPageScroll {
         screen.classList.add(`screen--hidden`);
       }
     });
+
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(`active`);
@@ -88,6 +90,7 @@ export default class FullPageScroll {
       scene3D.isIntroAnimateRender = false;
       scene3D.introScene.animations.forEach((animation) => animation.stop());
     }
+
     if (this.previousActiveScreen === 1) {
       scene3D.isStoryAnimateRender = false;
       scene3D.story1.animations.forEach((animation) => animation.stop());
@@ -95,11 +98,18 @@ export default class FullPageScroll {
       scene3D.story3.animations.forEach((animation) => animation.stop());
       scene3D.story4.animations.forEach((animation) => animation.stop());
     }
+
+    if (this.previousActiveScreen === 4) {
+      sonyaAnimationPause();
+    }
+
     if (this.screenElements[this.activeScreen].id === "game") {
       if (!done) {
         setTimeout(startTimer, 200);
       }
+      sonyaAnimationPlay();
     }
+
     if (this.screenElements[this.activeScreen].id === "prizes") {
       showAnimatePrizes();
     }
@@ -108,10 +118,10 @@ export default class FullPageScroll {
       scene3D.isStoryAnimateRender = true;
       scene3D.switchCameraRig(scene3D.slide);
       if (scene3D.slide === 1) {
-        scene3D.animationSuitcase.forEach((animation) => animation.start());//
+        scene3D.animationSuitcase.forEach((animation) => animation.start());
       }
       if (scene3D.startIntro) {
-        scene3D[`story${scene3D.slide}`].animations.forEach((animation) => animation.start());//
+        scene3D[`story${scene3D.slide}`].animations.forEach((animation) => animation.start());
       }
       scene3D.render();
     }
