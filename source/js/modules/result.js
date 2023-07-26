@@ -1,6 +1,7 @@
 import {startTimer, stopTimer} from './show-remaining-time';
 import Scene2DSeaCalf from './scene-2d-sea-calf.js';
 import Scene2DCrocodile from './scene-2d-crocodile';
+import {sonyaAnimationStart, sonyaAnimationFinish} from './sonya-animation.js';
 
 export default () => {
   let showResultEls = document.querySelectorAll(`.js-show-result`);
@@ -9,6 +10,7 @@ export default () => {
     for (let i = 0; i < showResultEls.length; i++) {
       showResultEls[i].addEventListener(`click`, function () {
         stopTimer();
+        sonyaAnimationFinish();
         let target = showResultEls[i].getAttribute(`data-target`);
         [].slice.call(results).forEach(function (el) {
           el.classList.remove(`screen--show`);
@@ -38,6 +40,7 @@ export default () => {
         document.getElementById(`messages`).innerHTML = ``;
         document.getElementById(`message-field`).focus();
         setTimeout(startTimer, 200);
+        sonyaAnimationStart();
       });
     }
   }

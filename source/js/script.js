@@ -12,6 +12,15 @@ import {loadPage} from './modules/load-page';
 import {getAnimatedTitles} from './modules/get-animated-titles';
 import {scene3D} from './modules/3d/init-scene-3d.js';
 
+//import {sonyaAnimationPlay} from './modules/sonya-animation.js';
+/*
+import {
+  sonyaAnimationEnd,
+  sonyaAnimationStart,
+} from "../helpers/sonyaAnimation";
+*/
+
+
 // init modules
 mobileHeight();
 slider();
@@ -28,3 +37,5 @@ scene3D.init();
 
 //const fullPageScroll = new FullPageScroll();
 //fullPageScroll.init();
+
+//sonyaAnimationPlay();
