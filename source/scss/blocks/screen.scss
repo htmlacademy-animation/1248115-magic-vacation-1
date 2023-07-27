@@ -429,10 +429,8 @@
   */
   .game-sonya {
     position: absolute;
-    //right: calc(-32.7rem - 8.5rem);//-8.5rem;
-    //bottom: -36.9rem;//0
-    right: -8.5rem;//-8.5rem;
-    bottom: 0;//0
+    right: -8.5rem;
+    bottom: 0;
     width: 32.7rem;
     height: 36.9rem;
     background-image: url("../img/sonya.png");
@@ -468,7 +466,20 @@
   &.screen--show {
     opacity: 1;
     pointer-events: auto;
+
+    animation-name: background-fade-in;
+    animation-delay: 0.5s;
+    animation-duration: 50ms;
+    animation-fill-mode: both;
+  }
+}
+
+@keyframes background-fade-in {
+  0% {
     background-color: $c-transparent;
+  }
+  100% {
+    background-color: $c-dark;
   }
 }
 
