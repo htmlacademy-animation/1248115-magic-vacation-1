@@ -1,4 +1,4 @@
-import { sonyaAnimationFinish } from "./sonya-animation";
+import { getResult } from "./get-results";
 
 const fpsInterval = 1000;
 const duration = 300;
@@ -8,11 +8,7 @@ const counterSeconds = counterTime.querySelector(`span:last-child`);
 const gameScreen = document.querySelector('.screen--game');
 
 const showRemainingTimeCallback = () => {
-  stopTimer();
-  sonyaAnimationFinish();
-  const result = document.querySelector(`#result3`);
-  result.classList.add(`screen--show`);
-  result.classList.remove(`screen--hidden`);
+  getResult('result3');
 };
 
 let done = false;

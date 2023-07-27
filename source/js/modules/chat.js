@@ -1,3 +1,5 @@
+import {getResult} from './get-results';
+
 export default () => {
   let messageForm = document.getElementById(`message-form`);
   let messageField = document.getElementById(`message-field`);
@@ -63,6 +65,7 @@ export default () => {
         let messageEl = document.createElement(`li`);
         messageEl.classList.add(`chat__message`);
         let messageText = messageField.value;
+        console.log(messageText);
         let text = document.createElement(`p`);
         text.innerText = messageText;
         messageEl.appendChild(text);
@@ -71,6 +74,16 @@ export default () => {
         messageField.value = ``;
         messageField.setAttribute(`disabled`, `true`);
         scrollToBottom();
+
+        if (messageText.toUpperCase() === 'ЭТО АНТАРКТИДА?') {
+          getResult('result');
+          return;
+        }
+
+        if (messageText.toUpperCase() === 'АНТАРКТИДА?') {
+          getResult('result2');
+          return;
+        }
 
         getAnswer();
 

@@ -6,6 +6,8 @@
   padding: 0 5.7rem;
   width: 100%;
 
+  transition: opacity 0.3s;
+
   @media (min-width: $stop-scaling) {
     padding: 0 57px;
   }
@@ -185,4 +187,15 @@
 
 .chat__footer {
   margin-top: auto;
+
+  transition: transform 0.3s;
+}
+
+.show-result {
+  .chat {
+    opacity: 0;
+  }
+  .chat__footer {
+    transform: translateY(8rem);
+  }
 }
