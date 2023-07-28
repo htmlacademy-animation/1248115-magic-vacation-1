@@ -5,6 +5,9 @@
   padding: 15rem 5.7rem 6rem;
   width: 100%;
 
+  --input-right: 31rem;
+  --input-right-stop-scaling: 310px;
+
   @media (min-width: $stop-scaling) {
     padding: 150px 57px 60px;
   }
@@ -558,7 +561,8 @@
   }
   100% {
     opacity: 1;
-    width: calc(100% - 31rem);
+    //width: calc(100% - 31rem);
+    width: calc(100% - var(--input-right));/////////////////////////////////////////
     padding: 0 5.6rem;
     color: $c-dark;
     -webkit-text-fill-color: $c-dark;
@@ -580,7 +584,7 @@
   100% {
     opacity: 1;
     padding: 0 56px;
-    width: calc(100% - 210px);
+    width: calc(100% - (var --input-right-stop-scaling));
     color: $c-dark;
     -webkit-text-fill-color: $c-dark;
   }
@@ -672,11 +676,11 @@
   }
 
   ::-webkit-input-placeholder {
-    opacity: 0.8;
+    opacity: 0.5;
   }
 
   ::-moz-placeholder {
-    opacity: 0.8;
+    opacity: 0.5;
   }
 }
 
