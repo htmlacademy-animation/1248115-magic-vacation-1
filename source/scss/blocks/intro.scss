@@ -95,7 +95,7 @@
   line-height: 1.27;
   opacity: 0;
   transform: translateY(calc(1em * 1.27));
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition: opacity 0.5s ease-out 1s, transform 0.5s ease-out 1s;
 
   @media (min-width: $stop-scaling) {
     width: 509px;
@@ -153,11 +153,19 @@
   text-transform: uppercase;
   font-size: 2.4rem;
   line-height: 1.2;
+  opacity: 0;
+  transition: opacity 0.3s ease-out 1.8s;
 
   @media (min-width: $stop-scaling) {
     margin: 0 0 16px;
     width: 250px;
     font-size: 24px;
+  }
+}
+
+.screen--intro.active {
+  .intro__label {
+    opacity: 1;
   }
 }
 

@@ -106,7 +106,8 @@ export default class Scene3D {
 
     this.loadManager.onLoad = () => {
       this.loadingElem.style.display = "none";
-      document.body.classList.add('loaded');
+      setTimeout(() => document.body.classList.add('loaded'), 100);
+      //document.body.classList.add('loaded');
       const fullPageScroll = new FullPageScroll();
       fullPageScroll.init();
       this.addIntroComposition();

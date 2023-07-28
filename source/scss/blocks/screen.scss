@@ -48,7 +48,7 @@
   z-index: 1;
   transform: translateY(calc(2 * 0.8rem + 1em * 1.2));
   opacity: 0;
-  transition: transform 0.3s $cb-header-footer, opacity 0.3s $cb-header-footer;
+  transition: transform 0.4s $cb-header-footer, opacity 0.4s $cb-header-footer;
 
   @media (max-width: $tablet) and (orientation: portrait) {
     width: 3.5rem;
