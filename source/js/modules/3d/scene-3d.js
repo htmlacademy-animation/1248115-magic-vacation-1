@@ -45,7 +45,7 @@ const paramCircles = [
   {
     radius: 0.12,
     centerX: 0.5,
-    centerY: -0.9
+    centerY: -0.85
   },
 ];
 

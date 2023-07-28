@@ -22,7 +22,7 @@ export default class CameraRig extends THREE.Group {
     this._rotationCameraX = this.stateParameters.rotationCameraX;
     this._pitchRotation = this.stateParameters.pitchRotation;
     this._pitchDepth = this.stateParameters.pitchDepth;
-    this.duration = 1600;
+    this.duration = 1500;
 
     this._depthChanged = true;
     this._rotationAxisYChanged = true;
@@ -180,7 +180,7 @@ export default class CameraRig extends THREE.Group {
     this.startRotationAxisY = this._rotationAxisY;
     this.startPitchRotation = this._pitchRotation;
     this.startPitchDepth = this._pitchDepth;
-    this.duration = this.index === 0 ? 1600 : 800;
+    this.duration = this.index === 0 ? 1500 : 750;
 
     this.animations.forEach((animation) => animation.start());
   }

@@ -16,7 +16,7 @@ const accentTypographyData = [
     letterDelays: [[100, 67], [67], [133, 33, 166, 67, 166], [67], [0, 133, 100, 33]],
   },
   {
-    totalDelayAnimation: 0,
+    totalDelayAnimation: 1000,
     elementAnimation: `.slider__item-title`,
     timeAnimation: 400,
     propertyAnimation: `transform`,
