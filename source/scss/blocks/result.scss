@@ -561,8 +561,7 @@
   }
   100% {
     opacity: 1;
-    //width: calc(100% - 31rem);
-    width: calc(100% - var(--input-right));/////////////////////////////////////////
+    width: calc(100% - var(--input-right));
     padding: 0 5.6rem;
     color: $c-dark;
     -webkit-text-fill-color: $c-dark;

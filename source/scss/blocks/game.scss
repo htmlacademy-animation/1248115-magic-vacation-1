@@ -81,7 +81,7 @@
   line-height: 0.906;
   letter-spacing: 0;
 
-  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0;
 
   span {
     display: inline-block;
@@ -112,6 +112,13 @@
   }
 }
 
+.active {
+  .game__counter {
+    opacity: 1;
+    transition: opacity 0.2s ease 1s;
+  }
+}
+
 .game__body {
   flex-grow: 1;
   display: flex;
@@ -124,7 +131,7 @@
   left: 0;
   z-index: 100;
   opacity: 0.5;
-  //display: none; //выключено
+  display: none; //выключено
 }
 
 .game__button {
@@ -141,5 +148,6 @@
   .game__counter {
     opacity: 0;
     transform: translateX(8rem);
+    transition: transform 0.3s, opacity 0.3s;
   }
 }

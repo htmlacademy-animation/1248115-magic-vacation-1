@@ -21,6 +21,22 @@
   @media (max-width: $mobile) and (orientation: landscape) {
     padding: 4rem 0 4rem;
   }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    will-change: transform;
+    background-color: $c-dark;
+    z-index: 2;
+    pointer-events: none;
+  }
 }
 
 .rules__title {

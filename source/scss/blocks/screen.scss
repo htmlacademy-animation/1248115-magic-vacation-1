@@ -36,6 +36,18 @@
   left: 0;
   right: 0;
   z-index: 1;
+
+  transform: translateY(4rem);
+  opacity: 0;
+  transition: opacity 333ms, transform 333ms;
+}
+
+.screen--rules.active {
+  .screen__disclaimer {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 333ms ease 400ms;
+  }
 }
 
 .screen__footer {
@@ -315,15 +327,6 @@
 }
 
 .screen--story {
-  /*
-  background-color: $c-dark;
-  background-image: url("../img/slide1.jpg"), url("../img/slide2.jpg"), url("../img/slide3.jpg"), url("../img/slide4.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  */
-
   &::after {
     content: "";
     position: absolute;
@@ -397,36 +400,33 @@
   }
 }
 
+@keyframes transition-end-rules {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.screen--rules {
+
+  &.transition-end {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    .rules::after {
+      animation: transition-end-rules 300ms ease;
+    }
+  }
+}
+
 .screen--game {
   position: relative;
   background-color: $c-dark;
-  /*
-  &::before {
-    content: "";
-    position: absolute;
-    right: -8.5rem;
-    bottom: 0;
-    width: 32.7rem;
-    height: 36.9rem;
-    background-image: url("../img/sonya.png");
-    background-repeat: no-repeat;
-    background-size: contain;
 
-    @include retina {
-      background-image: url("../img/sonya@2x.png");
-    }
-
-    @media (min-width: $stop-scaling) {
-      right: -85px;
-      width: 327px;
-      height: 369px;
-    }
-
-    @media (max-width: $tablet) and (orientation: portrait) {
-      opacity: 0;
-    }
-  }
-  */
   .game-sonya {
     position: absolute;
     right: -8.5rem;
@@ -487,7 +487,14 @@
   background-color: $c-dark;
 }
 
-.loaded {
+.loaded .screen--intro.active{
+  .screen__footer {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.loaded .screen--prizes {
   .screen__footer {
     transform: translateY(0);
     opacity: 1;

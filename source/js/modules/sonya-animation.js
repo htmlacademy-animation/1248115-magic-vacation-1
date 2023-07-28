@@ -11,7 +11,7 @@ const sonyaAnimationInOutMove = () => {
     {
       duration: 500,
       easing: 'ease-out',
-      delay: 500,
+      delay: 750,
       fill: 'both',
     }
   );

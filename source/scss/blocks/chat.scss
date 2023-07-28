@@ -234,15 +234,14 @@
   --input-right-stop-scaling: 210px;
 
   .form__button {
-    //animation-name: color-to-dark;
     animation-name: rules-button-text-fade-in;
-    animation-delay: 1766ms;
+    animation-delay: 400ms;
     animation-duration: 266ms;
     animation-fill-mode: both;
 
     &::before {
       animation-name: fade-in;
-      animation-delay: 1600ms;
+      animation-delay: 250ms;
       animation-duration: 166ms;
       animation-fill-mode: both;
     }
@@ -251,7 +250,7 @@
   .form__field {
     opacity: 0;
     animation-name: field-result-fade-in-left;
-    animation-delay: 1766ms;
+    animation-delay: 400ms;
     animation-duration: 533ms;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
