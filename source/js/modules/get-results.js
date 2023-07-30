@@ -1,7 +1,7 @@
 import {stopTimer} from './show-remaining-time';
-import Scene2DSeaCalf from './scene-2d-sea-calf.js';
+import Scene2DSeaCalf from './scene-2d-sea-calf';
 import Scene2DCrocodile from './scene-2d-crocodile';
-import {sonyaAnimationFinish} from './sonya-animation.js';
+import {sonyaAnimationFinish} from './sonya-animation';
 
 const results = document.querySelectorAll(`.screen--result`);
 const gameScreen = document.querySelector('#game');

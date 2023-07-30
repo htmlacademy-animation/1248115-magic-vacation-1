@@ -1,4 +1,4 @@
-#loading {
+.loading {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,16 +9,18 @@
   align-items: center;
   z-index: 100;
   background-color: #5f458c;
-}
-#loading .progress {
-  margin: 1.5em;
-  border: 1px solid white;
-  width: 50vw;
-}
-#loading .progressbar {
-  margin: 2px;
-  background: white;
-  height: 1em;
-  transform-origin: top left;
-  transform: scaleX(0);
+
+  .progress {
+    margin: 1.5em;
+    border: 1px solid white;
+    width: 50vw;
+  }
+
+  .progressbar {
+    margin: 2px;
+    background: white;
+    height: 1em;
+    transform-origin: top left;
+    transform: scaleX(0);
+  }
 }

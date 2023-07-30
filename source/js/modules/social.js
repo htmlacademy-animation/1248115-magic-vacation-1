@@ -1,5 +1,5 @@
 export default () => {
-  let socialBlock = document.querySelector(`.js-social-block`);
+  const socialBlock = document.querySelector(`.js-social-block`);
   socialBlock.addEventListener(`mouseover`, function () {
     socialBlock.classList.add(`social-block--active`);
   });

@@ -1,6 +1,6 @@
 import {OBJLoader} from "three/examples/jsm/loaders/OBJLoader";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 import {loadManager} from "./load-manager";
 
 const objectsConfig = {

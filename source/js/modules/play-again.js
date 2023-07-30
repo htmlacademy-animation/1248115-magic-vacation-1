@@ -1,11 +1,11 @@
 import {startTimer} from './show-remaining-time';
-import {sonyaAnimationStart} from './sonya-animation.js';
+import {sonyaAnimationStart} from './sonya-animation';
 
 const results = document.querySelectorAll(`.screen--result`);
 const gameScreen = document.querySelector('#game');
 
 const playAgain = () => {
-  let playBtn = document.querySelector(`.js-play`);
+  const playBtn = document.querySelector(`.js-play`);
   if (playBtn) {
     playBtn.addEventListener(`click`, function () {
       [].slice.call(results).forEach(function (el) {

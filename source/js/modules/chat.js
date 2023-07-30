@@ -1,21 +1,21 @@
 import {getResult} from './get-results';
 
 export default () => {
-  let messageForm = document.getElementById(`message-form`);
-  let messageField = document.getElementById(`message-field`);
-  let messageList = document.getElementById(`messages`);
-  let chatBlock = document.querySelector(`.js-chat`);
+  const messageForm = document.getElementById(`message-form`);
+  const messageField = document.getElementById(`message-field`);
+  const messageList = document.getElementById(`messages`);
+  const chatBlock = document.querySelector(`.js-chat`);
 
   messageForm.addEventListener(`submit`, function (e) {
     e.preventDefault();
 
-    let scrollToBottom = function () {
+    const scrollToBottom = function () {
       if (messageList.scrollHeight > chatBlock.offsetHeight) {
         chatBlock.scrollTop = messageList.scrollHeight;
       }
     };
 
-    let getAnswer = function () {
+    const getAnswer = function () {
       setTimeout(function () {
         let answerEl = document.createElement(`li`);
         let placeholder = document.createElement(`div`);
@@ -60,7 +60,7 @@ export default () => {
       }, 700);
     };
 
-    let postQuestion = function () {
+    const postQuestion = function () {
       if (messageField.value) {
         let messageEl = document.createElement(`li`);
         messageEl.classList.add(`chat__message`);

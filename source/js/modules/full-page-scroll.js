@@ -2,11 +2,11 @@ import throttle from 'lodash/throttle';
 import {startTimer, done} from './show-remaining-time';
 import {showAnimatePrizes} from './show-animate-prizes';
 import {scene3D} from './3d/init-scene-3d';
-import {sonyaAnimationPause, sonyaAnimationPlay} from './sonya-animation.js';
+import {sonyaAnimationPause, sonyaAnimationPlay} from './sonya-animation';
 
 export default class FullPageScroll {
   constructor() {
-    this.THROTTLE_TIMEOUT = 1000;
+    this.THROTTLE_TIMEOUT = 2000;
     this.scrollFlag = true;
     this.timeout = null;
 
@@ -17,6 +17,8 @@ export default class FullPageScroll {
     this.previousActiveScreen = 0;
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
+
+    this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   }
 
   init() {
@@ -28,8 +30,8 @@ export default class FullPageScroll {
 
   onScroll(evt) {
     if (this.scrollFlag) {
-      this.reCalculateActiveScreenPosition(evt.deltaY);
       const currentPosition = this.activeScreen;
+      this.reCalculateActiveScreenPosition(evt.deltaY);
       if (currentPosition !== this.activeScreen) {
         this.changePageDisplay();
       }
@@ -71,13 +73,14 @@ export default class FullPageScroll {
   changeVisibilityDisplay() {
     this.screenElements.forEach((screen, index) => {
       screen.classList.remove(`active`);
-      if (index === this.previousActiveScreen && screen.hasAttribute('data-transition-end') && this.previousActiveScreen < this.activeScreen) {
-        screen.classList.add('transition-end');
-        this.screenElements[this.activeScreen].classList.add('transition-start');
-        screen.addEventListener(`animationend`, this._animationHandler(screen));
-      } else {
-        screen.classList.add(`screen--hidden`);
+      if (!this.mediaQuery.matches) {
+        if (index === this.previousActiveScreen && screen.hasAttribute('data-transition-end') && this.previousActiveScreen < this.activeScreen) {
+          screen.classList.add('transition-end');
+          this.screenElements[this.activeScreen].classList.add('transition-start');
+          screen.addEventListener(`animationend`, this._animationHandler(screen));
+        }
       }
+      screen.classList.add(`screen--hidden`);
     });
 
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
@@ -130,7 +133,7 @@ export default class FullPageScroll {
       scene3D.isIntroAnimateRender = true;
       if (scene3D.startIntro) {
         scene3D.switchCameraRig(0);
-        scene3D.introScene.animations.forEach((animation) => animation.start());//
+        scene3D.introScene.animations.forEach((animation) => animation.start());
       }
       scene3D.render();
     }

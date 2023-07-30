@@ -1,11 +1,11 @@
 import {stopTimer} from './show-remaining-time';
-import Scene2DSeaCalf from './scene-2d-sea-calf.js';
+import Scene2DSeaCalf from './scene-2d-sea-calf';
 import Scene2DCrocodile from './scene-2d-crocodile';
-import {sonyaAnimationFinish} from './sonya-animation.js';
+import {sonyaAnimationFinish} from './sonya-animation';
 
 export default () => {
-  let showResultEls = document.querySelectorAll(`.js-show-result`);
-  let results = document.querySelectorAll(`.screen--result`);
+  const showResultEls = document.querySelectorAll(`.js-show-result`);
+  const results = document.querySelectorAll(`.screen--result`);
   const gameScreen = document.querySelector('#game');
   if (results.length) {
     for (let i = 0; i < showResultEls.length; i++) {

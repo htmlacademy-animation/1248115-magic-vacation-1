@@ -11,11 +11,11 @@ const showCountPrizes = (data) => {
     elapsed,
     i = 0;
 
-  function draw(frame) {
+  const draw = (frame) => {
     prize.textContent = frame;
   }
 
-  function tick() {
+  const tick = () => {
     if (i < count) {
       requestAnimationFrame(tick);
     }

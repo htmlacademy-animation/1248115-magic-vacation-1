@@ -19,6 +19,60 @@
   @media (max-width: $mobile) and (orientation: landscape) {
     padding: 0;
   }
+
+  --input-right: 21rem;
+  --input-right-stop-scaling: 210px;
+
+  .form__button {
+    animation-name: rules-button-text-fade-in;
+    animation-delay: 400ms;
+    animation-duration: 266ms;
+    animation-fill-mode: both;
+
+    &::before {
+      animation-name: fade-in;
+      animation-delay: 250ms;
+      animation-duration: 166ms;
+      animation-fill-mode: both;
+    }
+  }
+
+  .form__field {
+    opacity: 0;
+    animation-name: field-result-fade-in-left;
+    animation-delay: 400ms;
+    animation-duration: 533ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      opacity: 1;
+    }
+
+    @media (min-width: $stop-scaling) {
+      animation-name: field-result-fade-in-left-stop-scaling;
+    }
+
+    @media (orientation: portrait) {
+      animation-name: field-result-fade-in-left-mobile;
+    }
+
+    @media (max-width: $tablet) and (orientation: landscape) {
+      animation-name: field-result-fade-in-left-tablet;
+    }
+
+    @media (max-width: $mobile) and (orientation: landscape) {
+      animation-name: field-result-fade-in-left-mobile;
+    }
+  }
+
+  ::-webkit-input-placeholder {
+    opacity: 0.5;
+  }
+
+  ::-moz-placeholder {
+    opacity: 0.5;
+  }
 }
 
 .chat__body {
@@ -197,18 +251,6 @@
     animation-delay: 500ms;
   }
 
-  @keyframes blinking {
-    0% {
-      opacity: 0.2;
-    }
-    50% {
-      opacity: 0.6;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
   &--hidden {
     opacity: 0;
   }
@@ -224,59 +266,22 @@
   .chat {
     opacity: 0;
   }
+
   .chat__footer {
     transform: translateY(8rem);
   }
 }
 
-.chat {
-  --input-right: 21rem;
-  --input-right-stop-scaling: 210px;
-
-  .form__button {
-    animation-name: rules-button-text-fade-in;
-    animation-delay: 400ms;
-    animation-duration: 266ms;
-    animation-fill-mode: both;
-
-    &::before {
-      animation-name: fade-in;
-      animation-delay: 250ms;
-      animation-duration: 166ms;
-      animation-fill-mode: both;
-    }
+@keyframes blinking {
+  0% {
+    opacity: 0.2;
   }
 
-  .form__field {
-    opacity: 0;
-    animation-name: field-result-fade-in-left;
-    animation-delay: 400ms;
-    animation-duration: 533ms;
-    animation-fill-mode: forwards;
-    animation-timing-function: ease-in-out;
-
-    @media (min-width: $stop-scaling) {
-      animation-name: field-result-fade-in-left-stop-scaling;
-    }
-
-    @media (orientation: portrait) {
-      animation-name: field-result-fade-in-left-mobile;
-    }
-
-    @media (max-width: $tablet) and (orientation: landscape) {
-      animation-name: field-result-fade-in-left-tablet;
-    }
-
-    @media (max-width: $mobile) and (orientation: landscape) {
-      animation-name: field-result-fade-in-left-mobile;
-    }
+  50% {
+    opacity: 0.6;
   }
 
-  ::-webkit-input-placeholder {
-    opacity: 0.5;
-  }
-
-  ::-moz-placeholder {
-    opacity: 0.5;
+  100% {
+    opacity: 1;
   }
 }

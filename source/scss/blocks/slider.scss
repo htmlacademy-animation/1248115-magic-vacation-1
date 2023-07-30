@@ -41,7 +41,6 @@
       align-self: flex-end;
 
       transform: translate(0, 4rem);
-      //transition: opacity $trans-slider-text, transform $trans-slider-text;
       transition: opacity 0.5s ease-out 1.8s, transform 0.5s ease-out 1.8s;
 
       @media (orientation: portrait) {
@@ -308,28 +307,6 @@
   }
 }
 
-@keyframes slider-control-fade-in-rolling-right {
-  0% {
-    opacity: 0;
-    transform: translate3d(-135%, 0, 0) rotate(-360deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotate(0);
-  }
-}
-
-@keyframes slider-control-fade-in-rolling-left {
-  0% {
-    opacity: 0;
-    transform: translate3d(135%, 0, 0) rotate(360deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotate(0);
-  }
-}
-
 .slider__control--prev {
   animation-name: slider-control-fade-in-rolling-right;
   animation-duration: 367ms;
@@ -344,4 +321,29 @@
   animation-delay: 800ms;
   animation-fill-mode: backwards;
   animation-timing-function: ease-out;
+}
+
+
+@keyframes slider-control-fade-in-rolling-right {
+  0% {
+    opacity: 0;
+    transform: translate3d(-135%, 0, 0) rotate(-360deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+}
+
+@keyframes slider-control-fade-in-rolling-left {
+  0% {
+    opacity: 0;
+    transform: translate3d(135%, 0, 0) rotate(360deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
 }

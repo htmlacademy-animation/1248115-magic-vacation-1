@@ -18,14 +18,14 @@ const startTimer = (endTime = duration) => {
     then = Date.now(),
     elapsed;
 
-  function draw() {
+  const draw = () => {
     const minutes = new Date(endTime * 1000).getMinutes();
     const seconds = new Date(endTime * 1000).getSeconds();
     counterMinutes.textContent = String(minutes).padStart(2, 0);
     counterSeconds.textContent = String(seconds).padStart(2, 0);
   }
 
-  function tick() {
+  const tick = () => {
     if (endTime < 0) {
       showRemainingTimeCallback();
     }

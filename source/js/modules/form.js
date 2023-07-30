@@ -1,6 +1,6 @@
 export default () => {
-  let emailFields = document.querySelectorAll(`input[type="email"]`);
-  let adaptPlaceholder = function (el) {
+  const emailFields = document.querySelectorAll(`input[type="email"]`);
+  const adaptPlaceholder = function (el) {
     if ((window.innerWidth / window.innerHeight < 1) || (window.innerWidth < 769)) {
       el.placeholder = `e-mail`;
     } else {

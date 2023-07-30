@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import {SVGLoader} from "three/examples/jsm/loaders/SVGLoader";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 import {textureLoader} from './texture-loader';
 
 const mapSvgForms = {

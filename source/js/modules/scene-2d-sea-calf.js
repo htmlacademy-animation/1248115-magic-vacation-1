@@ -1,6 +1,6 @@
-import Animation from './animation.js';
-import Scene2D from './scene-2d.js';
-import _ from './utils.js';
+import Animation from './animation';
+import Scene2D from './scene-2d';
+import _ from './utils';
 
 const IMAGES_URLS = Object.freeze({
   plane: `img/walrus/airplane.png`,

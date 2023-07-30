@@ -2,6 +2,7 @@
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
@@ -11,6 +12,7 @@
   0% {
     color: $c-transparent;
   }
+
   100% {
     color: $c-light;
   }
@@ -20,6 +22,7 @@
   0% {
     color: $c-transparent;
   }
+
   100% {
     color: $c-dark;
   }
@@ -29,6 +32,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -38,6 +42,7 @@
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }

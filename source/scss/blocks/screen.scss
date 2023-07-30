@@ -317,15 +317,6 @@
   }
 }
 
-@keyframes transition-end-story {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
 .screen--story {
   &::after {
     content: "";
@@ -349,22 +340,13 @@
     height: 100%;
 
     &::after {
-      animation: transition-end-story 0.35s cubic-bezier(.33,.84,.75,.95);
+      animation: transition-end-story 0.35s cubic-bezier(0.33, 0.84, 0.75, 0.95);
     }
   }
 
   @media (orientation: portrait) {
     background-size: auto calc(100vh - 13.8rem), 100% 25rem;
     background-position: top center, bottom center;
-  }
-}
-
-@keyframes transition-end-prizes {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
 
@@ -400,16 +382,8 @@
   }
 }
 
-@keyframes transition-end-rules {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 .screen--rules {
+  background-color: $c-dark;
 
   &.transition-end {
     display: block;
@@ -474,20 +448,7 @@
   }
 }
 
-@keyframes background-fade-in {
-  0% {
-    background-color: $c-transparent;
-  }
-  100% {
-    background-color: $c-dark;
-  }
-}
-
-.screen--rules {
-  background-color: $c-dark;
-}
-
-.loaded .screen--intro.active{
+.loaded .screen--intro.active {
   .screen__footer {
     transform: translateY(0);
     opacity: 1;
@@ -513,4 +474,45 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+@keyframes transition-end-story {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes transition-end-prizes {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes transition-end-rules {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+@keyframes background-fade-in {
+  0% {
+    background-color: $c-transparent;
+  }
+
+  100% {
+    background-color: $c-dark;
+  }
 }

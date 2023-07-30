@@ -26,6 +26,11 @@ html {
 *::after,
 *::before {
   box-sizing: inherit;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important; //когда пользователь запрещает анимацию перебивать свойства анимации уже не придется
+    animation: none !important; // случай оправданого применения !impotant
+  }
 }
 
 body {

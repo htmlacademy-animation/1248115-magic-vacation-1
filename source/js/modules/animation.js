@@ -1,4 +1,4 @@
-import _ from './utils.js';
+import _ from './utils';
 
 export default class Animation {
   constructor(options) {

@@ -1,5 +1,5 @@
 import Swiper from "swiper";
-import {scene3D} from './3d/init-scene-3d.js';
+import {scene3D} from './3d/init-scene-3d';
 
 export default () => {
   let storySlider;

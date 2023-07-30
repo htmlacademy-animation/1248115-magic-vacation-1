@@ -2,7 +2,7 @@ import * as THREE from "three";
 import {color3D} from './data-3d';
 import {reflection3D} from './data-3d';
 import {loadModel} from "./model-3d-loader";
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 import {textureLoader} from './texture-loader';
 
 export default class Airplane extends THREE.Group {
