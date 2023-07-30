@@ -16,8 +16,8 @@ import FullPageScroll from './../full-page-scroll';
 import {EffectComposer} from "three/examples/jsm/postprocessing/EffectComposer";
 import {RenderPass} from "three/examples/jsm/postprocessing/RenderPass";
 import {ShaderPass} from "three/examples/jsm/postprocessing/ShaderPass";
-import {vertexShader} from './vertex-shader.js';
-import {fragmentShader} from './fragment-shader.js';
+import {vertexShader} from './vertex-shader';
+import {fragmentShader} from './fragment-shader';
 
 const configScene3D = {
   width: window.innerWidth,
@@ -45,7 +45,7 @@ const paramCircles = [
   {
     radius: 0.12,
     centerX: 0.5,
-    centerY: -0.9
+    centerY: -0.85
   },
 ];
 
@@ -106,7 +106,7 @@ export default class Scene3D {
 
     this.loadManager.onLoad = () => {
       this.loadingElem.style.display = "none";
-      document.body.classList.add('loaded');
+      setTimeout(() => document.body.classList.add('loaded'), 100);
       const fullPageScroll = new FullPageScroll();
       fullPageScroll.init();
       this.addIntroComposition();
@@ -195,7 +195,7 @@ export default class Scene3D {
     this.light = new THREE.Group();
     let lightUnit = new THREE.DirectionalLight(new THREE.Color('rgb(255,255,255)'), 0.84);
     lightUnit.position.set(0, 0, 0);
-    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.cameraPositionZ, 2 * -750);
+    lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.cameraPositionZ, -1500);
     this.light.add(lightUnit);
     this.light.add(lightUnit.target);
 
@@ -203,27 +203,27 @@ export default class Scene3D {
       this.pointLightGroup = new THREE.Group();
       this.pointLightGroup.name = 'pointLightGroup';
 
-      lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 4 * 975, 2.0);
-      lightUnit.position.set(1 * -785, 1 * -350, 1 * -710);
+      lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 3900, 2);
+      lightUnit.position.set(-785, -350, -710);
 
       lightUnit.castShadow = true;
       lightUnit.shadow.mapSize.width = 1000;
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
-      lightUnit.shadow.bias = -0.005;//-0.005
+      lightUnit.shadow.bias = -0.005;
 
       this.pointLightGroup.add(lightUnit);
 
-      lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 4 * 975, 2.0);
-      lightUnit.position.set(1 * 730, 1 * 800, 1 * -985);
+      lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 3900, 2);
+      lightUnit.position.set(730, 800, -985);
 
       lightUnit.castShadow = true;
       lightUnit.shadow.mapSize.width = 1000;
       lightUnit.shadow.mapSize.height = 1000;
       lightUnit.shadow.camera.near = 1;
       lightUnit.shadow.camera.far = 3000;
-      lightUnit.shadow.bias = -0.005;//0.005
+      lightUnit.shadow.bias = -0.005;
 
       this.pointLightGroup.add(lightUnit);
       this.pointLightGroup.position.set(0, 0, 2150);

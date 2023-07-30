@@ -86,7 +86,6 @@ export default class SceneSlide3 extends THREE.Group {
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
         objectAnimation.rotation.z = THREE.MathUtils.degToRad(15) * Math.sin(2 * time);
-        //console.log('стори3 - анимация компаса');
       },
       duration: `infinite`,
     }));

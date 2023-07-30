@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 import {textureLoader} from './texture-loader';
 
 export default class Snowman extends THREE.Group {

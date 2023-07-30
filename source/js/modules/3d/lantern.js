@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 
 export default class Lantern extends THREE.Group {
   constructor(options) {

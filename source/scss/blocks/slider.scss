@@ -41,7 +41,7 @@
       align-self: flex-end;
 
       transform: translate(0, 4rem);
-      transition: opacity $trans-slider-text, transform $trans-slider-text;
+      transition: opacity 0.5s ease-out 1.8s, transform 0.5s ease-out 1.8s;
 
       @media (orientation: portrait) {
         transform: translate(0, 0);
@@ -58,30 +58,11 @@
       }
     }
   }
-
-  &:nth-child(2) {
-    .slider__item-text {
-      margin-top: 7.8rem;
-      transform: translate(0, 0);
-
-      @media (min-width: $stop-scaling) {
-        margin-top: 78px;
-      }
-
-      @media (orientation: portrait) {
-        margin-top: auto;
-      }
-
-      @media (max-width: $mobile) and (orientation: landscape) {
-        margin-top: auto;
-      }
-    }
-  }
 }
 
 .slider__item.swiper-slide-next {
   .slider__item-text {
-    opacity: 1;
+    opacity: 0;
     transform: translate(-4rem, 4rem);
 
     @media (orientation: portrait) {
@@ -96,21 +77,8 @@
   }
 }
 
-.slider__item:nth-child(2).swiper-slide-next {
-  .slider__item-text {
-    transform: translate(-4rem, 0);
-
-    @media (orientation: portrait) {
-      transform: translate(0, 0);
-    }
-
-    @media (max-width: $mobile) and (orientation: landscape) {
-      transform: translate(0, 0);
-    }
-  }
-}
-
-.slider__item.swiper-slide-active {
+.active .slider__item.swiper-slide-active,
+.active .slider__item.swiper-slide-next {
   .slider__item-text {
     opacity: 1;
     transform: translate(0, 0);
@@ -151,7 +119,7 @@
 
   opacity: 0;
   transform: translate(4.5rem, 0);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  transition: opacity 0.5s ease-out 1.5s, transform 0.5s ease-out 1.5s;
 
   @media (min-width: $stop-scaling) {
     margin-top: 36px;
@@ -339,28 +307,6 @@
   }
 }
 
-@keyframes slider-control-fade-in-rolling-right {
-  0% {
-    opacity: 0;
-    transform: translate3d(-135%, 0, 0) rotate(-360deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotate(0);
-  }
-}
-
-@keyframes slider-control-fade-in-rolling-left {
-  0% {
-    opacity: 0;
-    transform: translate3d(135%, 0, 0) rotate(360deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) rotate(0);
-  }
-}
-
 .slider__control--prev {
   animation-name: slider-control-fade-in-rolling-right;
   animation-duration: 367ms;
@@ -375,4 +321,29 @@
   animation-delay: 800ms;
   animation-fill-mode: backwards;
   animation-timing-function: ease-out;
+}
+
+
+@keyframes slider-control-fade-in-rolling-right {
+  0% {
+    opacity: 0;
+    transform: translate3d(-135%, 0, 0) rotate(-360deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
+}
+
+@keyframes slider-control-fade-in-rolling-left {
+  0% {
+    opacity: 0;
+    transform: translate3d(135%, 0, 0) rotate(360deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0);
+  }
 }

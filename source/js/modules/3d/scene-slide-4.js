@@ -127,7 +127,6 @@ export default class SceneSlide4 extends THREE.Group {
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
         sonyaObjectAnimation.position.y = 10 * Math.sin(time * 2) + 100;
-        //console.log('стори4 - анимация ИИ');
       },
       duration: `infinite`,
     }));

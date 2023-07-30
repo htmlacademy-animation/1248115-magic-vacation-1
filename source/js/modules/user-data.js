@@ -1,4 +1,4 @@
-const sectionHasTransitionEnd = ['story', 'prizes'];
+const sectionHasTransitionEnd = ['story', 'prizes', 'rules'];
 
 const accentTypographyData = [
   {
@@ -16,7 +16,7 @@ const accentTypographyData = [
     letterDelays: [[100, 67], [67], [133, 33, 166, 67, 166], [67], [0, 133, 100, 33]],
   },
   {
-    totalDelayAnimation: 0,
+    totalDelayAnimation: 1000,
     elementAnimation: `.slider__item-title`,
     timeAnimation: 400,
     propertyAnimation: `transform`,
@@ -37,7 +37,7 @@ const accentTypographyData = [
     letterDelays: [[167, 67, 33, 0, 100, 67, 0]],
   },
   {
-    totalDelayAnimation: 33,
+    totalDelayAnimation: 100,
     elementAnimation: `.game__title`,
     timeAnimation: 400,
     propertyAnimation: `transform`,

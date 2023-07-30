@@ -3,7 +3,7 @@ import {getLathePoints, getLatheDegrees} from './three-utils';
 import {reflection3D} from './data-3d';
 import {CarpetCustomMaterial} from './carpet-custom-material';
 import {CarpetCustomMaterialMobile} from './carpet-custom-material-mobile';
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 import {textureLoader} from './texture-loader';
 
 export default class Carpet extends THREE.Group {

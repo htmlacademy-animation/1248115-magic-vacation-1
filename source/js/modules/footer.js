@@ -1,5 +1,5 @@
 export default () => {
-  let footerTogglers = document.querySelectorAll(`.js-footer-toggler`);
+  const footerTogglers = document.querySelectorAll(`.js-footer-toggler`);
 
   if (footerTogglers.length) {
     for (let i = 0; i < footerTogglers.length; i++) {

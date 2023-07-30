@@ -68,17 +68,6 @@
   }
 }
 
-@keyframes prizes-lead-fade-in-up {
-  0% {
-    opacity: 0;
-    transform: translateY(1em * 1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .prizes__lead {
   margin-left: 5.8rem;
   margin-bottom: -5.6rem;
@@ -163,6 +152,13 @@
 
   @media (max-width: $tablet) and (orientation: landscape) {
     margin-left: 5rem;
+  }
+
+  .prizes__icon {
+    svg {
+      width: 100%;
+      height: auto;
+    }
   }
 
   &--journeys {
@@ -303,18 +299,6 @@
   }
 }
 
-.prizes__icon {
-  @media (max-width: $tablet) and (orientation: portrait) {
-    margin-right: 3.8rem;
-  }
-
-  img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-}
-
 .prizes__desc {
   display: flex;
   align-items: center;
@@ -431,6 +415,16 @@
 }
 
 .prizes__icon {
+  @media (max-width: $tablet) and (orientation: portrait) {
+    margin-right: 3.8rem;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   & > svg {
     @media (max-width: $tablet) and (orientation: portrait) {
       display: none;
@@ -441,6 +435,7 @@
     @media (min-width: ($tablet + 1)) and (orientation: portrait) {
       display: none;
     }
+
     @media (orientation: landscape) {
       display: none;
     }
@@ -477,7 +472,7 @@
   @media (orientation: landscape) {
     .prizes__item--journeys {
       transform: translateX(140%);
-      transition: transform 766ms linear 3833ms;
+      transition: transform 766ms linear 2033ms;
 
       b {
         opacity: 0;
@@ -535,5 +530,17 @@
       opacity: 1;
       transform: translateX(0);
     }
+  }
+}
+
+@keyframes prizes-lead-fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(1em * 1.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

@@ -14,13 +14,18 @@ class AccentTypographyBuild {
     this._wordsDelays = wordsDelays;
     this._seriesWordsDelays = 0;
 
+    this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     this.prePareText();
   }
 
   createElement(letter, indexDelay) {
       const span = document.createElement(`span`);
       span.textContent = letter;
-      span.style.transition = `${this._property} ${this._timer}ms ease ${this._totalDelay + this._wordsDelays[this._seriesWordsDelays][indexDelay]}ms`;
+
+      if (!this.mediaQuery.matches) {
+        span.style.transition = `${this._property} ${this._timer}ms ease ${this._totalDelay + this._wordsDelays[this._seriesWordsDelays][indexDelay]}ms`;
+      }
+
       return span;
   }
 

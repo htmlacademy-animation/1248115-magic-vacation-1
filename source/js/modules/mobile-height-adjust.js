@@ -1,5 +1,5 @@
 export default () => {
-  let setVH = function () {
+  const setVH = function () {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty(`--vh`, `${vh}px`);
   };

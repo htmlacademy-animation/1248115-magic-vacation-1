@@ -1,4 +1,4 @@
-import { sonyaAnimationFinish } from "./sonya-animation";
+import { getResult } from "./get-results";
 
 const fpsInterval = 1000;
 const duration = 300;
@@ -8,11 +8,7 @@ const counterSeconds = counterTime.querySelector(`span:last-child`);
 const gameScreen = document.querySelector('.screen--game');
 
 const showRemainingTimeCallback = () => {
-  stopTimer();
-  sonyaAnimationFinish();
-  const result = document.querySelector(`#result3`);
-  result.classList.add(`screen--show`);
-  result.classList.remove(`screen--hidden`);
+  getResult('result3');
 };
 
 let done = false;
@@ -22,14 +18,14 @@ const startTimer = (endTime = duration) => {
     then = Date.now(),
     elapsed;
 
-  function draw() {
+  const draw = () => {
     const minutes = new Date(endTime * 1000).getMinutes();
     const seconds = new Date(endTime * 1000).getSeconds();
     counterMinutes.textContent = String(minutes).padStart(2, 0);
     counterSeconds.textContent = String(seconds).padStart(2, 0);
   }
 
-  function tick() {
+  const tick = () => {
     if (endTime < 0) {
       showRemainingTimeCallback();
     }

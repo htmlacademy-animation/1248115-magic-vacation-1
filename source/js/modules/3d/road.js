@@ -3,7 +3,7 @@ import {getLathePoints, getLatheDegrees} from './three-utils';
 import {reflection3D} from './data-3d';
 import {RoadCustomMaterial} from './road-custom-material';
 import {RoadCustomMaterialMobile} from './road-custom-material-mobile';
-import {isMobile} from './../helpers.js';
+import {isMobile} from './../helpers';
 import {textureLoader} from './texture-loader';
 
 export default class Road extends THREE.Group {

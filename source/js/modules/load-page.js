@@ -16,11 +16,6 @@ const loadPage = ()  => {
     item.propertyAnimation,
     item.letterDelays)
   )
-  /*
-  window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-  });
-  */
 };
 
 export {loadPage};
