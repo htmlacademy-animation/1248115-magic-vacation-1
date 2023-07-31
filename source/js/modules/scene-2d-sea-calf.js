@@ -100,7 +100,7 @@ const LOCALS = Object.freeze({
 
 export default class Scene2DSeaCalf extends Scene2D {
   constructor() {
-    const canvas = document.getElementById('walrusCanvas');
+    const canvas = document.getElementById(`walrusCanvas`);
 
     super({
       canvas,

@@ -7,7 +7,6 @@ import SaturnRope from "./saturn-rope";
 import Room from "./room";
 import {loadModel} from "./model-3d-loader";
 import Animation from './../animation';
-import _ from './../utils';
 
 export default class SceneSlide1 extends THREE.Group {
   constructor() {
@@ -44,7 +43,7 @@ export default class SceneSlide1 extends THREE.Group {
 
   addRoom(options) {
     const room = new Room(options);
-    room.name = 'room1';
+    room.name = `room1`;
     this.add(room);
   }
 
@@ -69,7 +68,7 @@ export default class SceneSlide1 extends THREE.Group {
 
   addFlowers() {
     const flower = new SvgLoader(`flower`).createSvgGroup();
-    flower.name = 'flower1';
+    flower.name = `flower1`;
     const scale = 0.8;
     flower.position.set(-240, 335, 320);
     flower.scale.set(scale, -scale, scale);
@@ -79,7 +78,7 @@ export default class SceneSlide1 extends THREE.Group {
 
   addCarpet(options) {
     const carpet = new Carpet(options);
-    carpet.name = 'carpet';
+    carpet.name = `carpet`;
     const scale = 1;
     carpet.scale.set(scale, scale, scale);
     carpet.position.set(15, 0, 15);
@@ -89,13 +88,13 @@ export default class SceneSlide1 extends THREE.Group {
 
   addSaturn(options) {
     const saturn = new SaturnRope(options);
-    saturn.name = 'saturn1';
+    saturn.name = `saturn1`;
     saturn.position.set(60, 480 + 1000, 320);
     this.add(saturn);
   }
 
   initDogAnimation() {
-    const objectAnimation = this.getObjectByName('Tail');
+    const objectAnimation = this.getObjectByName(`Tail`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const progressFactor = Math.floor((details.currentTime - details.startTime) / 1000 % 6);
@@ -107,7 +106,7 @@ export default class SceneSlide1 extends THREE.Group {
   }
 
   initSaturnAnimation() {
-    const objectAnimation = this.getObjectByName('saturn1');
+    const objectAnimation = this.getObjectByName(`saturn1`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
@@ -117,7 +116,7 @@ export default class SceneSlide1 extends THREE.Group {
       duration: `infinite`,
     }));
 
-    const objectAnimationRing = objectAnimation.getObjectByName('ring');
+    const objectAnimationRing = objectAnimation.getObjectByName(`ring`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
@@ -128,4 +127,4 @@ export default class SceneSlide1 extends THREE.Group {
       duration: `infinite`,
     }));
   }
-};
+}

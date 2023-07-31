@@ -77,7 +77,7 @@ const OBJECTS = Object.freeze({
     opacity: 0,
     transforms: {
       translateX: -25,
-      translateX: -7
+      translateY: -7
     }
   },
   saturn: {
@@ -105,7 +105,7 @@ const OBJECTS = Object.freeze({
 
 export default class Scene2DCrocodile extends Scene2D {
   constructor() {
-    const canvas = document.getElementById('crocodileCanvas');
+    const canvas = document.getElementById(`crocodileCanvas`);
 
     super({
       canvas,
@@ -133,7 +133,7 @@ export default class Scene2DCrocodile extends Scene2D {
 
   startAnimationLoop() {
     this.animationsLoop.forEach((animation) => animation.start());
-    setTimeout(this.startAnimationLoop, 1100)
+    setTimeout(this.startAnimationLoop, 1100);
   }
 
   initEventListeners() {
@@ -184,14 +184,14 @@ export default class Scene2DCrocodile extends Scene2D {
     this.ctx.globalCompositeOperation = `destination-in`;
     const s = this.size / 100;
     const startPointX = (this.objects.key.x + this.objects.key.size / 2) * s;
-    const startPointY = (this.objects.key.y + this.objects.key.size * this.images.key.height /  this.images.key.width / 2) * s;
+    const startPointY = (this.objects.key.y + this.objects.key.size * this.images.key.height / this.images.key.width / 2) * s;
     this.ctx.beginPath();
     this.ctx.moveTo(startPointX - 3.9 * s, startPointY - 19.5 * s);
     this.ctx.arc(startPointX - 11.4 * s, startPointY - 28 * s, 11.4 * s, 1, 3.14, true);
-    this.ctx.lineTo(startPointX - 30 *s, startPointY - 20 * s);
-    this.ctx.lineTo(startPointX - 45 *s, startPointY - 5 * s);
-    this.ctx.lineTo(startPointX - 45 *s, startPointY + 5 * s);
-    this.ctx.lineTo(startPointX - 35 *s, startPointY + 15 * s);
+    this.ctx.lineTo(startPointX - 30 * s, startPointY - 20 * s);
+    this.ctx.lineTo(startPointX - 45 * s, startPointY - 5 * s);
+    this.ctx.lineTo(startPointX - 45 * s, startPointY + 5 * s);
+    this.ctx.lineTo(startPointX - 35 * s, startPointY + 15 * s);
     this.ctx.lineTo(startPointX, startPointY);
     this.ctx.closePath();
     this.ctx.fill();

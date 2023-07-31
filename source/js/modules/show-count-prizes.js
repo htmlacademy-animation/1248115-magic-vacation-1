@@ -6,14 +6,14 @@ const showCountPrizes = (data) => {
   const count = frameValues.length;
   const prize = document.querySelector(data.element);
 
-  let now,
-    then = Date.now(),
-    elapsed,
-    i = 0;
+  let now;
+  let then = Date.now();
+  let elapsed;
+  let i = 0;
 
   const draw = (frame) => {
     prize.textContent = frame;
-  }
+  };
 
   const tick = () => {
     if (i < count) {
@@ -28,8 +28,8 @@ const showCountPrizes = (data) => {
       draw(frameValues[i]);
       i++;
     }
-  }
+  };
   requestAnimationFrame(tick);
-}
+};
 
 export {showCountPrizes};

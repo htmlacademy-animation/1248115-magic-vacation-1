@@ -42,7 +42,7 @@ export default class Saturn extends THREE.Group {
     }
     const geometry = new THREE.SphereGeometry(60, 50, 50);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = 'SphereSaturn';
+    mesh.name = `SphereSaturn`;
     this.bigSphere = mesh;
     if (this.isShadow) {
       mesh.castShadow = this.isShadow;
@@ -68,7 +68,7 @@ export default class Saturn extends THREE.Group {
     }
     const geometry = new THREE.LatheGeometry(points, 50);
     const mesh = new THREE.Mesh(geometry, material);
-    mesh.name = 'ring';
+    mesh.name = `ring`;
     mesh.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(10.0), 0, THREE.MathUtils.degToRad(10.0)), `XYZ`);
     this.ring = mesh;
     if (this.isShadow) {

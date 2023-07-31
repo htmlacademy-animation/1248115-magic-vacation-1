@@ -2,7 +2,7 @@ import {startTimer} from './show-remaining-time';
 import {sonyaAnimationStart} from './sonya-animation';
 
 const results = document.querySelectorAll(`.screen--result`);
-const gameScreen = document.querySelector('#game');
+const gameScreen = document.querySelector(`#game`);
 
 const playAgain = () => {
   const playBtn = document.querySelector(`.js-play`);
@@ -11,7 +11,7 @@ const playAgain = () => {
       [].slice.call(results).forEach(function (el) {
         el.classList.remove(`screen--show`);
         el.classList.add(`screen--hidden`);
-        gameScreen.classList.remove('show-result');
+        gameScreen.classList.remove(`show-result`);
       });
       document.getElementById(`messages`).innerHTML = ``;
       document.getElementById(`message-field`).focus();
@@ -19,6 +19,6 @@ const playAgain = () => {
       sonyaAnimationStart();
     });
   }
-}
+};
 
 export {playAgain};

@@ -1,4 +1,4 @@
-const sectionHasTransitionEnd = ['story', 'prizes', 'rules'];
+const sectionHasTransitionEnd = [`story`, `prizes`, `rules`];
 
 const accentTypographyData = [
   {
@@ -47,15 +47,15 @@ const accentTypographyData = [
 
 const animatedResultTitleData = [
   {
-    tag: '#result .result__title svg',
+    tag: `#result .result__title svg`,
     numberPath: 3
   },
   {
-    tag: '#result2 .result__title svg',
+    tag: `#result2 .result__title svg`,
     numberPath: 3
   },
   {
-    tag: '#result3 .result__title svg',
+    tag: `#result3 .result__title svg`,
     numberPath: 2,
     delay: [33, 66]
   }
@@ -63,11 +63,11 @@ const animatedResultTitleData = [
 
 const prizesData = [
   {
-    element: '.prizes__item--cases b',
+    element: `.prizes__item--cases b`,
     values: [1, 2, 3, 4, 5, 6, 7]
   },
   {
-    element: '.prizes__item--codes b',
+    element: `.prizes__item--codes b`,
     values: [11, 185, 371, 514, 821, 849, 900]
   }
 ];
