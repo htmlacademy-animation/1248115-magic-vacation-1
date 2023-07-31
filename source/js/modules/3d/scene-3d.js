@@ -49,12 +49,12 @@ const paramCircles = [
   },
 ];
 
-const loadingElem = document.querySelector('#loading');
-const progressBarElem = loadingElem.querySelector('.progressbar');
+const loadingElem = document.querySelector(`#loading`);
+const progressBarElem = loadingElem.querySelector(`.progressbar`);
 
 export default class Scene3D {
   constructor() {
-    this.canvasId = 'canvas-animations';
+    this.canvasId = `canvas-animations`;
     this.width = configScene3D.width;
     this.height = configScene3D.height;
     this.aspectRation = this.width / this.height;
@@ -92,7 +92,7 @@ export default class Scene3D {
     this.story4.visible = false;
     this.suitcaseGroup.visible = false;
     this.moveMouseHandler = this.moveMouseHandler.bind(this);
-    this.orientation = 'landscape';
+    this.orientation = `landscape`;
     this.currentCamera = null;
     this.loadingElem = loadingElem;
     this.progressBarElem = progressBarElem;
@@ -105,8 +105,8 @@ export default class Scene3D {
     this.get3dInfrastructure();
 
     this.loadManager.onLoad = () => {
-      this.loadingElem.style.display = "none";
-      setTimeout(() => document.body.classList.add('loaded'), 100);
+      this.loadingElem.style.display = `none`;
+      setTimeout(() => document.body.classList.add(`loaded`), 100);
       const fullPageScroll = new FullPageScroll();
       fullPageScroll.init();
       this.addIntroComposition();
@@ -150,7 +150,7 @@ export default class Scene3D {
       const progress = itemsLoaded / itemsTotal;
       this.progressBarElem.style.transform = `scaleX(${progress})`;
     };
-  };
+  }
 
   get3dInfrastructure() {
     this.canvas = document.getElementById(this.canvasId);
@@ -161,7 +161,7 @@ export default class Scene3D {
     this.color = new THREE.Color(this.backgroundColor);
 
     this.camera = new THREE.PerspectiveCamera(this.fov, this.aspectRation, this.near, this.far);
-    this.camera.name = 'camera';
+    this.camera.name = `camera`;
     this.getLight();
     this.getCamera();
 
@@ -174,26 +174,26 @@ export default class Scene3D {
     if (this.isShadow) {
       this.renderer.shadowMap.enabled = true;
       this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    };
+    }
     this.getComposer();
   }
 
   getCamera() {
     this.currentCamera = this.cameraRig;
-    this.cameraRig.name = 'cameraRig';
+    this.cameraRig.name = `cameraRig`;
     this.cameraRig.addObjectToCameraNull(this.camera);
     this.cameraRig.addObjectToCameraNull(this.light);
     if (this.isShadow) {
       this.cameraRig.addObjectToRotationAxis(this.pointLightGroup);
     }
-    this.cameraRigPortrait.name = 'cameraRigPortrait';
+    this.cameraRigPortrait.name = `cameraRigPortrait`;
     this.scene.add(this.cameraRig);
     this.scene.add(this.cameraRigPortrait);
   }
 
   getLight() {
     this.light = new THREE.Group();
-    let lightUnit = new THREE.DirectionalLight(new THREE.Color('rgb(255,255,255)'), 0.84);
+    let lightUnit = new THREE.DirectionalLight(new THREE.Color(`rgb(255,255,255)`), 0.84);
     lightUnit.position.set(0, 0, 0);
     lightUnit.target.position.set(0, Math.tan(THREE.MathUtils.degToRad(-15.0)) * this.cameraPositionZ, -1500);
     this.light.add(lightUnit);
@@ -201,9 +201,9 @@ export default class Scene3D {
 
     if (this.isShadow) {
       this.pointLightGroup = new THREE.Group();
-      this.pointLightGroup.name = 'pointLightGroup';
+      this.pointLightGroup.name = `pointLightGroup`;
 
-      lightUnit = new THREE.PointLight(new THREE.Color('rgb(246,242,255)'), 0.6, 3900, 2);
+      lightUnit = new THREE.PointLight(new THREE.Color(`rgb(246,242,255)`), 0.6, 3900, 2);
       lightUnit.position.set(-785, -350, -710);
 
       lightUnit.castShadow = true;
@@ -215,7 +215,7 @@ export default class Scene3D {
 
       this.pointLightGroup.add(lightUnit);
 
-      lightUnit = new THREE.PointLight(new THREE.Color('rgb(245,254,255)'), 0.95, 3900, 2);
+      lightUnit = new THREE.PointLight(new THREE.Color(`rgb(245,254,255)`), 0.95, 3900, 2);
       lightUnit.position.set(730, 800, -985);
 
       lightUnit.castShadow = true;
@@ -228,14 +228,14 @@ export default class Scene3D {
       this.pointLightGroup.add(lightUnit);
       this.pointLightGroup.position.set(0, 0, 2150);
     }
-  };
+  }
 
   getComposer() {
     this.composer = new EffectComposer(this.renderer);
     this.composer.setPixelRatio(window.devicePixelRatio);
     const renderPass = new RenderPass(this.scene, this.camera);
     this.effectMaterial = this.getEffectMaterial();
-    this.effectPass = new ShaderPass(this.effectMaterial, 'map');
+    this.effectPass = new ShaderPass(this.effectMaterial, `map`);
     this.composer.addPass(renderPass);
     this.composer.addPass(this.effectPass);
   }
@@ -276,7 +276,7 @@ export default class Scene3D {
     this.cameraRigPortrait.changeStateTo(i, this);
 
     if (i > 0) {
-      this.slide = i
+      this.slide = i;
     }
 
     this.prevIndex = i;
@@ -303,22 +303,24 @@ export default class Scene3D {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
-    if (height < 1 || width < 1) return;
+    if (height < 1 || width < 1) {
+      return;
+    }
 
     if (width > height) {
-      if (this.orientation !== 'landscape') {
+      if (this.orientation !== `landscape`) {
         this.switchResizeCamera(this.cameraRig);
         this.introScene.changeFinalPosition();
       }
       this.camera.fov = 35;
-      this.orientation = 'landscape';
+      this.orientation = `landscape`;
     } else {
-      if (this.orientation !== 'portrait') {
+      if (this.orientation !== `portrait`) {
         this.switchResizeCamera(this.cameraRigPortrait);
         this.introScene.changeFinalPosition();
       }
       this.camera.fov = (32 * height) / Math.min(width * 1.3, height);
-      this.orientation = 'portrait'
+      this.orientation = `portrait`;
     }
 
     this.camera.aspect = width / height;
@@ -327,13 +329,11 @@ export default class Scene3D {
     this.composer.setSize(width, height);
 
     this.effectMaterial = this.getEffectMaterial();
-    this.effectPass = new ShaderPass(this.effectMaterial, 'map');
+    this.effectPass = new ShaderPass(this.effectMaterial, `map`);
     this.composer.addPass(this.effectPass);
 
     this.width = width;
     this.height = height;
-
-    return this;
   }
 
   switchResizeCamera(camera) {
@@ -378,8 +378,8 @@ export default class Scene3D {
           ]
         }
       },
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
+      vertexShader,
+      fragmentShader,
     });
   }
 
@@ -403,7 +403,7 @@ export default class Scene3D {
   }
 
   addSuitcase() {
-    const name = 'suitcaseGroup'
+    const name = `suitcaseGroup`;
     this.suitcase.castShadow = this.isShadow;
     const innerGroup = new THREE.Group();
     innerGroup.add(this.suitcase);
@@ -415,7 +415,7 @@ export default class Scene3D {
   }
 
   hideObjectMobile() {
-    const namesHiddenObjects = ['surfobj', 'Skis', 'Table', 'Starfish_Null', 'lantern'];
+    const namesHiddenObjects = [`surfobj`, `Skis`, `Table`, `Starfish_Null`, `lantern`];
     let obj;
     for (let name of namesHiddenObjects) {
       obj = this.scene.getObjectByName(name);
@@ -432,7 +432,7 @@ export default class Scene3D {
   }
 
   initSuitcaseAnimations() {
-    const objectAnimation = this.currentCamera.getObjectByName('suitcaseGroup');
+    const objectAnimation = this.currentCamera.getObjectByName(`suitcaseGroup`);
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.position.y = -550 - progress * 150;
@@ -445,7 +445,7 @@ export default class Scene3D {
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
-          1 - 0.05 * progress, 1 + 0.1 * progress, 1 - 0.05 * progress
+            1 - 0.05 * progress, 1 + 0.1 * progress, 1 - 0.05 * progress
         );
       },
       duration: 300,
@@ -455,7 +455,7 @@ export default class Scene3D {
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
-          0.95 + 0.15 * progress, 1.1 - 0.15 * progress, 0.95 + 0.15 * progress
+            0.95 + 0.15 * progress, 1.1 - 0.15 * progress, 0.95 + 0.15 * progress
         );
       },
       duration: 250,
@@ -465,7 +465,7 @@ export default class Scene3D {
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
-          1.1 - 0.115 * progress, 0.95 + 0.08 * progress, 1.1 - 0.115 * progress
+            1.1 - 0.115 * progress, 0.95 + 0.08 * progress, 1.1 - 0.115 * progress
         );
       },
       duration: 250,
@@ -475,7 +475,7 @@ export default class Scene3D {
     this.animationSuitcase.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(
-          0.985 + 0.015 * progress, 1.03 - 0.03 * progress, 0.985 + 0.015 * progress
+            0.985 + 0.015 * progress, 1.03 - 0.03 * progress, 0.985 + 0.015 * progress
         );
       },
       duration: 150,
@@ -489,7 +489,7 @@ export default class Scene3D {
       func: (progress) => {
         this.material.uniforms.paramArrayCircles.value.map((item, index) => {
           item.centerX = this.paramCircles[index].centerX + 1.8 * progress;
-        })
+        });
       },
       duration: 2000,
       delay: 1600,
@@ -500,7 +500,7 @@ export default class Scene3D {
       func: (progress) => {
         this.material.uniforms.paramArrayCircles.value.map((item, index) => {
           item.centerY = this.paramCircles[index].centerY + (1.45 + index / 4) * progress;
-        })
+        });
       },
       duration: 2000,
       delay: 1600,
@@ -518,7 +518,7 @@ export default class Scene3D {
   }
 
   addResizeListener() {
-    window.addEventListener('resize', () => {
+    window.addEventListener(`resize`, () => {
       this.resizeInProgress = true;
     });
   }
@@ -538,7 +538,7 @@ export default class Scene3D {
 
   addMouseListener() {
     if (this.isShadow) {
-      document.addEventListener('mousemove', this.moveMouseHandler);
+      document.addEventListener(`mousemove`, this.moveMouseHandler);
     }
   }
 }

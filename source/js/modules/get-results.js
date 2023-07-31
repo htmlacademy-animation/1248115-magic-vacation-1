@@ -4,13 +4,13 @@ import Scene2DCrocodile from './scene-2d-crocodile';
 import {sonyaAnimationFinish} from './sonya-animation';
 
 const results = document.querySelectorAll(`.screen--result`);
-const gameScreen = document.querySelector('#game');
+const gameScreen = document.querySelector(`#game`);
 
 const getResult = (targetResult) => {
   if (results.length) {
     stopTimer();
     sonyaAnimationFinish();
-    gameScreen.classList.add('show-result');
+    gameScreen.classList.add(`show-result`);
     [].slice.call(results).forEach(function (el) {
       el.classList.remove(`screen--show`);
       el.classList.add(`screen--hidden`);
@@ -21,13 +21,13 @@ const getResult = (targetResult) => {
 
     targetEl[0].classList.add(`screen--show`);
     targetEl[0].classList.remove(`screen--hidden`);
-    if (targetResult === 'result') {
+    if (targetResult === `result`) {
       new Scene2DSeaCalf();
     }
-    if (targetResult === 'result3') {
+    if (targetResult === `result3`) {
       new Scene2DCrocodile();
     }
   }
-}
+};
 
 export {getResult};

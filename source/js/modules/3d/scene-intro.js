@@ -50,7 +50,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addFlamingo() {
-    const name = 'flamingo';
+    const name = `flamingo`;
     this.objectsMoveInAnimation.push(name);
     const flamingo = new SvgLoader(`flamingo`).createSvgGroup();
     flamingo.scale.set(0, 0, 0);
@@ -71,7 +71,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addQuestion() {
-    const name = 'question';
+    const name = `question`;
     this.objectsMoveInAnimation.push(name);
     const question = new SvgLoader(`question`).createSvgGroup();
     question.scale.set(0, 0, 0);
@@ -92,7 +92,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addSnowFlake() {
-    const name = 'snowflake';
+    const name = `snowflake`;
     this.objectsMoveInAnimation.push(name);
     const snowflake = new SvgLoader(`snowflake`).createSvgGroup();
     snowflake.scale.set(0, 0, 0);
@@ -113,7 +113,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addLeaf() {
-    const name = 'leaf';
+    const name = `leaf`;
     this.objectsMoveInAnimation.push(name);
     const leaf = new SvgLoader(`leaf`).createSvgGroup();
     leaf.scale.set(0, 0, 0);
@@ -134,7 +134,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addSaturn(options) {
-    const name = 'saturn';
+    const name = `saturn`;
     this.objectsMoveInAnimation.push(name);
     const saturn = new Saturn(options);
     saturn.scale.set(0, 0, 0);
@@ -142,9 +142,9 @@ export default class SceneIntro extends THREE.Group {
     const innerGroup = new THREE.Group();
     innerGroup.add(saturn);
     innerGroup.rotation.copy(
-      new THREE.Euler(THREE.MathUtils.degToRad(0),
-      THREE.MathUtils.degToRad(-90),
-      THREE.MathUtils.degToRad(0), `XYZ`));
+        new THREE.Euler(THREE.MathUtils.degToRad(0),
+            THREE.MathUtils.degToRad(-90),
+            THREE.MathUtils.degToRad(0), `XYZ`));
     outerGroup.add(innerGroup);
     outerGroup.position.set(0, 0, 40);
     outerGroup.name = name;
@@ -175,7 +175,7 @@ export default class SceneIntro extends THREE.Group {
     });
     const flatnessMesh = new THREE.Mesh(flatnessGeometry, flatnessMaterial);
     flatnessMesh.material.transparent = true;
-    flatnessMesh.name = 'keypatch';
+    flatnessMesh.name = `keypatch`;
     flatnessMesh.position.z = -120;
     keyHoleGroup.add(flatnessMesh);
 
@@ -184,7 +184,7 @@ export default class SceneIntro extends THREE.Group {
 
   addPlane() {
     const airplane = new Airplane();
-    airplane.name = 'airplaneFlight';
+    airplane.name = `airplaneFlight`;
     airplane.position.x = 135;
     airplane.position.y = -120;
     airplane.rotation.y = -Math.PI;
@@ -196,7 +196,7 @@ export default class SceneIntro extends THREE.Group {
   }
 
   addSuitcase() {
-    const name = 'suitcase'
+    const name = `suitcase`;
     const suitcase = new Suitcase();
     suitcase.scale.set(0, 0, 0);
     suitcase.rotation.copy(new THREE.Euler(THREE.MathUtils.degToRad(-45), THREE.MathUtils.degToRad(-90), THREE.MathUtils.degToRad(0)));
@@ -241,18 +241,18 @@ export default class SceneIntro extends THREE.Group {
       func: (progress) => {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
           item.children[0].children[0].scale.set(
-            item.options.scale[0] * progress,
-            item.options.scale[1] * progress,
-            item.options.scale[2] * progress);
+              item.options.scale[0] * progress,
+              item.options.scale[1] * progress,
+              item.options.scale[2] * progress);
           item.children[0].rotation.copy(
-            new THREE.Euler(THREE.MathUtils.degToRad(item.options.rotation[0] * progress),
-            THREE.MathUtils.degToRad(item.options.rotation[1] * progress),
-            THREE.MathUtils.degToRad(item.options.rotation[2] * progress)));
+              new THREE.Euler(THREE.MathUtils.degToRad(item.options.rotation[0] * progress),
+                  THREE.MathUtils.degToRad(item.options.rotation[1] * progress),
+                  THREE.MathUtils.degToRad(item.options.rotation[2] * progress)));
           item.position.set(
-            0 + progress * (item.options.position[0] * window.innerWidth / 1440 - 0),
-            0 + progress * (item.options.position[1] * window.innerHeight / 760 - 0),
-            40 + progress * (item.options.position[2] - 40));
-        })
+              0 + progress * (item.options.position[0] * window.innerWidth / 1440 - 0),
+              0 + progress * (item.options.position[1] * window.innerHeight / 760 - 0),
+              40 + progress * (item.options.position[2] - 40));
+        });
       },
       duration: 1500,
       delay: 500,
@@ -263,22 +263,22 @@ export default class SceneIntro extends THREE.Group {
       func: (progress, details) => {
         this.children.filter((item) => this.objectsMoveInAnimation.includes(item.name)).forEach((item) => {
           item.position.y = item.position.y + item.options.amplitude * Math.sin(1.5 * (details.currentTime - details.startTime) / item.options.period);
-        })
+        });
       },
-      duration: 'infinite',
+      duration: `infinite`,
       delay: 3000,
     }));
   }
 
   initSuitcaseAnimations() {
-    const objectAnimation = this.getObjectByName('suitcase');
+    const objectAnimation = this.getObjectByName(`suitcase`);
     this.specialAnimations.push(new Animation({
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(0.45 * progress, 0.45 * progress, 0.45 * progress);
         objectAnimation.children[0].children[0].rotation.copy(
-          new THREE.Euler(THREE.MathUtils.degToRad(-45 + progress * (-60 + 45)),
-          THREE.MathUtils.degToRad(-90 + progress * (-110 + 90)),
-          0));
+            new THREE.Euler(THREE.MathUtils.degToRad(-45 + progress * (-60 + 45)),
+                THREE.MathUtils.degToRad(-90 + progress * (-110 + 90)),
+                0));
         objectAnimation.children[0].rotation.copy(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(15 + progress * (-50 - 15))));
         objectAnimation.position.set(progress * 10, progress * 95, progress * 120);
       },
@@ -291,9 +291,9 @@ export default class SceneIntro extends THREE.Group {
       func: (progress) => {
         objectAnimation.children[0].children[0].scale.set(0.45 + progress * (0.6 - 0.45), 0.45 + progress * (0.6 - 0.45), 0.45 + progress * (0.6 - 0.45));
         objectAnimation.children[0].children[0].rotation.copy(
-          new THREE.Euler(THREE.MathUtils.degToRad(-60 + progress * (25 + 60)),
-          THREE.MathUtils.degToRad(-115 + progress * (-145 + 115)),
-          0));
+            new THREE.Euler(THREE.MathUtils.degToRad(-60 + progress * (25 + 60)),
+                THREE.MathUtils.degToRad(-115 + progress * (-145 + 115)),
+                0));
         objectAnimation.children[0].rotation.copy(new THREE.Euler(0, 0, THREE.MathUtils.degToRad(-50 + progress * (-12 + 50))));
         objectAnimation.children[0].position.set(progress * -70, progress * -260, progress * 10);
       },
@@ -308,13 +308,13 @@ export default class SceneIntro extends THREE.Group {
           objectAnimation.position.y + objectAnimation.options.amplitude
           * Math.sin(1.5 * (details.currentTime - details.startTime) / objectAnimation.options.period);
       },
-      duration: 'infinite',
+      duration: `infinite`,
       delay: 3000,
     }));
   }
 
   initAirplaneAnimations() {
-    const objectAnimation = this.getObjectByName('airplaneFlight');
+    const objectAnimation = this.getObjectByName(`airplaneFlight`);
 
     const initialPlaneRadius = objectAnimation.planeRadius;
     const initialFightHeight = objectAnimation.flightHeight;
@@ -363,13 +363,13 @@ export default class SceneIntro extends THREE.Group {
           objectAnimation.position.y + objectAnimation.options.amplitude
           * Math.sin(1.5 * (details.currentTime - details.startTime) / objectAnimation.options.period);
       },
-      duration: 'infinite',
+      duration: `infinite`,
       delay: 3500,
     }));
   }
 
   initForwardKeyPatchAnimation() {
-    const objectAnimation = this.getObjectByName('keypatch');
+    const objectAnimation = this.getObjectByName(`keypatch`);
     this.animationForwardKeyPatch.push(new Animation({
       func: (progress) => {
         objectAnimation.material.opacity = 1 - progress;
@@ -381,11 +381,11 @@ export default class SceneIntro extends THREE.Group {
   }
 
   initBackKeyPatchAnimation() {
-    const objectAnimation = this.getObjectByName('keypatch');
+    const objectAnimation = this.getObjectByName(`keypatch`);
     this.animationBackKeyPatch.push(new Animation({
       func: (progress) => {
         objectAnimation.material.opacity = progress;
-        },
+      },
       duration: 300,
       delay: 0,
       easing: _.easeLinear,
@@ -401,6 +401,6 @@ export default class SceneIntro extends THREE.Group {
       } else {
         [item.position.x, item.position.y] = [item.position.y, item.position.x];
       }
-    })
+    });
   }
-};
+}

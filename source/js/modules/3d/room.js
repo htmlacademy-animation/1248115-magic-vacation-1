@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {getLatheDegrees } from './three-utils';
+import {getLatheDegrees} from './three-utils';
 import {loadModel} from "./model-3d-loader";
 import {isMobile} from './../helpers';
 import {textureLoader} from './texture-loader';
@@ -78,4 +78,4 @@ export default class Room extends THREE.Group {
     }
     this.add(mesh);
   }
-};
+}

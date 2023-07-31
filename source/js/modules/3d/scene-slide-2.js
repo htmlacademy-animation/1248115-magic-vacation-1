@@ -43,7 +43,7 @@ export default class SceneSlide2 extends THREE.Group {
 
   addRoom(options) {
     const room = new Room(options);
-    room.name = 'room2';
+    room.name = `room2`;
     this.add(room);
   }
 
@@ -58,14 +58,14 @@ export default class SceneSlide2 extends THREE.Group {
 
   addPyramid(options) {
     const pyramid = new Pyramid(options);
-    pyramid.name = 'pyramid';
+    pyramid.name = `pyramid`;
     pyramid.position.set(-20, 150, 370);
     this.add(pyramid);
   }
 
   addLantern(options) {
     const lantern = new Lantern(options);
-    lantern.name = 'lantern';
+    lantern.name = `lantern`;
     lantern.position.set(400, 55, 535);
     this.add(lantern);
   }
@@ -74,7 +74,7 @@ export default class SceneSlide2 extends THREE.Group {
     const leaf = new SvgLoader(`leafPyramid`).createSvgGroup();
     leaf.position.set(-64, -117, 0);
     const leafWrapper = new THREE.Group();
-    leafWrapper.name = 'leaf1';;
+    leafWrapper.name = `leaf1`;
     const scale = 2.8;
     leafWrapper.add(leaf);
     leafWrapper.position.set(-130, 40, 330);
@@ -87,7 +87,7 @@ export default class SceneSlide2 extends THREE.Group {
     const leaf = new SvgLoader(`leafPyramid`).createSvgGroup();
     leaf.position.set(-64, -117, 0);
     const leafWrapper = new THREE.Group();
-    leafWrapper.name = 'leaf2';
+    leafWrapper.name = `leaf2`;
     const scale = 2;
     leafWrapper.add(leaf);
     leafWrapper.position.set(-140, 55, 320);
@@ -97,7 +97,7 @@ export default class SceneSlide2 extends THREE.Group {
   }
 
   initLeafAnimation() {
-    const objectAnimation1 = this.getObjectByName('leaf1');
+    const objectAnimation1 = this.getObjectByName(`leaf1`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = ((details.currentTime - details.startTime) / 300) % 16;
@@ -105,7 +105,7 @@ export default class SceneSlide2 extends THREE.Group {
       },
       duration: `infinite`,
     }));
-    const objectAnimation2 = this.getObjectByName('leaf2');
+    const objectAnimation2 = this.getObjectByName(`leaf2`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = ((details.currentTime - details.startTime) / 300) % 16;
@@ -114,4 +114,4 @@ export default class SceneSlide2 extends THREE.Group {
       duration: `infinite`,
     }));
   }
-};
+}

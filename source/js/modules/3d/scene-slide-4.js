@@ -43,7 +43,7 @@ export default class SceneSlide4 extends THREE.Group {
 
   addRoom(options) {
     const room = new Room(options);
-    room.name = 'room4';
+    room.name = `room4`;
     this.add(room);
   }
 
@@ -70,14 +70,14 @@ export default class SceneSlide4 extends THREE.Group {
 
   addSaturn(options) {
     const saturn = new SaturnRope(options);
-    saturn.name = 'saturn2';
+    saturn.name = `saturn2`;
     saturn.position.set(60, 480 + 1000, 320);
     this.add(saturn);
   }
 
   addCarpet(options) {
     const carpet = new Carpet(options);
-    carpet.name = 'carpet';
+    carpet.name = `carpet`;
     const scale = 1;
     carpet.scale.set(scale, scale, scale);
     carpet.position.set(15, 0, 15);
@@ -87,7 +87,7 @@ export default class SceneSlide4 extends THREE.Group {
 
   addFlowers() {
     const flower = new SvgLoader(`flower2`).createSvgGroup();
-    flower.name = 'flower2';
+    flower.name = `flower2`;
     const scale = 0.8;
     flower.position.set(-240, 335, 320);
     flower.scale.set(scale, -scale, scale);
@@ -96,7 +96,7 @@ export default class SceneSlide4 extends THREE.Group {
   }
 
   initSaturnAnimation2() {
-    const objectAnimation = this.getObjectByName('saturn2');
+    const objectAnimation = this.getObjectByName(`saturn2`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
@@ -106,7 +106,7 @@ export default class SceneSlide4 extends THREE.Group {
       duration: `infinite`,
     }));
 
-    const objectAnimationRing = objectAnimation.getObjectByName('ring');
+    const objectAnimationRing = objectAnimation.getObjectByName(`ring`);
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
@@ -119,7 +119,7 @@ export default class SceneSlide4 extends THREE.Group {
   }
 
   initSonyaAnimation() {
-    const sonyaObjectAnimation = this.getObjectByName('sonya');
+    const sonyaObjectAnimation = this.getObjectByName(`sonya`);
     const rightHandObject = sonyaObjectAnimation.getObjectByName(`RightHand`);
     const leftHandObject = sonyaObjectAnimation.getObjectByName(`LeftHand`);
 
@@ -147,4 +147,4 @@ export default class SceneSlide4 extends THREE.Group {
       duration: `infinite`,
     }));
   }
-};
+}

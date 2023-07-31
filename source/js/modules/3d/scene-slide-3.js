@@ -40,7 +40,7 @@ export default class SceneSlide3 extends THREE.Group {
 
   addRoom(options) {
     const room = new Room(options);
-    room.name = 'room3';
+    room.name = `room3`;
     this.add(room);
   }
 
@@ -64,7 +64,7 @@ export default class SceneSlide3 extends THREE.Group {
 
   addSnowman(options) {
     const snowman = new Snowman(options);
-    snowman.name = 'snowman';
+    snowman.name = `snowman`;
     snowman.rotation.copy(new THREE.Euler(0, THREE.MathUtils.degToRad(-47.0), 0, `XYZ`));
     snowman.position.set(-100, 230, 430);
     this.add(snowman);
@@ -72,7 +72,7 @@ export default class SceneSlide3 extends THREE.Group {
 
   addRoad() {
     const road = new Road();
-    road.name = 'road';
+    road.name = `road`;
     const scale = 1;
     road.scale.set(scale, scale, scale);
     road.position.set(15, 1, 15);
@@ -81,7 +81,7 @@ export default class SceneSlide3 extends THREE.Group {
   }
 
   initCompassAnimation() {
-    const objectAnimation = this.getObjectByName('compass').children[0];
+    const objectAnimation = this.getObjectByName(`compass`).children[0];
     this.animations.push(new Animation({
       func: (progress, details) => {
         const time = (details.currentTime - details.startTime) / 1000;
@@ -90,4 +90,4 @@ export default class SceneSlide3 extends THREE.Group {
       duration: `infinite`,
     }));
   }
-};
+}

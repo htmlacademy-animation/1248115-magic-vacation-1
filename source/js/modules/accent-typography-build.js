@@ -1,10 +1,10 @@
 class AccentTypographyBuild {
   constructor(
-    totalDelay,
-    elementSelector,
-    timer,
-    property,
-    wordsDelays
+      totalDelay,
+      elementSelector,
+      timer,
+      property,
+      wordsDelays
   ) {
     this._totalDelay = totalDelay;
     this._elementSelector = elementSelector;
@@ -14,19 +14,19 @@ class AccentTypographyBuild {
     this._wordsDelays = wordsDelays;
     this._seriesWordsDelays = 0;
 
-    this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
     this.prePareText();
   }
 
   createElement(letter, indexDelay) {
-      const span = document.createElement(`span`);
-      span.textContent = letter;
+    const span = document.createElement(`span`);
+    span.textContent = letter;
 
-      if (!this.mediaQuery.matches) {
-        span.style.transition = `${this._property} ${this._timer}ms ease ${this._totalDelay + this._wordsDelays[this._seriesWordsDelays][indexDelay]}ms`;
-      }
+    if (!this.mediaQuery.matches) {
+      span.style.transition = `${this._property} ${this._timer}ms ease ${this._totalDelay + this._wordsDelays[this._seriesWordsDelays][indexDelay]}ms`;
+    }
 
-      return span;
+    return span;
   }
 
   prePareText() {
@@ -34,8 +34,8 @@ class AccentTypographyBuild {
       return;
     }
 
-    this._element.classList.add('text');
-    const text = this._element.textContent.trim().split(/\s/).filter((word)=> word !== '');
+    this._element.classList.add(`text`);
+    const text = this._element.textContent.trim().split(/\s/).filter((word)=> word !== ``);
     const content = text.reduce((fragmentParent, word) => {
       const wordElement = Array.from(word).reduce((fragment, symbol, index) => {
         fragment.appendChild(this.createElement(symbol, index));

@@ -18,7 +18,7 @@ export default class FullPageScroll {
     this.onScrollHandler = this.onScroll.bind(this);
     this.onUrlHashChengedHandler = this.onUrlHashChanged.bind(this);
 
-    this.mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.mediaQuery = window.matchMedia(`(prefers-reduced-motion: reduce)`);
   }
 
   init() {
@@ -56,11 +56,11 @@ export default class FullPageScroll {
     const animateInnerHandler = (evt) => {
       if (evt.animationName === `transition-end-${screenScene.id}`) {
         screenScene.classList.remove(`transition-end`);
-        this.screenElements[this.activeScreen].classList.remove('transition-start');
+        this.screenElements[this.activeScreen].classList.remove(`transition-start`);
         screenScene.classList.add(`screen--hidden`);
         screenScene.removeEventListener(`animationend`, animateInnerHandler);
       }
-    }
+    };
     return animateInnerHandler;
   }
 
@@ -74,9 +74,9 @@ export default class FullPageScroll {
     this.screenElements.forEach((screen, index) => {
       screen.classList.remove(`active`);
       if (!this.mediaQuery.matches) {
-        if (index === this.previousActiveScreen && screen.hasAttribute('data-transition-end') && this.previousActiveScreen < this.activeScreen) {
-          screen.classList.add('transition-end');
-          this.screenElements[this.activeScreen].classList.add('transition-start');
+        if (index === this.previousActiveScreen && screen.hasAttribute(`data-transition-end`) && this.previousActiveScreen < this.activeScreen) {
+          screen.classList.add(`transition-end`);
+          this.screenElements[this.activeScreen].classList.add(`transition-start`);
           screen.addEventListener(`animationend`, this._animationHandler(screen));
         }
       }
@@ -86,7 +86,7 @@ export default class FullPageScroll {
     this.screenElements[this.activeScreen].classList.remove(`screen--hidden`);
     setTimeout(() => {
       this.screenElements[this.activeScreen].classList.add(`active`);
-      document.body.setAttribute('data-screen', this.screenElements[this.activeScreen].id);
+      document.body.setAttribute(`data-screen`, this.screenElements[this.activeScreen].id);
     }, 100);
 
     if (this.previousActiveScreen === 0) {
@@ -106,18 +106,18 @@ export default class FullPageScroll {
       sonyaAnimationPause();
     }
 
-    if (this.screenElements[this.activeScreen].id === "game") {
+    if (this.screenElements[this.activeScreen].id === `game`) {
       if (!done) {
         setTimeout(startTimer, 200);
       }
       sonyaAnimationPlay();
     }
 
-    if (this.screenElements[this.activeScreen].id === "prizes") {
+    if (this.screenElements[this.activeScreen].id === `prizes`) {
       showAnimatePrizes();
     }
 
-    if (this.screenElements[this.activeScreen].id === "story") {
+    if (this.screenElements[this.activeScreen].id === `story`) {
       scene3D.isStoryAnimateRender = true;
       scene3D.switchCameraRig(scene3D.slide);
       if (scene3D.slide === 1) {
@@ -129,7 +129,7 @@ export default class FullPageScroll {
       scene3D.render();
     }
 
-    if (this.screenElements[this.activeScreen].id === "top") {
+    if (this.screenElements[this.activeScreen].id === `top`) {
       scene3D.isIntroAnimateRender = true;
       if (scene3D.startIntro) {
         scene3D.switchCameraRig(0);
